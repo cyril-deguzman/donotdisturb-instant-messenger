@@ -1,12 +1,12 @@
 <p align="center">
   <a href="https://github.com/dlsucomet">
-    <img alt="DoNotDisturb" src="https://cdn3.emoji.gg/emojis/7907_DND.png" width="250"/>
+    <img alt="DoNotDisturb" src="https://cdn3.emoji.gg/emojis/7907_DND.png" width="200"/>
   </a>
 </p>
 
 This is the repository for the research group Do Not Disturb's Instant Messaging Application for their study on OSIs.
 
-## Requirements
+## 📜 Requirements
 
 Make sure these libraries, packages, and extensions are installed
 
@@ -52,3 +52,17 @@ Navigate into your new site’s directory and start it up.
    ```shell
    yarn start
    ```
+
+## 🧙 Members and Advisers
+
+Advisers
+
+1. Mr. Ryan Austin Fernandez
+2. Dr. Briane Paul Samson
+
+Members
+
+1. Cyril Ethan A. de Guzman
+2. Rayden E. Lizan
+3. Phoebe Clare L. Ong
+4. Leana Hyacinth V. Rebong
