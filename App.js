@@ -1,7 +1,7 @@
 import React, { useState, createContext, useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { View, ActivityIndicator, Text, StyleSheet } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./config/firebase";
 
@@ -24,7 +24,10 @@ const AuthenticatedUserProvider = ({ children }) => {
 
 const ChatStack = () => {
   return (
-    <Stack.Navigator defaultScreenOptions={{ Home }}>
+    <Stack.Navigator
+      defaultScreenOptions={{ Home }}
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Chat" component={Chat} />
     </Stack.Navigator>
