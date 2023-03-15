@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { View, ActivityIndicator } from "react-native";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./config/firebase";
+import { useFonts } from "expo-font";
 
 import Home from "./src/screens/Home";
 import Chat from "./src/screens/Chat";
@@ -74,6 +75,13 @@ const RootNavigator = () => {
 };
 
 export default function App() {
+  /** NOTE: Implementation of font loading may not be secure, but working for now. Please check. */
+  const [fontsLoaded] = useFonts({
+    Inter: require("./src/assets/fonts/Inter.ttf"),
+  });
+
+  if (!fontsLoaded) return null;
+
   return (
     <AuthenticatedUserProvider>
       <RootNavigator />
