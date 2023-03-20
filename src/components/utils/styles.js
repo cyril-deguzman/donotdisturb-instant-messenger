@@ -48,7 +48,8 @@ const styles = StyleSheet.create({
   searchContainer: {
     borderTopWidth: 0,
     borderBottomWidth: 0,
-    backgroundColor: "white",
+    // backgroundColor: "white",
+    backgroundColor: "transparent",
     paddingLeft: 0,
     paddingRight: 0,
   },
@@ -56,6 +57,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: 30,
     backgroundColor: "#F6F6FF",
+  },
+  searchInputContainerWhite: {
+    borderRadius: 10,
+    height: 35,
+    backgroundColor: "white",
   },
   searchInput: { fontSize: 14 },
 });
