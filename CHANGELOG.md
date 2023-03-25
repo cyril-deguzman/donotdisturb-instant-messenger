@@ -8,7 +8,7 @@ NOTE: all lowercase and no ending punctuation marks
 -->
 
 ## Next release v1.0
-
+- [PB] - [#13](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/13) app(screen): settings screen
 - [LE] - [#16](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/16) app(screen): new message screen
 - [CY] - [#11](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/11) app(screen): messages screen
 - [CY] - [#9](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/9) app(feature): home bottom tabs navigation
