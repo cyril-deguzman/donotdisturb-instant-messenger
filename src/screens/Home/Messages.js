@@ -41,10 +41,26 @@ const Messages = ({ navigation }) => {
 
         {/** TODO: convert to flatlist when working on backend */}
         <View style={{ marginTop: 15 }}>
-          <MessageBox userStatus="idle" friendStatus="openToChat" />
-          <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-          <MessageBox userStatus="invisible" friendStatus="idle" />
-          <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
+          <MessageBox
+            navigation={navigation}
+            userStatus="idle"
+            friendStatus="openToChat"
+          />
+          <MessageBox
+            navigation={navigation}
+            userStatus="openToChat"
+            friendStatus="doNotDisturb"
+          />
+          <MessageBox
+            navigation={navigation}
+            userStatus="invisible"
+            friendStatus="idle"
+          />
+          <MessageBox
+            navigation={navigation}
+            userStatus="doNotDisturb"
+            friendStatus="invisible"
+          />
         </View>
       </View>
     </View>
