@@ -11,7 +11,7 @@ const notificationSoundsIcon = require("../assets/icons/notification-sounds-icon
 const accessibilityIcon = require("../assets/icons/accessibility-icon.png");
 const privacySafetyIcon = require("../assets/icons/privacy-safety-icon.png");
 const logoutIcon = require("../assets/icons/logout-icon.png");
-
+const infoIcon = require("../assets/icons/info-icon.png");
 
 const useIcon = (option) => {
   const icons = {
@@ -27,6 +27,7 @@ const useIcon = (option) => {
     privacySafetyIcon: privacySafetyIcon,
     logoutIcon: logoutIcon,
     backIcon: backIcon,
+    infoIcon: infoIcon,
   };
 
   return icons[option];
