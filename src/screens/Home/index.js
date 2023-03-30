@@ -2,12 +2,12 @@ import React from "react";
 import { Image } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Audience from "./Audience";
+import Bubble from "./Bubble";
 import Messages from "./Messages";
 import Settings from "./Settings";
 import styles from "../utils/styles";
 
-const audienceIcon = require("../../assets/icons/audience-icon.png");
+const bubbleIcon = require("../../assets/icons/bubble-icon.png");
 const messagesIcon = require("../../assets/icons/messages-icon.png");
 const settingsIcon = require("../../assets/icons/settings-icon.png");
 
@@ -25,11 +25,11 @@ const Home = () => {
   return (
     <Tab.Navigator initialRouteName="Messages" screenOptions={options}>
       <Tab.Screen
-        name="Audience"
-        component={Audience}
+        name="Bubble"
+        component={Bubble}
         options={{
           tabBarIcon: () => (
-            <Image style={{ width: 40, height: 38 }} source={audienceIcon} />
+            <Image style={{ width: 40, height: 38 }} source={bubbleIcon} />
           ),
         }}
       />

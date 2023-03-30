@@ -1,5 +1,5 @@
 const messagePencilIcon = require("../assets/icons/message-pencil-icon.png");
-const audienceIcon = require("../assets/icons/audience-icon.png");
+const bubbleIcon = require("../assets/icons/bubble-icon.png");
 const messagesIcon = require("../assets/icons/messages-icon.png");
 const settingsIcon = require("../assets/icons/settings-icon.png");
 
@@ -12,11 +12,15 @@ const accessibilityIcon = require("../assets/icons/accessibility-icon.png");
 const privacySafetyIcon = require("../assets/icons/privacy-safety-icon.png");
 const logoutIcon = require("../assets/icons/logout-icon.png");
 
+const addBubbleIcon = require("../assets/icons/add-bubble-icon.png");
+const openIcon = require("../assets/icons/open-icon.png");
+const closeIcon = require("../assets/icons/close-icon.png");
+const editIcon = require("../assets/icons/edit-icon.png");
 
 const useIcon = (option) => {
   const icons = {
     messagePencilIcon: messagePencilIcon,
-    audienceIcon: audienceIcon,
+    bubbleIcon: bubbleIcon,
     messagesIcon: messagesIcon,
     settingsIcon: settingsIcon,
 
@@ -27,6 +31,11 @@ const useIcon = (option) => {
     privacySafetyIcon: privacySafetyIcon,
     logoutIcon: logoutIcon,
     backIcon: backIcon,
+
+    addBubbleIcon: addBubbleIcon,
+    openIcon: openIcon,
+    closeIcon: closeIcon,
+    editIcon: editIcon,
   };
 
   return icons[option];
