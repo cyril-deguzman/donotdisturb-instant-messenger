@@ -36,6 +36,12 @@ const BubbleStyles = StyleSheet.create({
         elevation: 10,
         shadowColor: '#000',
     },
+    headerContainerShadow: {
+        overflow: 'hidden', 
+        paddingBottom: 5,
+        borderBottomLeftRadius: normalize(20),
+        borderBottomRightRadius: normalize(20),
+    },
     headerTextContainer: {
         margin: normalize(10),
     },
@@ -67,8 +73,6 @@ const BubbleStyles = StyleSheet.create({
     bubbleContainer: {
         width: "100%",
         height: "87.5%",
-
-        marginTop: "0.5%",
     },
 
     // mini bubble

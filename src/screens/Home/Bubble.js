@@ -23,7 +23,7 @@ const Bubble = () => {
   return (
     <SafeAreaView style={bubbleStyles.container}>
       <Image source={bgImg} style={bubbleStyles.bgImg} />
-      <View style={{ overflow: 'hidden', paddingBottom: 5 }}>
+      <View style={bubbleStyles.headerContainerShadow}>
         <View style={bubbleStyles.headerContainer}>
           <View style={bubbleStyles.headerTextContainer}>
             <Text style={bubbleStyles.headerText}>Bubbles</Text>
