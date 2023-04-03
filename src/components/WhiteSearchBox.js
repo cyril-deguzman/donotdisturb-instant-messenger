@@ -15,6 +15,8 @@ const SearchBox = ({ value, setValue }) => {
       containerStyle={styles.searchContainer}
       inputContainerStyle={styles.searchInputContainerWhite}
       inputStyle={styles.searchInput}
+      placeholderTextColor="#AC9EFF"
+      searchIcon={{color: "#AC9EFF"}}
     />
   );
 };

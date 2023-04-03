@@ -9,6 +9,7 @@ import {
 import useBackground from "../../hooks/useBackground";
 import WhiteSearchBox from "../../components/WhiteSearchBox";
 import ProfileCheckBox from "../../components/ProfileCheckBox";
+import normalize from "react-native-normalize";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 const nextButton = require("../../assets/icons/next-button.png");
@@ -27,20 +28,20 @@ const NewMessage = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.navigate("Messages")}>
                     <Image source={backIcon} style={styles.backIcon} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 20, fontWeight: "bold", marginTop: 5}}>New Message</Text>
+                <Text style={{ fontSize: normalize(20), fontWeight: "bold", marginTop: normalize(5)}}>New Message</Text>
             </View>
             <Image source={nextButton} style={styles.nextButton} />
         </View>
         {/** Insert search bar made by cy */}
         
-        <View style={{marginTop: 15, marginHorizontal: 10}}>
+        <View style={{marginTop: normalize(15), marginHorizontal: normalize(10)}}>
             <WhiteSearchBox setValue={setSearchQuery} value={searchQuery} />
         </View>
       </View>
 
       {/** Make a component for displaying profile img + osi, name, icon */}
       <View style={styles.messageContainer}>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#4F457C", marginLeft: 5 }}>Suggested</Text>
+        <Text style={{ fontSize: normalize(20), fontWeight: "bold", color: "#4F457C", marginLeft: normalize(5) }}>Suggested</Text>
           <ProfileCheckBox userStatus="idle" />
           <ProfileCheckBox userStatus="doNotDisturb" />
           <ProfileCheckBox userStatus="openToChat" />
@@ -55,26 +56,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   indicator: {
-    width: 20,
-    height: 20,
+    width: normalize(20),
+    height: normalize(20),
     position: "absolute",
-    bottom: -5,
-    right: -5
+    bottom: 0,
+    right: 0,
   },
   rowSpace: {
     flexDirection: "row",
-    marginTop: 20,
-    marginHorizontal: 20,
+    marginTop: normalize(20),
+    marginHorizontal: normalize(20),
     alignItems: "center",
     justifyContent:"space-between"
   },
   topContainer:{
-    marginHorizontal: 20
+    marginHorizontal: normalize(20),
   },
   profileImg: {
-    width: 60,
-    height: 60,
-    borderRadius: 50
+    width: normalize(60),
+    height: normalize(60),
+    borderRadius: normalize(50),
   },
   together: {
     flexDirection: "row",
@@ -86,23 +87,23 @@ const styles = StyleSheet.create({
   nextStyle: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginTop: 5
+    marginTop: normalize(5),
   },
   nextButton: {
-    width: 77,
-    height: 35,
-    marginTop: 8, 
+    width: normalize(77),
+    height: normalize(35),
+    marginTop: normalize(8),
     justifyContent: "flex-end"
   },
   backIcon : {
-    width: 20,
-    height: 20,
-    marginTop: 8,
-    marginRight: 20
+    width: normalize(20),
+    height: normalize(20),
+    marginTop: normalize(8),
+    marginRight: normalize(20),
   },
   row: {
     flexDirection: "row",
-    marginTop: 40,
+    marginTop: normalize(40),
     alignItems: "center",
     justifyContent:"space-between"
   },
@@ -112,12 +113,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     backgroundColor: "#fff",
-    borderTopLeftRadius: 50,
-    borderTopRightRadius: 50,
+    borderTopLeftRadius: normalize(50),
+    borderTopRightRadius: normalize(50),
     overflow: "hidden",
-    paddingTop: 35,
-    paddingLeft: 20,
-    paddingRight: 10
+    paddingTop: normalize(35),
+    paddingLeft: normalize(20),
+    paddingRight: normalize(10),
   },
   backImage: {
     width: "100%",

@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
+import normalize from "react-native-normalize";
 
 import useIndicator from "../hooks/useIndicator";
 
@@ -23,36 +24,38 @@ const ProfileCheckBox = ({ userStatus }) => {
                 <Image source={profileImg} style={styles.profileImg} />
                 <Image source={indicator} style={styles.indicator} />
             </View>
-            <Text style={{ fontSize: 18, color: "#4F457C", paddingLeft: 20 }} >Leana Hyacinth Rebong</Text>
+            <Text style={{ fontSize: normalize(18), color: "#4F457C", paddingLeft: normalize(20) }} >Leana Hyacinth Rebong</Text>
         </View>
-        <Image source={checkboxIcon} style={{width: 30, height: 30}} />
+        <Image source={checkboxIcon} style={{width: normalize(30), height: normalize(30)}} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   indicator: {
-    width: 20,
-    height: 20,
+    width: normalize(20),
+    height: normalize(20),
     position: "absolute",
-    bottom: -5,
-    right: -5
+    bottom: 0,
+    right: 0
   },
   rowSpace: {
     flexDirection: "row",
-    marginTop: 20,
-    marginHorizontal: 20,
+    marginTop: normalize(20),
+    marginRight: normalize(25),
+    marginLeft: normalize(8),
     alignItems: "center",
     justifyContent:"space-between"
   },
   profileImg: {
-    width: 60,
-    height: 60,
-    borderRadius: 50
+    width: normalize(60),
+    height: normalize(60),
+    borderRadius: normalize(50),
   },
   together: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+
   }
 });
 
