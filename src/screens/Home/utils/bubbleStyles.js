@@ -6,6 +6,7 @@ const BubbleStyles = StyleSheet.create({
     container: {
         flex: 1, 
         backgroundColor: "#F6F6FF",
+        
     },
     bgContainer: {
 

@@ -19,6 +19,13 @@ const editIcon = require("../assets/icons/edit-icon.png");
 
 const slideUpDownIcon = require("../assets/icons/slide-up-down-icon.png");
 
+const deleteIcon = require("../assets/icons/delete-icon.png");
+const muteNotificationsIcon = require("../assets/icons/mute-notifications-icon.png");
+const changeHowTheySeeYouIcon = require("../assets/icons/change-how-they-see-you-icon.png");
+const blockIcon = require("../assets/icons/block-icon.png");
+const addMembersIcon = require("../assets/icons/add-members-icon.png");
+const leaveIcon = require("../assets/icons/leave-icon.png");
+
 const useIcon = (option) => {
   const icons = {
     messagePencilIcon: messagePencilIcon,
@@ -40,6 +47,13 @@ const useIcon = (option) => {
     editIcon: editIcon,
     
     slideUpDownIcon: slideUpDownIcon,
+
+    deleteIcon: deleteIcon,
+    muteNotificationsIcon: muteNotificationsIcon,
+    changeHowTheySeeYouIcon: changeHowTheySeeYouIcon,
+    blockIcon: blockIcon,
+    addMembersIcon: addMembersIcon,
+    leaveIcon: leaveIcon
   };
 
   return icons[option];

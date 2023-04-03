@@ -15,14 +15,16 @@ const modalStyles = StyleSheet.create({
   optionModalContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
+    margin: "0.75%",
   },
   optionModalText: {
     color: "#383157",
     alignSelf: "center",
     font: normalize(16),
+    fontWeight: "400",
   },
   optionModalIcon: {
-    marginLeft: normalize(15),
+    marginLeft: normalize(30),
     marginRight: normalize(20),
     marginTop: normalize(10),
     marginBottom: normalize(10),
@@ -79,6 +81,8 @@ const modalStyles = StyleSheet.create({
       backgroundColor: "#F6F6FF",
       width: "100%",
       marginTop: "auto",
+      paddingHorizontal: 0,
+      paddingBottom: normalize(30),
   }
 
 

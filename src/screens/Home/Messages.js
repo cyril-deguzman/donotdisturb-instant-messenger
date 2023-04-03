@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import MessageBox from "../../components/MessageBox";
 import SearchBox from "../../components/SearchBox";
 import useIndicator from "../../hooks/useIndicator";
@@ -10,7 +9,7 @@ import messagesStyles from "./utils/messagesStyles";
 
 const profileImg = require("../../assets/profile-picture.png");
 
-const Messages = () => {
+const Messages = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const indicator = useIndicator("openToChat");
   const bgImg = useBackground("topBubbles");
@@ -38,10 +37,10 @@ const Messages = () => {
 
         {/** TODO: convert to flatlist when working on backend */}
         <View style={{ marginTop: 15 }}>
-          <MessageBox userStatus="idle" friendStatus="openToChat" />
-          <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-          <MessageBox userStatus="invisible" friendStatus="idle" />
-          <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
+          <MessageBox userStatus="idle" friendStatus="openToChat" navigation={navigation}/>
+          <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" navigation={navigation}/>
+          <MessageBox userStatus="invisible" friendStatus="idle" navigation={navigation}/>
+          <MessageBox userStatus="doNotDisturb" friendStatus="invisible" navigation={navigation}/>
         </View>
       </View>
     </View>
