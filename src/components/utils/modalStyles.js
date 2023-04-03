@@ -38,7 +38,7 @@ const modalStyles = StyleSheet.create({
   modalSlideUpDownContainer: {
     justifyContent: "center",
     //alignSelf: "center",
-    paddingTop: normalize(15),
+    paddingTop: normalize(5),
     paddingBottom: normalize(20),
     width: "100%",
   },
