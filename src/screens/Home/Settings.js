@@ -59,7 +59,7 @@ const Settings = ({navigation}) => {
               <>
                 <OptionHeaderBox header="Online Status"/>
                 <OptionBox icon={defaultStatusIcon} name="Default Status" navigation={navigation} routeName={"Settings"}/>
-                <OptionBox icon={specificStatusIcon} name="Status for Specific Audience" navigation={navigation} routeName={"Settings"}/>
+                <OptionBox icon={specificStatusIcon} name="Status for Specific Bubble" navigation={navigation} routeName={"Settings"}/>
                 <Text>{'\n'}</Text>
 
                 <OptionHeaderBox header="Preferences"/>
