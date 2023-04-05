@@ -101,7 +101,7 @@ const ChangeHowTheySeeYouModal = (props) => {
                                     <TextInput
                                         editable
                                         multiline
-                                        numberOfLines={1}t
+                                        numberOfLines={1}
                                         maxLength={40}
                                         onChangeText={text => onChangeText(text)}
                                         value={customMessageValue}

@@ -5,6 +5,7 @@ import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import useIcon from "../hooks/useIcon";
 import modalStyles from "./utils/modalStyles";
 import useIndicator from "../hooks/useIndicator";
+import normalize from "react-native-normalize";
 
 const OSIOptionBox = (props) => {
     const indicator = useIndicator(props.indicator);
@@ -15,6 +16,7 @@ const OSIOptionBox = (props) => {
         <TouchableHighlight
             onPress={props.onPress}
             underlayColor="rgba(217,217,217, 0.5)"
+            style={{borderRadius: normalize(10),}}
         >
 
         <View style={[modalStyles.optionOSIContainer, {backgroundColor: isSelectedBGStyle}]}>
