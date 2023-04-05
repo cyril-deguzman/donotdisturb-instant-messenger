@@ -26,6 +26,9 @@ const blockIcon = require("../assets/icons/block-icon.png");
 const addMembersIcon = require("../assets/icons/add-members-icon.png");
 const leaveIcon = require("../assets/icons/leave-icon.png");
 
+const toggleOffIcon = require("../assets/icons/toggle-off-icon.png");
+const toggleOnIcon = require("../assets/icons/toggle-on-icon.png");
+
 const useIcon = (option) => {
   const icons = {
     messagePencilIcon: messagePencilIcon,
@@ -53,7 +56,10 @@ const useIcon = (option) => {
     changeHowTheySeeYouIcon: changeHowTheySeeYouIcon,
     blockIcon: blockIcon,
     addMembersIcon: addMembersIcon,
-    leaveIcon: leaveIcon
+    leaveIcon: leaveIcon,
+
+    toggleOffIcon: toggleOffIcon,
+    toggleOnIcon: toggleOnIcon,
   };
 
   return icons[option];

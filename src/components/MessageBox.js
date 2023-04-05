@@ -38,7 +38,7 @@ const MessageBox = ({ userStatus, friendStatus, navigation}) => {
     ]}
     >
       <View>
-        <QuickAccessViewModal isModalVisible={isModalVisible} setModalVisible={setModalVisible} isIndividualModal={isIndividialModal} setIndividualModal={setIndividualModal} navigation={navigation}/>
+        <QuickAccessViewModal isModalVisible={isModalVisible} setModalVisible={setModalVisible} isIndividualModal={isIndividialModal} setIndividualModal={setIndividualModal}/>
         
         <ListItem containerStyle={styles.listContainer}>
           {/** TODO: optimize by converting into a component with small, medium, and large options */}

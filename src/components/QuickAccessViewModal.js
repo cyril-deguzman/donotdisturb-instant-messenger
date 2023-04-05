@@ -21,10 +21,13 @@ const QuickAccessViewModal = (props) => {
     const addMembersIcon = useIcon("addMembersIcon");
     const leaveIcon = useIcon("leaveIcon");
 
+    const isModalVisible = props.isModalVisible
+    const setModalVisible = props.setModalVisible
+
     return (
         <View style={modalStyles.modalContainer}>
             <GestureRecognizer
-                onSwipeDown={ () => props.setModalVisible(false) }
+                onSwipeDown={ () => setModalVisible(false)}
             >
                 <Overlay 
                     isVisible={props.isModalVisible} 
@@ -33,7 +36,7 @@ const QuickAccessViewModal = (props) => {
                     overlayStyle={modalStyles.modalPeopleContainer}
                     animationType="slide"
                 >
-                    <Pressable onPress={() => props.setModalVisible(false)}>
+                    <Pressable onPress={() => setModalVisible(false)}>
                         <View style={modalStyles.modalSlideUpDownContainer}>
                             <Image 
                                 source={slideUpDownIcon}
@@ -44,19 +47,19 @@ const QuickAccessViewModal = (props) => {
 
                     {props.isIndividualModal ? (
                         <View>
-                            <ModalOptionBox icon={deleteIcon} optionName="Delete this chat" navigation={props.navigation} routeName={"Messages"}/>
-                            <ModalOptionBox icon={muteNotificationsIcon} optionName="Mute notifications" navigation={props.navigation} routeName={"Messages"}/>
-                            <ModalOptionBox icon={changeHowTheySeeYouIcon} optionName="Change how they see you" navigation={props.navigation} routeName={"Messages"}/>
-                            <ModalOptionBox icon={blockIcon} optionName="Block this contact" navigation={props.navigation} routeName={"Messages"}/>
+                            <ModalOptionBox icon={deleteIcon} optionName="Delete this chat" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>
+                            <ModalOptionBox icon={muteNotificationsIcon} optionName="Mute notifications" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>
+                            <ModalOptionBox icon={changeHowTheySeeYouIcon} optionName="Change how they see you" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>
+                            <ModalOptionBox icon={blockIcon} optionName="Block this contact" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>
                         </View>
                     ) : 
                     
                         <View>
-                            <ModalOptionBox icon={deleteIcon} optionName="Delete this chat" navigation={props.navigation} routeName={"Messages"}/>
-                            <ModalOptionBox icon={addMembersIcon} optionName="Add members" navigation={props.navigation} routeName={"Messages"}/>
-                            <ModalOptionBox icon={leaveIcon} optionName="Leave group" navigation={props.navigation} routeName={"Messages"}/>
-                            <ModalOptionBox icon={changeHowTheySeeYouIcon} optionName="Change how they see you" navigation={props.navigation} routeName={"Messages"}/>
-                            <ModalOptionBox icon={muteNotificationsIcon} optionName="Mute notifications" navigation={props.navigation} routeName={"Messages"}/>   
+                            <ModalOptionBox icon={deleteIcon} optionName="Delete this chat" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>
+                            <ModalOptionBox icon={addMembersIcon} optionName="Add members" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>
+                            <ModalOptionBox icon={leaveIcon} optionName="Leave group" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>
+                            <ModalOptionBox icon={changeHowTheySeeYouIcon} optionName="Change how they see you" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>
+                            <ModalOptionBox icon={muteNotificationsIcon} optionName="Mute notifications" is1stModalVisible={isModalVisible} set1stModalVisible={setModalVisible}/>   
                         </View>
                             
                     }
