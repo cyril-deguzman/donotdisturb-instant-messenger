@@ -8,6 +8,7 @@ NOTE: all lowercase and no ending punctuation marks
 -->
 
 ## Next release v1.0
+- [PB] - [#25](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/25) app(feature): bubble screen
 - [PB] - [#19](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/19) app(screen): bubble screen
 - [PB] - [#13](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/13) app(screen): settings screen
 - [CY] - [#11](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/11) app(screen): messages screen

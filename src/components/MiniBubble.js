@@ -1,10 +1,9 @@
 import React, { useState} from "react";
-import { Image, View, Text} from "react-native";
-import styles from "./utils/styles";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { Image, View, Text, TouchableWithoutFeedback, TouchableOpacity} from "react-native";
 import useIcon from "../hooks/useIcon";
 import bubbleStyles from "../screens/Home/utils/bubbleStyles";
 import MessageBox from "./MessageBox";
+import normalize from "react-native-normalize";
 
 const MiniBubble = (props) => {
     const openIcon = useIcon("openIcon");
@@ -17,65 +16,52 @@ const MiniBubble = (props) => {
     return (
         <View style={bubbleStyles.miniBubbleContainer}>
             
-            <View style={bubbleStyles.miniBubbleHeader}>
-            
-            <Pressable
+            <TouchableWithoutFeedback
                 onPress={() => 
                     setOpenMiniBubble(!openMiniBubble)
                 }
                 
-                style={({pressed}) => [
-                {
-                    backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
-                    borderRadius: 50,
-                },
-                
-            ]}>
-
-                <View style={bubbleStyles.miniBubbleOpenCloseButtonContainer}>
-                <Image 
-                    source={openCloseIcon}
-                    style={bubbleStyles.miniBubbleOpenCloseButton}
-                />
-                </View>
+                style={{borderRadius: normalize(50)}}
+                underlayColor="rgba(217, 217, 217, 0.5)"
+            >   
+                <View style={bubbleStyles.miniBubbleHeader}>
+                    <View style={bubbleStyles.miniBubbleOpenCloseButtonContainer}>
+                        <Image 
+                            source={openCloseIcon}
+                            style={bubbleStyles.miniBubbleOpenCloseButton}
+                        />
+                    </View>
             
-            </Pressable>
             
-            <Text style={bubbleStyles.miniBubbleHeaderText}>{props.bubbleName}</Text>
+                    <Text style={bubbleStyles.miniBubbleHeaderText}>{props.bubbleName}</Text>
 
-            <View style={bubbleStyles.miniBubbleEditButtonContainer}>
-                <Image
-                    source={editIcon}
-                    style={bubbleStyles.miniBubbleEditButton}
-                />
-                <Text style={bubbleStyles.miniBubbleEditButtonText}>Edit</Text>
+                    <View style={bubbleStyles.miniBubbleEditButtonContainer}>
+                        <Image
+                            source={editIcon}
+                            style={bubbleStyles.miniBubbleEditButton}
+                        />
+                        <Text style={bubbleStyles.miniBubbleEditButtonText}>Edit</Text>
+                    </View>
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
 
             {openMiniBubble ? (
-            <View style={bubbleStyles.bubblePeopleContainer}> 
-            
-                <MessageBox userStatus="idle" friendStatus="openToChat" />
-                <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-                <MessageBox userStatus="invisible" friendStatus="idle" />
+                <View style={bubbleStyles.bubblePeopleContainer}> 
                 
-                <Pressable
-                    onPress={() => 
-                        console.log("open see all modal")
-                    }
-                    /*
-                    style={({pressed}) => [
-                    {
-                        backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
-                    },
+                    <MessageBox userStatus="idle" friendStatus="openToChat" />
+                    <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
+                    <MessageBox userStatus="invisible" friendStatus="idle" />
                     
-                ]}*/>
-                <View style={bubbleStyles.seeAllButtonContainer}>
-                    <Text style={bubbleStyles.seeAllButtonText}>See all</Text>
+                    <TouchableOpacity
+                        onPress={() => console.log("open see all modal")}
+                        activeOpacity={0.5}
+                    >
+                        <View style={bubbleStyles.seeAllButtonContainer}>
+                            <Text style={bubbleStyles.seeAllButtonText}>See all</Text>
+                        </View>
+                    </TouchableOpacity>
+                
                 </View>
-                </Pressable>
-            
-            </View>
             ) : null}
             
         </View>
