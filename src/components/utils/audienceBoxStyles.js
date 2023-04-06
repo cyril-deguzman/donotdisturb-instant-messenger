@@ -77,7 +77,7 @@ const audienceBoxStyles = StyleSheet.create({
         color: "#006FE6",
         fontSize: normalize(12),
         marginHorizontal: normalize(15),
-        marginVertical: normalize(3),
+        paddingVertical: normalize(10),
         textDecorationLine: "underline",
     },
 
