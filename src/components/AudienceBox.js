@@ -13,7 +13,7 @@ const AudienceBox = (props) => {
     return (
         <Pressable
             onPress={() => 
-                props.navigation.navigate(props.routeName) 
+                console.log("audience box")
             }
         >
 

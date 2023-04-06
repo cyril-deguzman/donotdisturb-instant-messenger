@@ -39,11 +39,9 @@ const StatusForSpecificAudience = ({navigation}) => {
               <Text style={statusForSpecificAudienceStyles.audienceContainerTextHeader}>Select Audience</Text>
               <Text>+ ADD</Text>
             </View>
-            <ScrollView>
-              <>
-              <AudienceBox audienceIndicator={indicator}/>
-              </>
-            </ScrollView>
+            
+            <AudienceBox audienceIndicator={indicator}/>
+             
           </View>
         </View>
       </ScrollView>
