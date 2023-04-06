@@ -4,9 +4,8 @@ import { ListItem, Avatar } from "@rneui/base";
 
 import styles from "./utils/styles";
 import useIndicator from "../hooks/useIndicator";
-import { TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
 import QuickAccessViewModal from "./QuickAccessViewModal";
-import { Pressable } from "react-native";
+import { Pressable, TouchableHighlight, TouchableOpacity } from "react-native";
 
 const profileImg = require("../assets/profile-picture.png");
 
@@ -26,16 +25,10 @@ const MessageBox = ({ userStatus, friendStatus, navigation}) => {
   const [isIndividialModal, setIndividualModal] = useState(false);
 
   return (
-    <Pressable
+    <TouchableHighlight
       onLongPress={() => setModalVisible(!isModalVisible)}
       onPressIn={() => console.log("open chat")}
       delayLongPress={200}
-
-      style={({pressed}) => [
-        {
-            backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
-        },
-    ]}
     >
       <View>
         <QuickAccessViewModal isModalVisible={isModalVisible} setModalVisible={setModalVisible} isIndividualModal={isIndividialModal} setIndividualModal={setIndividualModal}/>
@@ -73,7 +66,7 @@ const MessageBox = ({ userStatus, friendStatus, navigation}) => {
           </ListItem.Content>
         </ListItem>
       </View>
-    </Pressable>
+    </TouchableHighlight>
   );
 };
 

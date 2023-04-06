@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import MessageBox from "../../components/MessageBox";
 import SearchBox from "../../components/SearchBox";
 import useIndicator from "../../hooks/useIndicator";
@@ -29,7 +30,10 @@ const Messages = ({ navigation }) => {
             <Text style={messagesStyles.customMessage}>Set Custom Message</Text>
           </View>
         </View>
-        <Image style={messagesStyles.pencilIcon} source={pencilIcon} />
+
+        <TouchableOpacity onPress={() => navigation.navigate("NewMessage")}>
+          <Image style={messagesStyles.pencilIcon} source={pencilIcon} />
+        </TouchableOpacity>
       </View>
       <View style={messagesStyles.messageContainer}>
         <Text style={messagesStyles.tabLabel}>Messages</Text>

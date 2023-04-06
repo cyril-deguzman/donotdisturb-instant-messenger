@@ -68,15 +68,16 @@ const ChangeHowTheySeeYouModal = (props) => {
                         children={Modal} 
                         overlayStyle={modalStyles.modalStatusContainer}
                         animationType="slide"
+                        backdropStyle={{backgroundColor: "rgba(0, 0, 0, 0)"}}
                     >
-                        <Pressable onPress={() => props.set1stModalVisible(false)}>
+                        <TouchableWithoutFeedback onPress={() => props.set1stModalVisible(false)}>
                             <View style={modalStyles.modalSlideUpDownContainer}>
                                 <Image 
                                     source={slideUpDownIcon}
                                     style={modalStyles.modalSlideUpDownButton}
                                 />
                             </View>
-                        </Pressable>
+                        </TouchableWithoutFeedback>
 
                         
                         <View>
@@ -108,20 +109,18 @@ const ChangeHowTheySeeYouModal = (props) => {
                             </View>
                             
                             <View style={modalStyles.modalSubheaderTextContainer}>
-                                <Text style={modalStyles.modalSubheaderText}>Clear After</Text>
-                                
-                                
-                             
-                               
+                                <Text style={modalStyles.modalSubheaderText}>Clear After</Text>        
                             </View>
+                            
                             <DropDownPicker
-                                    open={openDropdown}
-                                    value={dropdownValue}
-                                    items={dropdownItems}
-                                    setOpen={setOpenDropdown}
-                                    setValue={setDropdownValue}
-                                    setItems={setDropdownItems}
-                                />
+                                open={openDropdown}
+                                value={dropdownValue}
+                                items={dropdownItems}
+                                setOpen={setOpenDropdown}
+                                setValue={setDropdownValue}
+                                setItems={setDropdownItems}
+                            />
+
                             <TouchableOpacity onPress={() => setToggledOn(!isToggledOn)}>
                                 <View style={modalStyles.modalSubheaderTextContainer}>
                                     <Text style={modalStyles.modalSubheaderSubtext}>Display duration of status to others?</Text>
