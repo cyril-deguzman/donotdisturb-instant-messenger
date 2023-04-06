@@ -4,14 +4,6 @@ import normalize from 'react-native-normalize';
 
 const modalStyles = StyleSheet.create({
   //modal option box
-  optionModalHeaderContainer: {
-    paddingLeft: normalize(27),
-    paddingBottom: normalize(10),
-  },
-  optionModalHeaderText: {
-    color: "#686868",  
-    font: normalize(16),
-  },
   optionModalContainer: {
     flexDirection: "row",
     flexWrap: "wrap",

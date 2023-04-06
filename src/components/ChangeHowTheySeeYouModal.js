@@ -1,13 +1,10 @@
 import React, { useState} from "react";
 import { Image, View, Text, Modal, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
-import styles from "./utils/styles";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import useIcon from "../hooks/useIcon";
-import { ScrollView } from "react-native-gesture-handler";
 import { Overlay } from "react-native-elements";
 import modalStyles from "./utils/modalStyles";
 import GestureRecognizer from 'react-native-swipe-gestures';
-import SwipeUpDownModal from 'react-native-swipe-modal-up-down';
 import OSIOptionBox from "./OSIOptionBox";
 import DropDownPicker from 'react-native-dropdown-picker';
 

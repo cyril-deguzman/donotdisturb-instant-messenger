@@ -1,14 +1,10 @@
-import React, { useState} from "react";
-import { Image, View, Text, Modal } from "react-native";
-import styles from "./utils/styles";
+import React from "react";
+import { Image, View, Modal } from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import useIcon from "../hooks/useIcon";
-import MessageBox from "./MessageBox";
-import { ScrollView } from "react-native-gesture-handler";
 import { Overlay } from "react-native-elements";
 import modalStyles from "./utils/modalStyles";
 import GestureRecognizer from 'react-native-swipe-gestures';
-import SwipeUpDownModal from 'react-native-swipe-modal-up-down';
 import ModalOptionBox from "./ModalOptionBox";
 
 const QuickAccessViewModal = (props) => {
