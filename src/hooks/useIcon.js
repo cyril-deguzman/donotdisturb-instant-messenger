@@ -1,5 +1,5 @@
 const messagePencilIcon = require("../assets/icons/message-pencil-icon.png");
-const audienceIcon = require("../assets/icons/audience-icon.png");
+const bubbleIcon = require("../assets/icons/bubble-icon.png");
 const messagesIcon = require("../assets/icons/messages-icon.png");
 const settingsIcon = require("../assets/icons/settings-icon.png");
 
@@ -12,16 +12,19 @@ const accessibilityIcon = require("../assets/icons/accessibility-icon.png");
 const privacySafetyIcon = require("../assets/icons/privacy-safety-icon.png");
 const logoutIcon = require("../assets/icons/logout-icon.png");
 
-const editIcon = require("../assets/icons/edit-icon.png");
-const trashIcon = require("../assets/icons/trash-icon.png");
-
+const addBubbleIcon = require("../assets/icons/add-bubble-icon.png");
 const openIcon = require("../assets/icons/open-icon.png");
 const closeIcon = require("../assets/icons/close-icon.png");
+const editIcon = require("../assets/icons/edit-icon.png");
+
+const slideUpDownIcon = require("../assets/icons/slide-up-down-icon.png");
+const trashIcon = require("../assets/icons/trash-icon.png");
+
 
 const useIcon = (option) => {
   const icons = {
     messagePencilIcon: messagePencilIcon,
-    audienceIcon: audienceIcon,
+    bubbleIcon: bubbleIcon,
     messagesIcon: messagesIcon,
     settingsIcon: settingsIcon,
 
@@ -33,11 +36,15 @@ const useIcon = (option) => {
     logoutIcon: logoutIcon,
     backIcon: backIcon,
 
-    editIcon: editIcon,
-    trashIcon: trashIcon,
-    
+    addBubbleIcon: addBubbleIcon,
     openIcon: openIcon,
     closeIcon: closeIcon,
+    editIcon: editIcon,
+    
+    slideUpDownIcon: slideUpDownIcon,
+
+    trashIcon: trashIcon,
+    
   };
 
   return icons[option];
