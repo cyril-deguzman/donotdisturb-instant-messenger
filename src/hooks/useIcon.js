@@ -15,6 +15,9 @@ const logoutIcon = require("../assets/icons/logout-icon.png");
 const editIcon = require("../assets/icons/edit-icon.png");
 const trashIcon = require("../assets/icons/trash-icon.png");
 
+const openIcon = require("../assets/icons/open-icon.png");
+const closeIcon = require("../assets/icons/close-icon.png");
+
 const useIcon = (option) => {
   const icons = {
     messagePencilIcon: messagePencilIcon,
@@ -32,6 +35,9 @@ const useIcon = (option) => {
 
     editIcon: editIcon,
     trashIcon: trashIcon,
+    
+    openIcon: openIcon,
+    closeIcon: closeIcon,
   };
 
   return icons[option];

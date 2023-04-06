@@ -8,63 +8,56 @@ const statusForSpecificAudienceStyles = StyleSheet.create({
         backgroundColor: "#F6F6FF",
     },
     bgContainer: {
-        justifyContent: "space-between",
+        //justifyContent: "space-between",
         alignItems: "center",
     },
-    audienceContainer: {
-        width: "100%",
-        backgroundColor: "#fff",
-        borderTopLeftRadius: 50,
-        borderTopRightRadius: 50,
-        padding: 30,
-    },
-    backgroundImage: {
-        marginLeft: -101,
-        margineTop: -158,
-        width: 595,
-        height: 595,
-        position: "absolute",
-    },
+    
 
     descriptionContainer: {
-        flex: 0.3,
+        //flex: 0.3,
         width: "90%",
         marginTop: "5%",
         marginBottom: "5%",
-        flexDirection: "column",
+        //flexDirection: "column",
         //alignItems: "flex-start",
+
+        overflow: "hidden",
+        paddingBottom: normalize(5),
+        paddingHorizontal: normalize(2),
+        borderRadius: normalize(30),
     },
     descriptionTextContainer: {
-        alignItems: "flex-start",
-        padding: 30,
+        //alignItems: "flex-start",
+        padding: normalize(30),
         backgroundColor: "#fff",
-        borderRadius: 30,
+        borderRadius: normalize(30),
     
-        width: "100%",
+         //width: "100%",
+
+        elevation: 10,
+        shadowColor: "#000",
     },
     descriptionTextHeader: {
-        fontSize: normalize(24), 
+        fontSize: normalize(21), 
         fontWeight: "bold",
         color: "#4F457C",
         
         marginBottom: "5%",
     },
-    userTextStatus: {
-        fontSize: normalize(16), 
+    descriptionTextContent: {
+        fontSize: normalize(14), 
         color: "#686868",
     },
-    /*
-    userTextContainerShadow: {
-        backgroundColor: "#000",
-        borderRadius: 30,
 
-        height: "50%",
+    audienceContainer: {
         width: "100%",
-        zIndex: 0,
-        marginTop: -25,
-    },
-    */
+        backgroundColor: "#fff",
+        borderTopLeftRadius: normalize(50),
+        borderTopRightRadius: normalize(50),
+        padding: normalize(30),
 
+        height: "100%",
+    },
     audienceContainerHeader: {
         flexDirection: "row",
         alignItems: "center",
@@ -73,7 +66,7 @@ const statusForSpecificAudienceStyles = StyleSheet.create({
     audienceContainerTextHeader: {
         fontWeight: "bold",
         color: "#4F457C",
-        fontSize: normalize(20),
+        fontSize: normalize(18),
     },
   });
   

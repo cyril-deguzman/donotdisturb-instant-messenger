@@ -1,134 +1,108 @@
-import React from "react";
-import { Image, View, Text, StyleSheet} from "react-native";
-import styles from "./utils/styles";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-import normalize from "react-native-normalize";
+import React, { useState }  from "react";
+import { Image, View, Text, TouchableOpacity, TouchableWithoutFeedback } from "react-native"; 
+
 import useIcon from "../hooks/useIcon";
+import audienceBoxStyles from "./utils/audienceBoxStyles";
+
 
 const AudienceBox = (props) => {
     const editIcon = useIcon("editIcon");
     const trashIcon = useIcon("trashIcon");
     const openIcon = useIcon("openIcon");
+    const closeIcon = useIcon("closeIcon");
+
+    const [isStatusMessageVisible, setStatusMessageVisible] = useState(false);
+    const [isExcludeContainerVisible, setExcludeContainerVisible] = useState(true);
+    const [isExcludePersonVisible, setExcludePersonVisible] = useState(false);
+
+    const [isExcludeMorePersonVisible, setExcludeMorePersonVisible] = useState(true);
+
+    const openCloseIcon = isExcludePersonVisible ? openIcon : closeIcon;
 
     return (
-        <Pressable
-            onPress={() => 
-                console.log("audience box")
-            }
-        >
-
-            <View style={audienceBoxStyles.audienceBoxContainer}>
-                <View>
-                    <Image 
-                        source={props.audienceIndicator}
-                        style={audienceBoxStyles.audienceBoxIndicator}
-                    />
-                
-                </View>
-                <View style={audienceBoxStyles.audienceBoxTextContainer}>
+        <View style={audienceBoxStyles.audienceBoxContainer}>
+            <View>
+                <Image 
+                    source={props.audienceIndicator}
+                    style={audienceBoxStyles.audienceBoxIndicator}
+                />
+            </View>
+            <View style={audienceBoxStyles.audienceBoxTextContainer}>
+                {isStatusMessageVisible ? (
                     <Text style={audienceBoxStyles.audienceBoxStatusMessageText}>"Finals snz ;-;"</Text>
-                    <Text style={audienceBoxStyles.audienceBoxAudienceNameText}>DLSU Friends</Text>
-                    <Text style={audienceBoxStyles.audienceBoxNameListText}>Status for: Leana Rebong, Rayden Lizan, and 10 more</Text>
-                    
-                    <View style={audienceBoxStyles.audienceBoxExcludeContainer}>
-                        <Image
-                            source={openIcon}
-                        />
-                        <Text style={audienceBoxStyles.audienceBoxExcludeHeaderText}>Exlcuding</Text>
-                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person A</Text>
-                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person B</Text>
-                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person C</Text>
-                    </View>
+                ): null}
+                
+                <Text style={audienceBoxStyles.audienceBoxAudienceNameText}>DLSU Friends</Text>
 
-                    <Text style={audienceBoxStyles.audienceBoxClearStatusText}>Status will clear after tomorrow 8:30 PM</Text>
-                </View>
-                <View style={audienceBoxStyles.audienceBoxIconsContainer}>
+                <TouchableWithoutFeedback onPress={() => setExcludePersonVisible(!isExcludePersonVisible)}>
+                    <View>
+                        <Text style={audienceBoxStyles.audienceBoxNameListText}>Status for: Leana Rebong, Rayden Lizan, and 10 more</Text>
+                        
+                        {isExcludeContainerVisible ? (
+                            <View style={audienceBoxStyles.audienceBoxExcludeHeaderContainer}>
+                                <Image
+                                    source={openCloseIcon}
+                                    style={audienceBoxStyles.audienceBoxExcludeOpenCloseIcon}
+                                />
+
+                                <Text style={audienceBoxStyles.audienceBoxExcludeHeaderText}>Excluding</Text>
+                                
+                            </View>
+                        ) : null}
+                    </View>
+                </TouchableWithoutFeedback>
+
+                {isExcludeContainerVisible ? (
+                    <View style={audienceBoxStyles.audienceBoxExcludeContainer}>
+                        {isExcludePersonVisible ? (
+                            <View style={audienceBoxStyles.audienceBoxExlcudePersonContainer}>
+                                <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person A</Text>
+                                <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person B</Text>
+                                <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person C</Text>
+
+                                {isExcludeMorePersonVisible ? (
+                                    <TouchableWithoutFeedback onPress={() => setExcludeMorePersonVisible(!isExcludeMorePersonVisible)}>
+                                        <Text style={audienceBoxStyles.audienceBoxExcludeSeeMoreLessText}>See 4 more</Text>
+                                    </TouchableWithoutFeedback>
+                                ): (
+                                    <View>
+                                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person A</Text>
+                                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person B</Text>
+                                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person C</Text>
+                                        <TouchableWithoutFeedback onPress={() => setExcludeMorePersonVisible(!isExcludeMorePersonVisible)}>
+                                            <Text style={audienceBoxStyles.audienceBoxExcludeSeeMoreLessText}>See Less</Text>
+                                        </TouchableWithoutFeedback>
+                                    </View>
+                                )}
+                                
+                                
+                            </View>
+                        ): null}
+                        
+                    </View>
+                ): null}
+
+                <Text style={audienceBoxStyles.audienceBoxClearStatusText}>Status will clear after tomorrow 8:30 PM</Text>
+            </View>
+            <View style={audienceBoxStyles.audienceBoxIconsContainer}>
+                <TouchableOpacity>
                     <Image
                         source={editIcon}
                         style={audienceBoxStyles.audienceBoxEditIcon}
                     />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
                     <Image 
                         source={trashIcon}
                         style={audienceBoxStyles.audienceBoxTrashIcon}
                     />
-                </View>
+                </TouchableOpacity>
             </View>
-        </Pressable>
+        </View>
+
     )
 };
-
-const audienceBoxStyles = StyleSheet.create({
-    audienceBoxContainer: {
-        flexDirection: "row",
-    },
-    audienceBoxIndicator: {
-        width: normalize(31),
-        height: normalize(31),
-        marginHorizontal: normalize(20),
-        marginVertical: normalize(10),
-    },
-    audienceBoxTextSpacing: {
-        marginVertical: normalize(5),
-    },
-    audienceBoxTextContainer: {
-        marginVertical: normalize(15),
-        width: "60%",
-    },
-    audienceBoxStatusMessageText: {
-        fontStyle: "italic",
-        color: "#000",
-        fontSize: normalize(16),
-        marginBottom: normalize(18),
-    },
-    audienceBoxAudienceNameText: {
-        fontWeight: "600",
-        color: "#383157",
-        fontSize: normalize(18),
-    },
-    audienceBoxNameListText: {
-        color: "#383157",
-        fontSize: normalize(16),
-    },
-
-    
-    audienceBoxExcludeContainer: {
-        marginHorizontal: normalize(15),
-    },
-    audienceBoxExcludeHeaderText: {
-        color: "#FF0000",
-        fontSize: normalize(14),
-    },
-    audienceBoxExcludePersonText: {
-        color: "#686868",
-        fontSize: normalize(12),
-    },
-
-    audienceBoxClearStatusText: {
-        color: "#686868",
-        fontSize: normalize(14),
-    },
-
-
-    audienceBoxIconsContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    audienceBoxEditIcon: {
-        width: normalize(23),
-        height: normalize(30),
-        marginHorizontal: normalize(10),
-    },
-    audienceBoxTrashIcon: {
-        width: normalize(20),
-        height: normalize(22),
-        //margin: normalize(10),
-        margin: normalize(10),
-    },
-
-
-
-});
 
 export default AudienceBox;
 
