@@ -4,6 +4,7 @@ import useIcon from "../hooks/useIcon";
 import bubbleStyles from "../screens/Home/utils/bubbleStyles";
 import MessageBox from "./MessageBox";
 import normalize from "react-native-normalize";
+import MiniBubbleSeeAllModal from "./MiniBubbleSeeAllModal";
 
 const MiniBubble = (props) => {
     const openIcon = useIcon("openIcon");
@@ -13,9 +14,13 @@ const MiniBubble = (props) => {
     const [openMiniBubble, setOpenMiniBubble] = useState(true);
     const openCloseIcon = openMiniBubble? openIcon : closeIcon;
     
+    const [isModalVisible, setModalVisible] = useState(false);
+
     return (
         <View style={bubbleStyles.miniBubbleContainer}>
             
+            <MiniBubbleSeeAllModal isModalVisible={isModalVisible} setModalVisible={setModalVisible}/>
+
             <TouchableWithoutFeedback
                 onPress={() => 
                     setOpenMiniBubble(!openMiniBubble)
@@ -33,14 +38,14 @@ const MiniBubble = (props) => {
                     </View>
             
             
-                    <Text style={bubbleStyles.miniBubbleHeaderText}>{props.bubbleName}</Text>
+                        <Text style={bubbleStyles.miniBubbleHeaderText}>{props.bubbleName}</Text>
 
-                    <View style={bubbleStyles.miniBubbleEditButtonContainer}>
-                        <Image
-                            source={editIcon}
-                            style={bubbleStyles.miniBubbleEditButton}
-                        />
-                        <Text style={bubbleStyles.miniBubbleEditButtonText}>Edit</Text>
+                        <View style={bubbleStyles.miniBubbleEditButtonContainer}>
+                            <Image
+                                source={editIcon}
+                                style={bubbleStyles.miniBubbleEditButton}
+                            />
+                            <Text style={bubbleStyles.miniBubbleEditButtonText}>Edit</Text>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -53,7 +58,7 @@ const MiniBubble = (props) => {
                     <MessageBox userStatus="invisible" friendStatus="idle" />
                     
                     <TouchableOpacity
-                        onPress={() => console.log("open see all modal")}
+                        onPress={() => setModalVisible(true)}
                         activeOpacity={0.5}
                     >
                         <View style={bubbleStyles.seeAllButtonContainer}>
