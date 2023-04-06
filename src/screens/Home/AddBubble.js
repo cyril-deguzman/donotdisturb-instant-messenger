@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import useBackground from "../../hooks/useBackground";
 import WhiteSearchBox from "../../components/WhiteSearchBox";
 import ProfileCheckBox from "../../components/ProfileCheckBox";
@@ -13,40 +7,59 @@ import normalize from "react-native-normalize";
 import useIcon from "../../hooks/useIcon";
 
 const AddBubble = ({ navigation }) => {
-    const bgImg = useBackground("topBubbles");
-    const [searchQuery, setSearchQuery] = useState("");
+  const bgImg = useBackground("topBubbles");
+  const [searchQuery, setSearchQuery] = useState("");
 
-    const saveButton = useIcon("saveButton");
-    const backIcon = useIcon("backIcon");
+  const saveButton = useIcon("saveButton");
+  const backIcon = useIcon("backIcon");
 
   return (
     <View style={styles.container}>
       <Image source={bgImg} style={styles.backImage} />
-      
-      <View style={styles.topContainer} >
+
+      <View style={styles.topContainer}>
         <View style={styles.row}>
-            <View style={styles.together}>
-                <TouchableOpacity onPress={() => navigation.navigate("Bubble")}>
-                    <Image source={backIcon} style={styles.backIcon} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: normalize(20), fontWeight: "bold", marginTop: normalize(5)}}>Add Members</Text>
-            </View>
+          <View style={styles.together}>
             <TouchableOpacity onPress={() => navigation.navigate("Bubble")}>
-                <Image source={saveButton} style={styles.nextButton} />
+              <Image source={backIcon} style={styles.backIcon} />
             </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: normalize(20),
+                fontWeight: "bold",
+                marginTop: normalize(5),
+              }}
+            >
+              Add Members
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Bubble")}>
+            <Image source={saveButton} style={styles.nextButton} />
+          </TouchableOpacity>
         </View>
-        
-        <View style={{marginTop: normalize(15), marginHorizontal: normalize(10)}}>
-            <WhiteSearchBox setValue={setSearchQuery} value={searchQuery} />
+
+        <View
+          style={{ marginTop: normalize(15), marginHorizontal: normalize(10) }}
+        >
+          <WhiteSearchBox setValue={setSearchQuery} value={searchQuery} />
         </View>
       </View>
 
       {/** Make a component for displaying profile img + osi, name, icon */}
       <View style={styles.messageContainer}>
-        <Text style={{ fontSize: normalize(20), fontWeight: "bold", color: "#4F457C", marginLeft: normalize(5) }}>Suggested</Text>
-          <ProfileCheckBox userStatus="idle" />
+        <Text
+          style={{
+            fontSize: normalize(20),
+            fontWeight: "bold",
+            color: "#4F457C",
+            marginLeft: normalize(5),
+          }}
+        >
+          Suggested
+        </Text>
+        {/* <ProfileCheckBox userStatus="idle" />
           <ProfileCheckBox userStatus="doNotDisturb" />
-          <ProfileCheckBox userStatus="openToChat" />
+          <ProfileCheckBox userStatus="openToChat" /> */}
       </View>
     </View>
   );
@@ -69,9 +82,9 @@ const styles = StyleSheet.create({
     marginTop: normalize(20),
     marginHorizontal: normalize(20),
     alignItems: "center",
-    justifyContent:"space-between"
+    justifyContent: "space-between",
   },
-  topContainer:{
+  topContainer: {
     marginHorizontal: normalize(20),
   },
   profileImg: {
@@ -81,10 +94,10 @@ const styles = StyleSheet.create({
   },
   together: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   column: {
-    flexDirection: "column"
+    flexDirection: "column",
   },
   nextStyle: {
     flexDirection: "row",
@@ -95,9 +108,9 @@ const styles = StyleSheet.create({
     width: normalize(77),
     height: normalize(35),
     marginTop: normalize(8),
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
-  backIcon : {
+  backIcon: {
     width: normalize(20),
     height: normalize(20),
     marginTop: normalize(8),
@@ -107,7 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: normalize(40),
     alignItems: "center",
-    justifyContent:"space-between"
+    justifyContent: "space-between",
   },
   messageContainer: {
     width: "100%",
@@ -128,7 +141,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     resizeMode: "cover",
-  }
+  },
 });
 
 export default AddBubble;

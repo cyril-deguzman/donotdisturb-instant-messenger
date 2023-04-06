@@ -1,22 +1,61 @@
-import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import MessageBox from "../../components/MessageBox";
 import SearchBox from "../../components/SearchBox";
 import useIndicator from "../../hooks/useIndicator";
 import useBackground from "../../hooks/useBackground";
 import useIcon from "../../hooks/useIcon";
 import messagesStyles from "./utils/messagesStyles";
+import {
+  collection,
+  query,
+  where,
+  getDoc,
+  onSnapshot,
+  doc,
+} from "firebase/firestore";
+import { auth, database } from "../../../config/firebase";
 
 const profileImg = require("../../assets/profile-picture.png");
 
 const Messages = ({ navigation }) => {
+  const [isPrevModalVisible, setPrevModalVisible] = useState(false);
+  const [conversations, setConversations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+
   const indicator = useIndicator("openToChat");
   const bgImg = useBackground("topBubbles");
   const pencilIcon = useIcon("messagePencilIcon");
 
-  const [isPrevModalVisible, setPrevModalVisible] = useState(false);
+  useEffect(() => {
+    const userRef = doc(database, "users", auth.currentUser.uid);
+    const q = query(
+      collection(database, "user_conversations"),
+      where("userID", "==", userRef)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const conversationsArray = [];
+      let counter = 0;
+      if (querySnapshot.empty) return;
+
+      querySnapshot.forEach(async (doc) => {
+        const convRef = doc.data().conversationID;
+        const dataSnap = await getDoc(convRef);
+        counter++;
+
+        conversationsArray.push({
+          convRef,
+          id: dataSnap.id,
+          ...dataSnap.data(),
+        });
+
+        if (querySnapshot.size == counter) setConversations(conversationsArray);
+      });
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <View style={messagesStyles.container}>
@@ -28,7 +67,9 @@ const Messages = ({ navigation }) => {
             <Image source={indicator} style={messagesStyles.indicator} />
           </View>
           <View style={messagesStyles.rightStatusBar}>
-            <Text style={messagesStyles.name}>Leana Hyacinth Rebong</Text>
+            <Text style={messagesStyles.name}>
+              {auth.currentUser.displayName}
+            </Text>
             <Text style={messagesStyles.customMessage}>Set Custom Message</Text>
           </View>
         </View>
@@ -41,41 +82,29 @@ const Messages = ({ navigation }) => {
         <Text style={messagesStyles.tabLabel}>Messages</Text>
         <SearchBox setValue={setSearchQuery} value={searchQuery} />
 
-        {/** TODO: convert to flatlist when working on backend */}
-        <View style={{ marginTop: 15 }}>
-          <MessageBox
-            navigation={navigation}
-            userStatus="idle"
-            friendStatus="openToChat"
-
-            isPrevModalVisible={isPrevModalVisible}
-            setPrevModalVisible={setPrevModalVisible}
+        {conversations.length ? (
+          <FlatList
+            data={conversations}
+            renderItem={({ item }) => (
+              <MessageBox
+                navigation={navigation}
+                userStatus="idle"
+                friendStatus="openToChat"
+                dataSnap={{ ...item }}
+                isPrevModalVisible={isPrevModalVisible}
+                setPrevModalVisible={setPrevModalVisible}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+            style={{ marginTop: 15 }}
           />
-          <MessageBox
-            navigation={navigation}
-            userStatus="openToChat"
-            friendStatus="doNotDisturb"
-
-            isPrevModalVisible={isPrevModalVisible}
-            setPrevModalVisible={setPrevModalVisible}
-          />
-          <MessageBox
-            navigation={navigation}
-            userStatus="invisible"
-            friendStatus="idle"
-
-            isPrevModalVisible={isPrevModalVisible}
-            setPrevModalVisible={setPrevModalVisible}
-          />
-          <MessageBox
-            navigation={navigation}
-            userStatus="doNotDisturb"
-            friendStatus="invisible"
-
-            isPrevModalVisible={isPrevModalVisible}
-            setPrevModalVisible={setPrevModalVisible}
-          />
-        </View>
+        ) : (
+          <View style={messagesStyles.emptyInbox}>
+            <Text style={messagesStyles.emptyInboxText}>
+              You have no messages.
+            </Text>
+          </View>
+        )}
       </View>
     </View>
   );

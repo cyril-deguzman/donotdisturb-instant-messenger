@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   TextInput,
   Image,
   SafeAreaView,
@@ -11,20 +10,39 @@ import {
   StatusBar,
   Alert,
 } from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../config/firebase";
+import { setDoc, doc, addDoc, collection } from "firebase/firestore";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth, database } from "../../config/firebase";
 
 const backImage = require("../assets/backImage.png");
 
 export default function Signup({ navigation }) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onHandleSignup = () => {
-    if (email !== "" && password !== "") {
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(() => console.log("Signup success"))
-        .catch((err) => Alert.alert("Signup error", err.message));
+  const onHandleSignup = async () => {
+    if (email !== "" && password !== "" && name !== "") {
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(auth.currentUser, { displayName: name });
+
+        const statusID = await addDoc(collection(database, "online_statuses"), {
+          expiry: null,
+          message: "",
+          osi: "Open to Chat",
+          toggleTime: false,
+        });
+
+        await setDoc(doc(database, "users", auth.currentUser.uid), {
+          image: "",
+          userID: auth.currentUser.uid,
+          statusID,
+          name,
+        });
+      } catch (err) {
+        Alert.alert("Signup error", err.message);
+      }
     }
   };
 
@@ -34,6 +52,15 @@ export default function Signup({ navigation }) {
       <View style={styles.whiteSheet} />
       <SafeAreaView style={styles.form}>
         <Text style={styles.title}>Sign Up</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter name"
+          autoCapitalize="none"
+          textContentType="username"
+          autoFocus={true}
+          value={name}
+          onChangeText={(text) => setName(text)}
+        />
         <TextInput
           style={styles.input}
           placeholder="Enter email"
