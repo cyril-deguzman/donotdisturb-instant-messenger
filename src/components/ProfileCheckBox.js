@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import normalize from "react-native-normalize";
+import { CheckBox } from '@rneui/themed';
 
 import useIndicator from "../hooks/useIndicator";
 
@@ -15,6 +16,7 @@ const checkboxIcon = require("../assets/icons/checkbox-icon.png");
 
 const ProfileCheckBox = ({ userStatus }) => {
     const indicator = useIndicator(userStatus);
+    const [check1, setCheck1] = useState(false);
 
   return (
 
@@ -26,7 +28,16 @@ const ProfileCheckBox = ({ userStatus }) => {
             </View>
             <Text style={{ fontSize: normalize(18), color: "#4F457C", paddingLeft: normalize(20) }} >Leana Hyacinth Rebong</Text>
         </View>
-        <Image source={checkboxIcon} style={{width: normalize(30), height: normalize(30)}} />
+        <CheckBox
+          checked={check1}
+          onPress={() => setCheck1(!check1)}
+          size={normalize(40)}
+          iconType="material-community"
+          checkedIcon="checkbox-marked"
+          uncheckedIcon="checkbox-blank-outline"
+          checkedColor="black"
+          paddingLeft={normalize(25)}
+        />
     </View>
   );
 };
