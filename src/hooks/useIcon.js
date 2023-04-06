@@ -12,6 +12,8 @@ const accessibilityIcon = require("../assets/icons/accessibility-icon.png");
 const privacySafetyIcon = require("../assets/icons/privacy-safety-icon.png");
 const logoutIcon = require("../assets/icons/logout-icon.png");
 
+const editIcon = require("../assets/icons/edit-icon.png");
+const trashIcon = require("../assets/icons/trash-icon.png");
 
 const useIcon = (option) => {
   const icons = {
@@ -27,6 +29,9 @@ const useIcon = (option) => {
     privacySafetyIcon: privacySafetyIcon,
     logoutIcon: logoutIcon,
     backIcon: backIcon,
+
+    editIcon: editIcon,
+    trashIcon: trashIcon,
   };
 
   return icons[option];
