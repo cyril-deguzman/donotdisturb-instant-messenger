@@ -34,17 +34,47 @@ const MiniBubbleSeeAllModal = (props) => {
                
                     
                     <ScrollView>
-                        <MessageBox userStatus="idle" friendStatus="openToChat" />
-                        <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-                        <MessageBox userStatus="invisible" friendStatus="idle" />
-                        <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
-                        <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="idle"
+                            friendStatus="openToChat"
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="openToChat"
+                            friendStatus="doNotDisturb"
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="invisible"
+                            friendStatus="idle"
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="doNotDisturb"
+                            friendStatus="invisible"
+                        />
 
-                        <MessageBox userStatus="idle" friendStatus="openToChat" />
-                        <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-                        <MessageBox userStatus="invisible" friendStatus="idle" />
-                        <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
-                        <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="idle"
+                            friendStatus="openToChat"
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="openToChat"
+                            friendStatus="doNotDisturb"
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="invisible"
+                            friendStatus="idle"
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="doNotDisturb"
+                            friendStatus="invisible"
+                        />
                         
                     </ScrollView>
                 </Overlay>

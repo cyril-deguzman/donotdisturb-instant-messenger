@@ -19,7 +19,7 @@ const MiniBubble = (props) => {
     return (
         <View style={bubbleStyles.miniBubbleContainer}>
             
-            <MiniBubbleSeeAllModal isModalVisible={isModalVisible} setModalVisible={setModalVisible}/>
+            <MiniBubbleSeeAllModal isModalVisible={isModalVisible} setModalVisible={setModalVisible} navigation={props.navigation}/>
 
             <TouchableWithoutFeedback
                 onPress={() => 
@@ -53,17 +53,29 @@ const MiniBubble = (props) => {
             {openMiniBubble ? (
                 <View style={bubbleStyles.bubblePeopleContainer}> 
                 
-                    <MessageBox userStatus="idle" friendStatus="openToChat" />
-                    <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-                    <MessageBox userStatus="invisible" friendStatus="idle" />
+                    <MessageBox
+                        navigation={props.navigation}
+                        userStatus="idle"
+                        friendStatus="openToChat"
+                    />
+                    <MessageBox
+                        navigation={props.navigation}
+                        userStatus="openToChat"
+                        friendStatus="doNotDisturb"
+                    />
+                    <MessageBox
+                        navigation={props.navigation}
+                        userStatus="invisible"
+                        friendStatus="idle"
+                    />
                     
                     <TouchableOpacity
                         onPress={() => setModalVisible(true)}
                         activeOpacity={0.5}
+                        style={bubbleStyles.seeAllButtonContainer}
                     >
-                        <View style={bubbleStyles.seeAllButtonContainer}>
-                            <Text style={bubbleStyles.seeAllButtonText}>See all</Text>
-                        </View>
+                        <Text style={bubbleStyles.seeAllButtonText}>See all</Text>
+                        
                     </TouchableOpacity>
                 
                 </View>

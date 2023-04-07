@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
 import colors from "../../../colors";
-import normalize from 'react-native-normalize';
+import normalize from "react-native-normalize";
 
 const styles = StyleSheet.create({
-  listContainer: { paddingHorizontal: 0, paddingBottom: 20, paddingTop: 0 },
+  listContainer: { paddingHorizontal: 0, paddingBottom: 20, paddingTop: 0, backgroundColor: "transparent" },
   row: {
     flexDirection: "row",
     marginTop: 3,
@@ -66,14 +66,13 @@ const styles = StyleSheet.create({
   },
   searchInput: { fontSize: 14 },
 
-
   // option box
   optionHeaderContainer: {
     paddingLeft: normalize(27),
     paddingBottom: normalize(10),
   },
   optionHeaderText: {
-    color: "#686868",  
+    color: "#686868",
     font: normalize(16),
   },
   optionContainer: {
@@ -91,10 +90,9 @@ const styles = StyleSheet.create({
     marginTop: normalize(15),
     marginBottom: normalize(15),
     alignSelf: "flex-start",
-    width: normalize(40), 
+    width: normalize(40),
     height: normalize(40),
   },
-
 
   //header
   headerContainer: {
@@ -105,14 +103,14 @@ const styles = StyleSheet.create({
     marginLeft: normalize(18),
   },
   headerBackButton: {
-      width: normalize(20),
-      height: normalize(20),
-      margin: normalize(10),
+    width: normalize(20),
+    height: normalize(20),
+    margin: normalize(10),
   },
   headerText: {
-      fontSize: normalize(20),
-      fontWeight: "700",
-      marginLeft: normalize(10),
+    fontSize: normalize(20),
+    fontWeight: "700",
+    marginLeft: normalize(10),
   },
 });
 

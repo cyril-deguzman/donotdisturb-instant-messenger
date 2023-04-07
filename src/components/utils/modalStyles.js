@@ -55,7 +55,8 @@ const modalStyles = StyleSheet.create({
       width: "100%",
       height: "60%",
       marginTop: "auto",
-      paddingHorizontal: 0,
+      //paddingHorizontal: 0,
+      paddingHorizontal: normalize(20),
   },
 
   // modal container

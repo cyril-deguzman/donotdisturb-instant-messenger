@@ -9,7 +9,7 @@ import { Pressable, TouchableHighlight, TouchableOpacity } from "react-native";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const MessageBox = ({ userStatus, friendStatus, navigation}) => {
+const MessageBox = ({ navigation, userStatus, friendStatus }) => {
   const userIndicator = useIndicator(userStatus);
   const friendIndicator = useIndicator(friendStatus);
 
@@ -27,13 +27,17 @@ const MessageBox = ({ userStatus, friendStatus, navigation}) => {
   return (
     <TouchableHighlight
       onLongPress={() => setModalVisible(!isModalVisible)}
-      onPressIn={() => console.log("open chat")}
-      delayLongPress={200}
+      onPress={() => navigation.navigate("Chat")}
+      delayLongPress={100}
+      underlayColor={"rgba(217, 217, 217, 0.5)"}
     >
       <View>
         <QuickAccessViewModal isModalVisible={isModalVisible} setModalVisible={setModalVisible} isIndividualModal={isIndividialModal} setIndividualModal={setIndividualModal}/>
         
-        <ListItem containerStyle={styles.listContainer}>
+        <ListItem
+      //onPress={() => navigation.navigate("Chat")}
+      containerStyle={styles.listContainer}
+    >
           {/** TODO: optimize by converting into a component with small, medium, and large options */}
           <View>
             <Avatar size={61} rounded source={profileImg} />
