@@ -15,7 +15,7 @@ import useIcon from "../../hooks/useIcon";
 import messagesStyles from "./utils/messagesStyles";
 
 
-const profilePic = require("../../assets/icons/bear.jpg");
+const profileImg = require("../../assets/profile-picture.png");
 
 const Settings = ({navigation}) => {
   const bgImg = useBackground("topBubbles");
@@ -40,7 +40,7 @@ const Settings = ({navigation}) => {
           
           <View style={settingsStyles.userProfileContainer}>
             <Image
-              source={profilePic}
+              source={profileImg}
               style={settingsStyles.userImage}
             />
             <Image
