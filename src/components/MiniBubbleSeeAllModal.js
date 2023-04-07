@@ -8,7 +8,6 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Overlay } from "react-native-elements";
 import modalStyles from "./utils/modalStyles";
 import GestureRecognizer from 'react-native-swipe-gestures';
-import SwipeUpDownModal from 'react-native-swipe-modal-up-down';
 
 const MiniBubbleSeeAllModal = (props) => {
     const slideUpDownIcon = useIcon("slideUpDownIcon");
