@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 
@@ -10,7 +10,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import useIcon from "../../hooks/useIcon";
 import MiniBubble from "../../components/MiniBubble";
 
-const Bubble = () => {  
+const Bubble = ({navigation}) => {  
   const bgImg = useBackground("bubbles");
   const addBubbleIcon = useIcon("addBubbleIcon");
 
@@ -25,12 +25,14 @@ const Bubble = () => {
             <Text style={bubbleStyles.headerText}>Bubbles</Text>
             <Text style={bubbleStyles.headerSubtext}>Categorize conveniently</Text>
           </View>
-          <View style={bubbleStyles.headerAddButtonContainer}>
-            <Image 
-              source={addBubbleIcon}
-              style={bubbleStyles.headerAddButton}
-            />
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("AddBubble")}>
+            <View style={bubbleStyles.headerAddButtonContainer}>
+              <Image 
+                source={addBubbleIcon}
+                style={bubbleStyles.headerAddButton}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
 

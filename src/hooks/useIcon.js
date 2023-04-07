@@ -20,6 +20,8 @@ const editIcon = require("../assets/icons/edit-icon.png");
 const slideUpDownIcon = require("../assets/icons/slide-up-down-icon.png");
 const trashIcon = require("../assets/icons/trash-icon.png");
 
+const nextButton = require("../assets/icons/next-button.png");
+const saveButton = require("../assets/icons/save-button.png");
 
 const useIcon = (option) => {
   const icons = {
@@ -46,6 +48,9 @@ const useIcon = (option) => {
     trashIcon: trashIcon,
 
     infoIcon: infoIcon,
+
+    nextButton: nextButton,
+    saveButton: saveButton,
 
   };
 
