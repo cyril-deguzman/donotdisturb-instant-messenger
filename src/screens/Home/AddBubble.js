@@ -29,7 +29,7 @@ const AddBubble = ({ navigation }) => {
                 <TouchableOpacity onPress={() => navigation.navigate("Bubble")}>
                     <Image source={backIcon} style={styles.backIcon} />
                 </TouchableOpacity>
-                <Text style={{ fontSize: normalize(20), fontWeight: "bold", marginTop: normalize(5)}}>Edit Members</Text>
+                <Text style={{ fontSize: normalize(20), fontWeight: "bold", marginTop: normalize(5)}}>Add Members</Text>
             </View>
             <TouchableOpacity onPress={() => navigation.navigate("Bubble")}>
                 <Image source={saveButton} style={styles.nextButton} />
