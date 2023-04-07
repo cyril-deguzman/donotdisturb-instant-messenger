@@ -7,7 +7,7 @@ import useIndicator from "../hooks/useIndicator";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const MessageBox = ({ userStatus, friendStatus }) => {
+const MessageBox = ({ navigation, userStatus, friendStatus }) => {
   const userIndicator = useIndicator(userStatus);
   const friendIndicator = useIndicator(friendStatus);
 
@@ -20,7 +20,10 @@ const MessageBox = ({ userStatus, friendStatus }) => {
   };
 
   return (
-    <ListItem containerStyle={styles.listContainer}>
+    <ListItem
+      onPress={() => navigation.navigate("Chat")}
+      containerStyle={styles.listContainer}
+    >
       {/** TODO: optimize by converting into a component with small, medium, and large options */}
       <View>
         <Avatar size={61} rounded source={profileImg} />

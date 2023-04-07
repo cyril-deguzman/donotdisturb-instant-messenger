@@ -1,11 +1,13 @@
-import React, {
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useCallback,
-} from "react";
-import { TouchableOpacity, Text } from "react-native";
-import { GiftedChat } from "react-native-gifted-chat";
+import React, { useState, useLayoutEffect, useCallback } from "react";
+import {
+  TouchableOpacity,
+  StyleSheet,
+  ImageBackground,
+  View,
+  Text,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { GiftedChat, InputToolbar, Bubble } from "react-native-gifted-chat";
 import {
   collection,
   addDoc,
@@ -18,13 +20,47 @@ import { auth, database } from "../../config/firebase";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../colors";
+import ChatHeader from "../components/ChatHeader";
+import useBackground from "../hooks/useBackground";
 
 export default function Chat() {
   const [messages, setMessages] = useState([]);
   const navigation = useNavigation();
+  const bgImg = useBackground("bubbles");
 
   const onSignOut = () => {
     signOut(auth).catch((error) => console.log("Error logging out: ", error));
+  };
+
+  const renderBubble = (props) => {
+    return (
+      <Bubble
+        {...props}
+        textStyle={{
+          right: {
+            fontFamily: "Inter",
+            fontSize: 14,
+          },
+          left: {
+            fontFamily: "Inter",
+            fontSize: 14,
+          },
+        }}
+        wrapperStyle={{
+          left: { backgroundColor: "white" },
+          right: { backgroundColor: "#AE6FFF" },
+        }}
+      />
+    );
+  };
+
+  const inputToolbarContainer = (props) => {
+    return (
+      <InputToolbar
+        {...props}
+        containerStyle={styles.inputToolbar}
+      ></InputToolbar>
+    );
   };
 
   useLayoutEffect(() => {
@@ -79,22 +115,48 @@ export default function Chat() {
   }, []);
 
   return (
-    <GiftedChat
-      messages={messages}
-      showAvatarForEveryMessage={false}
-      showUserAvatar={false}
-      onSend={(messages) => onSend(messages)}
-      messagesContainerStyle={{
-        backgroundColor: "#fff",
-      }}
-      textInputStyle={{
-        backgroundColor: "#fff",
-        borderRadius: 20,
-      }}
-      user={{
-        _id: auth?.currentUser?.email,
-        avatar: "https://i.pravatar.cc/300",
-      }}
-    />
+    <View style={styles.container}>
+      <ChatHeader title="Cyril de Guzman" navigation={navigation} />
+      <ImageBackground source={bgImg} style={{ flex: 10 }}>
+        <GiftedChat
+          wrapInSafeArea={false}
+          messages={messages}
+          showAvatarForEveryMessage={false}
+          showUserAvatar={false}
+          onSend={(messages) => onSend(messages)}
+          messagesContainerStyle={styles.msgContainer}
+          textInputStyle={styles.textInput}
+          renderInputToolbar={(props) => inputToolbarContainer(props)}
+          renderBubble={(props) => renderBubble(props)}
+          user={{
+            _id: auth?.currentUser?.email,
+            avatar: "https://i.pravatar.cc/300",
+          }}
+        />
+      </ImageBackground>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  msgContainer: {
+    fontFamily: "Inter",
+  },
+  inputToolbar: {
+    backgroundColor: "white",
+  },
+  textInput: {
+    fontFamily: "Inter",
+    fontSize: 14,
+    marginTop: 5,
+    marginRight: 10,
+    paddingLeft: 10,
+    backgroundColor: "#E1E2FF",
+    borderRadius: 10,
+    width: 50,
+    height: 20,
+  },
+});

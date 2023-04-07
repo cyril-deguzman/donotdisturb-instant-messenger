@@ -11,7 +11,7 @@ const notificationSoundsIcon = require("../assets/icons/notification-sounds-icon
 const accessibilityIcon = require("../assets/icons/accessibility-icon.png");
 const privacySafetyIcon = require("../assets/icons/privacy-safety-icon.png");
 const logoutIcon = require("../assets/icons/logout-icon.png");
-
+const infoIcon = require("../assets/icons/info-icon.png");
 const addBubbleIcon = require("../assets/icons/add-bubble-icon.png");
 const openIcon = require("../assets/icons/open-icon.png");
 const closeIcon = require("../assets/icons/close-icon.png");
@@ -38,8 +38,9 @@ const useIcon = (option) => {
     openIcon: openIcon,
     closeIcon: closeIcon,
     editIcon: editIcon,
-    
+
     slideUpDownIcon: slideUpDownIcon,
+    infoIcon: infoIcon,
   };
 
   return icons[option];
