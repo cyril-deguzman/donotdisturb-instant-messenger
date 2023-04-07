@@ -22,7 +22,7 @@ const MessageBox = ({ userStatus, friendStatus, navigation}) => {
   };
 
   const [isModalVisible, setModalVisible] = useState(false);
-  const [isIndividialModal, setIndividualModal] = useState(false);
+  const [isIndividialModal, setIndividualModal] = useState(true);
 
   return (
     <TouchableHighlight

@@ -70,6 +70,9 @@ const modalStyles = StyleSheet.create({
       marginTop: "auto",
       paddingHorizontal: 0,
       paddingBottom: normalize(30),
+
+      position: "absolute",
+      bottom: 0,
   },
 
 
@@ -81,6 +84,9 @@ const modalStyles = StyleSheet.create({
       width: "100%",
       marginTop: "auto",
       paddingHorizontal: normalize(25),
+
+      position: "absolute",
+      bottom: 0,
   },
   modalHeaderText: {
     fontWeight: "900",
