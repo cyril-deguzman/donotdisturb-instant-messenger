@@ -11,6 +11,7 @@ import Chat from "./src/screens/Chat";
 import Login from "./src/screens/Login";
 import Signup from "./src/screens/Signup";
 import StatusForSpecificAudience from "./src/screens/Home/StatusForSpecificAudience";
+import DefaultStatus from "./src/screens/Home/DefaultStatus";
 import NewMessage from "./src/screens/Home/NewMessage";
 
 const Stack = createStackNavigator();
@@ -35,6 +36,7 @@ const ChatStack = () => {
       <Stack.Screen name="Chat" component={Chat} />
       <Stack.Screen name="StatusForSpecificAudience" component={StatusForSpecificAudience} />
       <Stack.Screen name="NewMessage" component={NewMessage} />
+      <Stack.Screen name="DefaultStatus" component={DefaultStatus} />
     </Stack.Navigator>
   );
 };
