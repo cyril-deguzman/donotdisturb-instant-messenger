@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, View, Modal } from "react-native";
+import { Image, View, Modal, TouchableWithoutFeedback } from "react-native";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import useIcon from "../hooks/useIcon";
 import { Overlay } from "react-native-elements";
@@ -32,14 +32,14 @@ const QuickAccessViewModal = (props) => {
                     overlayStyle={modalStyles.modalPeopleContainer}
                     animationType="slide"
                 >
-                    <Pressable onPress={() => setModalVisible(false)}>
+                    <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
                         <View style={modalStyles.modalSlideUpDownContainer}>
                             <Image 
                                 source={slideUpDownIcon}
                                 style={modalStyles.modalSlideUpDownButton}
                             />
                         </View>
-                    </Pressable>
+                    </TouchableWithoutFeedback>
 
                     {props.isIndividualModal ? (
                         <View>

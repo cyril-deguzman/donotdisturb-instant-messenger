@@ -1,6 +1,5 @@
 import React from "react";
-import { Image, View, Modal } from "react-native";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import { Image, View, Modal, TouchableWithoutFeedback } from "react-native";
 import useIcon from "../hooks/useIcon";
 import MessageBox from "./MessageBox";
 import { ScrollView } from "react-native-gesture-handler";
@@ -23,14 +22,14 @@ const MiniBubbleSeeAllModal = (props) => {
                     overlayStyle={modalStyles.modalSeeAllPeopleContainer}
                     animationType="slide"
                 >
-                    <Pressable onPress={() => props.setModalVisible(false)}>
+                    <TouchableWithoutFeedback onPress={() => props.setModalVisible(false)}>
                         <View style={modalStyles.modalSlideUpDownContainer}>
                             <Image 
                                 source={slideUpDownIcon}
                                 style={modalStyles.modalSlideUpDownButton}
                             />
                         </View>
-                    </Pressable>
+                    </TouchableWithoutFeedback>
                
                     
                     <ScrollView>
