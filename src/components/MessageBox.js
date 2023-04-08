@@ -9,7 +9,7 @@ import { Pressable, TouchableHighlight, TouchableOpacity } from "react-native";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const MessageBox = ({ navigation, userStatus, friendStatus }) => {
+const MessageBox = ({ navigation, userStatus, friendStatus, setPrevModalVisible }) => {
   const userIndicator = useIndicator(userStatus);
   const friendIndicator = useIndicator(friendStatus);
 
@@ -27,7 +27,7 @@ const MessageBox = ({ navigation, userStatus, friendStatus }) => {
   return (
     <TouchableHighlight
       onLongPress={() => setModalVisible(!isModalVisible)}
-      onPress={() => navigation.navigate("Chat")}
+      onPress={() => {navigation.navigate("Chat"); setPrevModalVisible(false);}}
       delayLongPress={100}
       underlayColor={"rgba(217, 217, 217, 0.5)"}
     >

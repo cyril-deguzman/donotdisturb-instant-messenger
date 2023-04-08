@@ -57,16 +57,25 @@ const MiniBubble = (props) => {
                         navigation={props.navigation}
                         userStatus="idle"
                         friendStatus="openToChat"
+
+                        isPrevModalVisible={isModalVisible}
+                        setPrevModalVisible={setModalVisible}
                     />
                     <MessageBox
                         navigation={props.navigation}
                         userStatus="openToChat"
                         friendStatus="doNotDisturb"
+
+                        isPrevModalVisible={isModalVisible}
+                        setPrevModalVisible={setModalVisible}
                     />
                     <MessageBox
                         navigation={props.navigation}
                         userStatus="invisible"
                         friendStatus="idle"
+
+                        isPrevModalVisible={isModalVisible}
+                        setPrevModalVisible={setModalVisible}
                     />
                     
                     <TouchableOpacity

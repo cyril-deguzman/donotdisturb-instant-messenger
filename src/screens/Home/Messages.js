@@ -16,6 +16,8 @@ const Messages = ({ navigation }) => {
   const bgImg = useBackground("topBubbles");
   const pencilIcon = useIcon("messagePencilIcon");
 
+  const [isPrevModalVisible, setPrevModalVisible] = useState(false);
+
   return (
     <View style={messagesStyles.container}>
       <Image source={bgImg} style={messagesStyles.bgImg} />
@@ -45,21 +47,33 @@ const Messages = ({ navigation }) => {
             navigation={navigation}
             userStatus="idle"
             friendStatus="openToChat"
+
+            isPrevModalVisible={isPrevModalVisible}
+            setPrevModalVisible={setPrevModalVisible}
           />
           <MessageBox
             navigation={navigation}
             userStatus="openToChat"
             friendStatus="doNotDisturb"
+
+            isPrevModalVisible={isPrevModalVisible}
+            setPrevModalVisible={setPrevModalVisible}
           />
           <MessageBox
             navigation={navigation}
             userStatus="invisible"
             friendStatus="idle"
+
+            isPrevModalVisible={isPrevModalVisible}
+            setPrevModalVisible={setPrevModalVisible}
           />
           <MessageBox
             navigation={navigation}
             userStatus="doNotDisturb"
             friendStatus="invisible"
+
+            isPrevModalVisible={isPrevModalVisible}
+            setPrevModalVisible={setPrevModalVisible}
           />
         </View>
       </View>
