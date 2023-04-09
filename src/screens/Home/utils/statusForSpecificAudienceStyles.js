@@ -22,7 +22,7 @@ const statusForSpecificAudienceStyles = StyleSheet.create({
         //alignItems: "flex-start",
 
         overflow: "hidden",
-        paddingBottom: normalize(5),
+        paddingBottom: normalize(8),
         paddingHorizontal: normalize(2),
         borderRadius: normalize(30),
     },
