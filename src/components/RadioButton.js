@@ -2,7 +2,9 @@ import React from 'react';
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { useState } from "react";
 
-export default function RadioButton({ data, onSelect }) {
+
+
+export default function RadioButton({ data, onSelect, current }) {
 
   const [userOption, setUserOption] = useState(null);
   const selectHandler = (value) => {
@@ -10,13 +12,17 @@ export default function RadioButton({ data, onSelect }) {
     setUserOption(value);
   };
 
+
+
   return (
+
+    
 
     <View>
         {data.map((item) => {
             return (
-
-                <Pressable style={item.value === userOption ? styles.OptionsStatusIndicatorSelected : styles.OptionsStatusIndicator} 
+                
+                <Pressable style={item.value === userOption || item.value === current ? styles.OptionsStatusIndicatorSelected : styles.OptionsStatusIndicator} 
                 
                     onPress={() => selectHandler(item.value)}
                 >
@@ -27,9 +33,9 @@ export default function RadioButton({ data, onSelect }) {
                     <Text style={styles.OSIText}>{item.value}</Text>
                     <Image
                     style={styles.RadioButton}
-                    source={{
-                        uri: "https://firebasestorage.googleapis.com/v0/b/unify-v3-copy.appspot.com/o/vd05xs36wi-I1362%3A22176%3B706%3A7518?alt=media&token=6faf3bf9-39dd-4ad7-b779-26d90fd289e1",
-                    }}
+                    source={item.value === userOption || item.value === current ?
+                        {uri: "https://firebasestorage.googleapis.com/v0/b/unify-v3-copy.appspot.com/o/vd05xs36wi-I1362%3A22175%3B706%3A7494?alt=media&token=5bb7ea51-6b14-455b-bd65-aa61fabab83d"}
+                        :{uri: "https://firebasestorage.googleapis.com/v0/b/unify-v3-copy.appspot.com/o/vd05xs36wi-I1362%3A22176%3B706%3A7518?alt=media&token=6faf3bf9-39dd-4ad7-b779-26d90fd289e1",}}
                     />
                 </Pressable>
             );
@@ -103,3 +109,4 @@ const styles = StyleSheet.create({
         //backgroundColor: "black"
       },
   });
+

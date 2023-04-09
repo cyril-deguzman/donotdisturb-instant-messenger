@@ -25,7 +25,7 @@ const defaultStatusStyles = StyleSheet.create({
       },
 
       CurrentStatus: {
-        marginTop: 15,
+        //marginTop: ,
         position: "relative",
         width: 291,
         height: 71,
@@ -52,11 +52,11 @@ const defaultStatusStyles = StyleSheet.create({
         left: 42,
         width: 25,
         height: 25,
-        borderWidth: 2,
-        borderColor: "rgba(246,246,255,1)",
-        borderRadius: 12.5,
-        boxSizing: "border-box",
-        backgroundColor: "rgba(30,227,62,1)",
+        // borderWidth: 2,
+        // borderColor: "rgba(246,246,255,1)",
+        // borderRadius: 12.5,
+        // boxSizing: "border-box",
+        // backgroundColor: "rgba(30,227,62,1)",
       },
       UserName: {
         position: "absolute",
@@ -79,8 +79,8 @@ const defaultStatusStyles = StyleSheet.create({
         fontWeight: "700",
       },
       BottomHalf: {
-        position: "absolute",
-        top: 209,
+        
+        top: 25,
         display: "flex",
         flexDirection: "column",
         width: "100%",

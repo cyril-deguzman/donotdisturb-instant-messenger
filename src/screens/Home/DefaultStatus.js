@@ -2,7 +2,7 @@ import React from "react";
 import {firebase} from "../../../config/firebase";
 //import { auth, database } from "../../config/firebase";
 
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import { StyleSheet, Image, Text, View, ImageBackground, Button, TouchableOpacity, TextInput } from "react-native";
 //import { useNavigation } from "@react-navigation/native";
 //import RadioGroup from 'react-native-radio-buttons-group';
@@ -14,33 +14,34 @@ import messagesStyles from "./utils/messagesStyles";
 import RadioButton from "../../components/RadioButton";
 import useIndicator from "../../hooks/useIndicator";
 
-//const usersCollection = firestore().collection('Users');
-
-// firestore()
-//   .collection('Users')
-//   .get()
-//   .then(querySnapshot => {
-//     console.log('Total users: ', querySnapshot.size);
-
-//     querySnapshot.forEach(documentSnapshot => {
-//       console.log('User ID: ', documentSnapshot.id, documentSnapshot.data());
-//     });
-//   });
-
-
-
-
-
-// function getUsername(documentSnapshot) {
-//   return documentSnapshot.get('name');
-// }
-
+const profileImg = require("../../assets/profile-picture.png");
 
 
 const DefaultStatus = ({navigation}) => {
 
-  const [option, setOption] = useState(null);
+  const todoRef = firebase.firestore().collection('online_statuses');
+
+  
   const bgImg = useBackground("topBubbles");
+
+  const [option, setOption] = useState(null);
+  const [customMessageValue, onChangeText] = useState(null);
+
+
+    useEffect(() => {
+      const subscriber = todoRef
+        .doc("1")
+        .onSnapshot(documentSnapshot => {
+          console.log('OSI data: ', documentSnapshot.data());
+          setOption(documentSnapshot.data().osi); 
+          onChangeText(documentSnapshot.data().message);
+        });
+
+        return subscriber;
+  
+
+    }, []);
+
 
   const data = [
     { value: 'Open to Chat', indicator: useIndicator("openToChat") },
@@ -49,21 +50,25 @@ const DefaultStatus = ({navigation}) => {
     { value: 'Invisible', indicator: useIndicator("invisible") },
   ];
 
+
+
   function updateUserStatusFunction(navigation)
   {
 
       const todoRef = firebase.firestore().collection('online_statuses');
       todoRef.doc("1").update({
-        osi: "Be Right Back",
+        osi: option,
+        message: customMessageValue,
       })
       .then(() => {
         console.log('Status updated!');
         navigation.goBack();
       }).catch(error => console.error(error));
 
+      
+
   }
 
-  const todoRef = firebase.firestore().collection('online_statuses');
 
   todoRef.get().then(querySnapshot => {
     console.log('Total status: ', querySnapshot.size);
@@ -77,6 +82,33 @@ const DefaultStatus = ({navigation}) => {
   // .then(username => {
   //   console.log('Username is: ', username);
   // });
+
+  function renderElement(){
+    if(option == 'Open to Chat')
+      return <Image
+          style={defaultStatusStyles.CurrentStatusOSI}
+          source={useIndicator("openToChat")}
+        />;
+      
+    else if(option == 'Be Right Back')
+        return <Image
+        style={defaultStatusStyles.CurrentStatusOSI}
+        source={useIndicator("idle")}
+      />;
+
+    else if(option == 'Do Not Disturb')
+      return <Image
+      style={defaultStatusStyles.CurrentStatusOSI}
+      source={useIndicator("doNotDisturb")}
+    />;
+
+    else if(option == 'Invisible')
+      return <Image
+      style={defaultStatusStyles.CurrentStatusOSI}
+      source={useIndicator("invisible")}
+    />;
+  
+ };
  
 
   
@@ -94,21 +126,29 @@ const DefaultStatus = ({navigation}) => {
 
 
     <View style={defaultStatusStyles.CurrentStatus}>
+
+    
+
       <Image
         style={defaultStatusStyles.HeaderBG}
         source={{
           uri: "https://firebasestorage.googleapis.com/v0/b/unify-v3-copy.appspot.com/o/n74etfy6woq-1300%3A15161?alt=media&token=cd037038-523d-4f2c-9e9d-2dcd78c5b6cd",
         }}
       />
+
       <Image
-        style={defaultStatusStyles.ProfilePic}
-        source={{
-          uri: "https://firebasestorage.googleapis.com/v0/b/unify-v3-copy.appspot.com/o/2qb4fgoe5ds-1300%3A15162?alt=media&token=76cda903-4913-47c8-89b7-290ad41a200d",
-        }}
-      />
-      <View style={defaultStatusStyles.CurrentStatusOSI} />
+          style={defaultStatusStyles.ProfilePic}
+          source= {profileImg}
+        />
+      
+      
+      {renderElement()}
+
+
+      
+
       <Text style={defaultStatusStyles.UserName}>Leana Hyacinth Rebong</Text>
-      <Text style={defaultStatusStyles.UserCustomMessage}>Hi there</Text>
+      <Text style={defaultStatusStyles.UserCustomMessage}>{customMessageValue}</Text>
     </View>
   </View>
 
@@ -125,8 +165,10 @@ const DefaultStatus = ({navigation}) => {
 
 {/* /RADIO  BUTTON*/}
     <View style={defaultStatusStyles.Osilist}>
-      <RadioButton data={data} onSelect={(value) => setOption(value)}/> 
+      <RadioButton data={data} onSelect={(value) => setOption(value)} current={option} /> 
+      {/* <Text>{option}</Text> */}
     </View>
+
 
     <View style={defaultStatusStyles.SetStatusMessageGroup}>
 
@@ -134,7 +176,15 @@ const DefaultStatus = ({navigation}) => {
           <Text style={defaultStatusStyles.SetStatusMessageText}>Set Status Message</Text>
           <Text style={defaultStatusStyles.OptionalText}>(optional)</Text>
         </View>
-        <TextInput style={defaultStatusStyles.SetStatusMessageTextBox} />
+
+        <TextInput style={defaultStatusStyles.SetStatusMessageTextBox}
+        editable
+        multiline
+        numberOfLines={1}
+        maxLength={40}
+        onChangeText={text => onChangeText(text)}
+        value={customMessageValue}
+        />
 
     </View>
 
