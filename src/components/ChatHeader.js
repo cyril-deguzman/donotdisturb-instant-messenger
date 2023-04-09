@@ -1,7 +1,6 @@
 import React from "react";
 import { Image, View, Text, StyleSheet } from "react-native";
 import { Avatar } from "@rneui/base";
-// import styles from "./utils/styles";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import useIcon from "../hooks/useIcon";
 import useIndicator from "../hooks/useIndicator";
@@ -16,7 +15,7 @@ const ChatHeader = ({ navigation, title }) => {
   return (
     <View style={styles.headerContainer}>
       <Pressable
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate("Home")}
         style={({ pressed }) => [
           {
             backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",

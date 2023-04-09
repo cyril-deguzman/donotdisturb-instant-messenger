@@ -81,6 +81,14 @@ const messagesStyles = StyleSheet.create({
     top: 0,
     resizeMode: "cover",
   },
+  emptyInbox: {
+    height: "70%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  emptyInboxText: {
+    fontFamily: "Inter",
+  },
 });
 
 export default messagesStyles;

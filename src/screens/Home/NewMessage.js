@@ -1,132 +1,140 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
   Text,
   View,
   Image,
   TouchableOpacity,
+  FlatList,
+  ToastAndroid,
 } from "react-native";
 import useBackground from "../../hooks/useBackground";
 import WhiteSearchBox from "../../components/WhiteSearchBox";
 import ProfileCheckBox from "../../components/ProfileCheckBox";
-import normalize from "react-native-normalize";
+import newMessageStyles from "./utils/newMessageStyles";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  addDoc,
+} from "firebase/firestore";
+import { auth, database } from "../../../config/firebase";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 const nextButton = require("../../assets/icons/next-button.png");
 
 const NewMessage = ({ navigation }) => {
-    const bgImg = useBackground("topBubbles");
-    const [searchQuery, setSearchQuery] = useState("");
+  const bgImg = useBackground("topBubbles");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+
+  const addToSelectedUsers = (name) => {
+    const updatedSelectedUsers = [...selectedUsers];
+    updatedSelectedUsers.push(name);
+    setSelectedUsers(updatedSelectedUsers);
+  };
+
+  const removeFromSelectedUsers = (name) => {
+    const updatedSelectedUsers = selectedUsers.filter((user) => user !== name);
+    setSelectedUsers(updatedSelectedUsers);
+  };
+
+  const handleNextButton = async () => {
+    if (!selectedUsers.length) {
+      ToastAndroid.show("Select a user", ToastAndroid.SHORT);
+      return;
+    }
+
+    if (selectedUsers.length == 1) {
+      const friendSnap = users.filter((user) => user.name === selectedUsers[0]);
+      const userRef = doc(database, "users", auth.currentUser.uid);
+      const friendRef = doc(database, "users", friendSnap[0].userID);
+
+      /** Convert to Hook */
+      const convRef = await addDoc(collection(database, "conversations"), {
+        title: friendSnap[0].name,
+      });
+
+      await addDoc(collection(database, "user_conversations"), {
+        conversationID: convRef,
+        userID: userRef,
+      });
+
+      await addDoc(collection(database, "user_conversations"), {
+        conversationID: convRef,
+        userID: friendRef,
+      });
+
+      navigation.navigate("Chat", {
+        convID: convRef.id,
+        title: friendSnap[0].name,
+      });
+      return;
+    }
+  };
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const cleanData = [];
+      const dataSnap = await getDocs(
+        query(
+          collection(database, "users"),
+          where("name", "!=", auth.currentUser.displayName)
+        )
+      );
+
+      dataSnap.forEach((user) => {
+        cleanData.push({
+          ...user.data(),
+          id: user.id,
+        });
+      });
+
+      setUsers(cleanData);
+    };
+
+    fetchUsers();
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <Image source={bgImg} style={styles.backImage} />
-      
-      <View style={styles.topContainer} >
-        <View style={styles.row}>
-            <View style={styles.together}>
-                <TouchableOpacity onPress={() => navigation.navigate("Messages")}>
-                    <Image source={backIcon} style={styles.backIcon} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: normalize(20), fontWeight: "bold", marginTop: normalize(5)}}>New Message</Text>
-            </View>
-            <Image source={nextButton} style={styles.nextButton} />
+    <View style={newMessageStyles.container}>
+      <Image source={bgImg} style={newMessageStyles.backImage} />
+
+      <View style={newMessageStyles.topContainer}>
+        <View style={newMessageStyles.row}>
+          <View style={newMessageStyles.together}>
+            <TouchableOpacity onPress={() => navigation.navigate("Messages")}>
+              <Image source={backIcon} style={newMessageStyles.backIcon} />
+            </TouchableOpacity>
+            <Text style={newMessageStyles.label}>New Message</Text>
+          </View>
+          <TouchableOpacity onPress={handleNextButton}>
+            <Image source={nextButton} style={newMessageStyles.nextButton} />
+          </TouchableOpacity>
         </View>
-        {/** Insert search bar made by cy */}
-        
-        <View style={{marginTop: normalize(15), marginHorizontal: normalize(10)}}>
-            <WhiteSearchBox setValue={setSearchQuery} value={searchQuery} />
+        <View style={newMessageStyles.searchBox}>
+          <WhiteSearchBox setValue={setSearchQuery} value={searchQuery} />
         </View>
       </View>
 
-      {/** Make a component for displaying profile img + osi, name, icon */}
-      <View style={styles.messageContainer}>
-        <Text style={{ fontSize: normalize(20), fontWeight: "bold", color: "#4F457C", marginLeft: normalize(5) }}>Suggested</Text>
-          <ProfileCheckBox userStatus="idle" />
-          <ProfileCheckBox userStatus="doNotDisturb" />
-          <ProfileCheckBox userStatus="openToChat" />
+      <View style={newMessageStyles.messageContainer}>
+        <Text style={newMessageStyles.containerLabel}>Suggested</Text>
+        <FlatList
+          data={users}
+          renderItem={({ item }) => (
+            <ProfileCheckBox
+              user={{ ...item }}
+              handleAdd={addToSelectedUsers}
+              handleRemove={removeFromSelectedUsers}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  indicator: {
-    width: normalize(20),
-    height: normalize(20),
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-  },
-  rowSpace: {
-    flexDirection: "row",
-    marginTop: normalize(20),
-    marginHorizontal: normalize(20),
-    alignItems: "center",
-    justifyContent:"space-between"
-  },
-  topContainer:{
-    marginHorizontal: normalize(20),
-  },
-  profileImg: {
-    width: normalize(60),
-    height: normalize(60),
-    borderRadius: normalize(50),
-  },
-  together: {
-    flexDirection: "row",
-    alignItems: "center"
-  },
-  column: {
-    flexDirection: "column"
-  },
-  nextStyle: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginTop: normalize(5),
-  },
-  nextButton: {
-    width: normalize(77),
-    height: normalize(35),
-    marginTop: normalize(8),
-    justifyContent: "flex-end"
-  },
-  backIcon : {
-    width: normalize(20),
-    height: normalize(20),
-    marginTop: normalize(8),
-    marginRight: normalize(20),
-  },
-  row: {
-    flexDirection: "row",
-    marginTop: normalize(40),
-    alignItems: "center",
-    justifyContent:"space-between"
-  },
-  messageContainer: {
-    width: "100%",
-    height: "80%",
-    position: "absolute",
-    bottom: 0,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: normalize(50),
-    borderTopRightRadius: normalize(50),
-    overflow: "hidden",
-    paddingTop: normalize(35),
-    paddingLeft: normalize(20),
-    paddingRight: normalize(10),
-  },
-  backImage: {
-    width: "100%",
-    height: "120%",
-    position: "absolute",
-    top: 0,
-    resizeMode: "cover",
-  }
-});
 
 export default NewMessage;
