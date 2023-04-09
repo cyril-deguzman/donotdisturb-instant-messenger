@@ -15,7 +15,7 @@ import useIcon from "../../hooks/useIcon";
 import messagesStyles from "./utils/messagesStyles";
 
 
-const profilePic = require("../../assets/icons/bear.jpg");
+const profileImg = require("../../assets/profile-picture.png");
 
 const Settings = ({navigation}) => {
   const bgImg = useBackground("topBubbles");
@@ -37,22 +37,24 @@ const Settings = ({navigation}) => {
       <ScrollView>
         <View style={settingsStyles.bgContainer}>
           
-          <View style={settingsStyles.userContainer}>
-            <View style={settingsStyles.userProfileContainer}>
-              <Image
-                source={profilePic}
-                style={settingsStyles.userImage}
-              />
-              <Image
-                source={indicator}
-                style={settingsStyles.userOSI}
-              />
-            </View>
-            
+          
+          <View style={settingsStyles.userProfileContainer}>
+            <Image
+              source={profileImg}
+              style={settingsStyles.userImage}
+            />
+            <Image
+              source={indicator}
+              style={settingsStyles.userOSI}
+            />
+          </View>
+          
+          <View style={settingsStyles.userTextContainerShadow}>
             <View style={settingsStyles.userTextContainer}>
               <Text style={settingsStyles.userTextName}>Person LastName</Text>
               <Text style={settingsStyles.userTextStatus}>Set Status Message</Text>
             </View>
+          
           </View>
           
           <View style={settingsStyles.settingsContainer}>

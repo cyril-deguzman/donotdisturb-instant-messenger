@@ -3,7 +3,7 @@ import colors from "../../../colors";
 import normalize from "react-native-normalize";
 
 const styles = StyleSheet.create({
-  listContainer: { paddingHorizontal: 0, paddingBottom: 20, paddingTop: 0 },
+  listContainer: { paddingHorizontal: 0, paddingBottom: 20, paddingTop: 0, backgroundColor: "transparent" },
   row: {
     flexDirection: "row",
     marginTop: 3,
@@ -87,11 +87,11 @@ const styles = StyleSheet.create({
   optionIcon: {
     marginLeft: normalize(40),
     marginRight: normalize(20),
-    marginTop: normalize(15),
-    marginBottom: normalize(15),
+    marginTop: normalize(12),
+    marginBottom: normalize(12),
     alignSelf: "flex-start",
-    width: normalize(40),
-    height: normalize(40),
+    width: normalize(35),
+    height: normalize(35),
   },
 
   //header
