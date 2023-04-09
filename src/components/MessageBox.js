@@ -41,6 +41,8 @@ const MessageBox = ({ navigation, userStatus, friendStatus }) => {
           <ListItem.Subtitle style={styles.messagePreview} numberOfLines={1}>
             Them: trying his best
           </ListItem.Subtitle>
+
+{/* THEY SEE YOU AS */}
           <ListItem.Subtitle
             style={{
               ...styles.statusIndicatorText,
@@ -52,6 +54,7 @@ const MessageBox = ({ navigation, userStatus, friendStatus }) => {
             <Image source={userIndicator} style={styles.smallIndicator} /> until
             tomorrow 8:30pm
           </ListItem.Subtitle>
+          
         </ListItem.Content>
       </ListItem.Content>
     </ListItem>

@@ -42,6 +42,40 @@ const DefaultStatus = ({navigation}) => {
 
     }, []);
 
+    // useEffect(() => {
+    //   const subscriber = todoRef.onSnapshot(querySnapshot => {
+    //       console.log('Total sdfsdftatus: ', querySnapshot.size);
+      
+    //       querySnapshot.forEach(documentSnapshot => {
+    //         console.log('Status: ', documentSnapshot.id, documentSnapshot.data());
+    //       });
+    //     });
+
+    //     return subscriber;
+  
+
+    // }, []);
+
+    // const [bubbles, setBubbles] = useState([]);
+
+    // useLayoutEffect(() => {
+    //   const collectionRef = collection(database, "chats");
+    //   const q = query(collectionRef, orderBy("createdAt", "desc"));
+  
+    //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    //     console.log("querySnapshot unsusbscribe");
+    //     setBubbles(
+    //       querySnapshot.docs.map((doc) => ({
+    //         _id: doc.data()._id,
+    //         createdAt: doc.data().createdAt.toDate(),
+    //         text: doc.data().text,
+    //         user: doc.data().user,
+    //       }))
+    //     );
+    //   });
+    //   return unsubscribe;
+    // }, []);
+
 
   const data = [
     { value: 'Open to Chat', indicator: useIndicator("openToChat") },
@@ -70,13 +104,13 @@ const DefaultStatus = ({navigation}) => {
   }
 
 
-  todoRef.get().then(querySnapshot => {
-    console.log('Total status: ', querySnapshot.size);
+  // todoRef.get().then(querySnapshot => {
+  //   console.log('Total status: ', querySnapshot.size);
 
-    querySnapshot.forEach(documentSnapshot => {
-      console.log('Status: ', documentSnapshot.id, documentSnapshot.data());
-    });
-  });
+  //   querySnapshot.forEach(documentSnapshot => {
+  //     console.log('Status: ', documentSnapshot.id, documentSnapshot.data());
+  //   });
+  // });
 
   // todoRef.doc("1").get().then(documentSnapshot => getUsername(documentSnapshot))
   // .then(username => {

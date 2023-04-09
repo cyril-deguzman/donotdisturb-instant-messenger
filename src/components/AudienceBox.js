@@ -32,7 +32,7 @@ const AudienceBox = (props) => {
                     <Text style={audienceBoxStyles.audienceBoxStatusMessageText}>"Finals snz ;-;"</Text>
                 ): null}
                 
-                <Text style={audienceBoxStyles.audienceBoxAudienceNameText}>DLSU Friends</Text>
+                <Text style={audienceBoxStyles.audienceBoxAudienceNameText}>{props.title}</Text>
 
                 <TouchableWithoutFeedback onPress={() => setExcludePersonVisible(!isExcludePersonVisible)}>
                     <View>
