@@ -1,7 +1,5 @@
-import React, { useState} from "react";
-import { Image, View, Text, Modal } from "react-native";
-import styles from "./utils/styles";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import React from "react";
+import { Image, View, Modal, TouchableWithoutFeedback } from "react-native";
 import useIcon from "../hooks/useIcon";
 import MessageBox from "./MessageBox";
 import { ScrollView } from "react-native-gesture-handler";
@@ -24,28 +22,82 @@ const MiniBubbleSeeAllModal = (props) => {
                     overlayStyle={modalStyles.modalSeeAllPeopleContainer}
                     animationType="slide"
                 >
-                    <Pressable onPress={() => props.setModalVisible(false)}>
+                    <TouchableWithoutFeedback onPress={() => props.setModalVisible(false)}>
                         <View style={modalStyles.modalSlideUpDownContainer}>
                             <Image 
                                 source={slideUpDownIcon}
                                 style={modalStyles.modalSlideUpDownButton}
                             />
                         </View>
-                    </Pressable>
+                    </TouchableWithoutFeedback>
                
                     
                     <ScrollView>
-                        <MessageBox userStatus="idle" friendStatus="openToChat" />
-                        <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-                        <MessageBox userStatus="invisible" friendStatus="idle" />
-                        <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
-                        <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="idle"
+                            friendStatus="openToChat"
+                            
+                            isPrevModalVisible={props.isModalVisible}
+                            setPrevModalVisible={props.setModalVisible}
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="openToChat"
+                            friendStatus="doNotDisturb"
 
-                        <MessageBox userStatus="idle" friendStatus="openToChat" />
-                        <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-                        <MessageBox userStatus="invisible" friendStatus="idle" />
-                        <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
-                        <MessageBox userStatus="doNotDisturb" friendStatus="invisible" />
+                            isPrevModalVisible={props.isModalVisible}
+                            setPrevModalVisible={props.setModalVisible}
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="invisible"
+                            friendStatus="idle"
+
+                            isPrevModalVisible={props.isModalVisible}
+                            setPrevModalVisible={props.setModalVisible}
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="doNotDisturb"
+                            friendStatus="invisible"
+
+                            isPrevModalVisible={props.isModalVisible}
+                            setPrevModalVisible={props.setModalVisible}
+                        />
+
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="idle"
+                            friendStatus="openToChat"
+
+                            isPrevModalVisible={props.isModalVisible}
+                            setPrevModalVisible={props.setModalVisible}
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="openToChat"
+                            friendStatus="doNotDisturb"
+
+                            isPrevModalVisible={props.isModalVisible}
+                            setPrevModalVisible={props.setModalVisible}
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="invisible"
+                            friendStatus="idle"
+
+                            isPrevModalVisible={props.isModalVisible}
+                            setPrevModalVisible={props.setModalVisible}
+                        />
+                        <MessageBox
+                            navigation={props.navigation}
+                            userStatus="doNotDisturb"
+                            friendStatus="invisible"
+
+                            isPrevModalVisible={props.isModalVisible}
+                            setPrevModalVisible={props.setModalVisible}
+                        />
                         
                     </ScrollView>
                 </Overlay>

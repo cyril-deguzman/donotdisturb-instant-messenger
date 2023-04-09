@@ -10,7 +10,7 @@ import { ScrollView } from "react-native-gesture-handler";
 import useIcon from "../../hooks/useIcon";
 import MiniBubble from "../../components/MiniBubble";
 
-const Bubble = () => {  
+const Bubble = ({navigation}) => {  
   const bgImg = useBackground("bubbles");
   const addBubbleIcon = useIcon("addBubbleIcon");
 
@@ -41,9 +41,9 @@ const Bubble = () => {
             <SearchBoxBrighter setValue={setSearchQuery} value={searchQuery} />
           </View>
           
-          <MiniBubble bubbleName="DLSU Friends"/>
-          <MiniBubble bubbleName="La Familia"/>
-          <MiniBubble bubbleName="Work"/>
+          <MiniBubble bubbleName="DLSU Friends" navigation={navigation}/>
+          <MiniBubble bubbleName="La Familia" navigation={navigation}/>
+          <MiniBubble bubbleName="Work" navigation={navigation}/>
             
         </ScrollView>
       </View>

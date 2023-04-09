@@ -3,7 +3,7 @@ import colors from "../../../colors";
 import normalize from "react-native-normalize";
 
 const styles = StyleSheet.create({
-  listContainer: { paddingHorizontal: 0, paddingBottom: 20, paddingTop: 0 },
+  listContainer: { paddingHorizontal: 0, paddingBottom: 20, paddingTop: 0, backgroundColor: "transparent" },
   row: {
     flexDirection: "row",
     marginTop: 3,
