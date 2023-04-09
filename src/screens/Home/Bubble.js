@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 
@@ -25,12 +25,14 @@ const Bubble = ({navigation}) => {
             <Text style={bubbleStyles.headerText}>Bubbles</Text>
             <Text style={bubbleStyles.headerSubtext}>Categorize conveniently</Text>
           </View>
-          <View style={bubbleStyles.headerAddButtonContainer}>
-            <Image 
-              source={addBubbleIcon}
-              style={bubbleStyles.headerAddButton}
-            />
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("AddBubble")}>
+            <View style={bubbleStyles.headerAddButtonContainer}>
+              <Image 
+                source={addBubbleIcon}
+                style={bubbleStyles.headerAddButton}
+              />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
 

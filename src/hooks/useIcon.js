@@ -30,6 +30,8 @@ const toggleOffIcon = require("../assets/icons/toggle-off-icon.png");
 const toggleOnIcon = require("../assets/icons/toggle-on-icon.png");
 const trashIcon = require("../assets/icons/trash-icon.png");
 
+const nextButton = require("../assets/icons/next-button.png");
+const saveButton = require("../assets/icons/save-button.png");
 
 const useIcon = (option) => {
   const icons = {
@@ -66,6 +68,9 @@ const useIcon = (option) => {
     trashIcon: trashIcon,
 
     infoIcon: infoIcon,
+
+    nextButton: nextButton,
+    saveButton: saveButton,
 
   };
 
