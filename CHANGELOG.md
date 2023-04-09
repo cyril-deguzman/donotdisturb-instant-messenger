@@ -8,6 +8,7 @@ NOTE: all lowercase and no ending punctuation marks
 -->
 
 ## Next release v1.0
+- [PB] - [#23](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/23) app(feature): quick access view modal
 - [PB] - [#21](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/21) app(screen): set status for specific audience
 - [LE] - [#16](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/16) app(screen): new message screen
 
