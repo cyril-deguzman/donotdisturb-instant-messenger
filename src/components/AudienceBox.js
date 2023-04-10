@@ -3,7 +3,7 @@ import { Image, View, Text, TouchableOpacity, TouchableWithoutFeedback } from "r
 
 import useIcon from "../hooks/useIcon";
 import audienceBoxStyles from "./utils/audienceBoxStyles";
-
+import DeleteAlertPopup from "./DeleteAlertPopup";
 
 const AudienceBox = (props) => {
     const editIcon = useIcon("editIcon");
@@ -19,8 +19,12 @@ const AudienceBox = (props) => {
 
     const openCloseIcon = isExcludePersonVisible ? openIcon : closeIcon;
 
+
+    const [isDeleteAlertPopupVisible, setDeleteAlertPopupVisible] = useState(false);
+
     return (
         <View style={audienceBoxStyles.audienceBoxContainer}>
+            <DeleteAlertPopup is2ndModalVisible={isDeleteAlertPopupVisible} set2ndModalVisible={setDeleteAlertPopupVisible} set1stModalVisible={setDeleteAlertPopupVisible} deleteWhatText={"delete this group"}/>
             <View>
                 <Image 
                     source={props.audienceIndicator}
@@ -92,7 +96,7 @@ const AudienceBox = (props) => {
                     />
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => setDeleteAlertPopupVisible(true)}>
                     <Image 
                         source={trashIcon}
                         style={audienceBoxStyles.audienceBoxTrashIcon}
