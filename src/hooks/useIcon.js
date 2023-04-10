@@ -32,6 +32,9 @@ const trashIcon = require("../assets/icons/trash-icon.png");
 
 const nextButton = require("../assets/icons/next-button.png");
 const saveButton = require("../assets/icons/save-button.png");
+const muteIcon = require("../assets/icons/mute-icon.png");
+const changeStatusIcon = require("../assets/icons/change-status-icon.png");
+const seeMembersIcon = require("../assets/icons/see-members-icon.png");
 
 const useIcon = (option) => {
   const icons = {
@@ -39,7 +42,6 @@ const useIcon = (option) => {
     bubbleIcon: bubbleIcon,
     messagesIcon: messagesIcon,
     settingsIcon: settingsIcon,
-
     defaultStatusIcon: defaultStatusIcon,
     specificStatusIcon: specificStatusIcon,
     notificationSoundsIcon: notificationSoundsIcon,
@@ -47,31 +49,26 @@ const useIcon = (option) => {
     privacySafetyIcon: privacySafetyIcon,
     logoutIcon: logoutIcon,
     backIcon: backIcon,
-
     addBubbleIcon: addBubbleIcon,
     openIcon: openIcon,
     closeIcon: closeIcon,
     editIcon: editIcon,
-
     slideUpDownIcon: slideUpDownIcon,
-
     deleteIcon: deleteIcon,
     muteNotificationsIcon: muteNotificationsIcon,
     changeHowTheySeeYouIcon: changeHowTheySeeYouIcon,
     blockIcon: blockIcon,
     addMembersIcon: addMembersIcon,
     leaveIcon: leaveIcon,
-
     toggleOffIcon: toggleOffIcon,
     toggleOnIcon: toggleOnIcon,
-
     trashIcon: trashIcon,
-
     infoIcon: infoIcon,
-
     nextButton: nextButton,
     saveButton: saveButton,
-
+    muteIcon: muteIcon,
+    changeStatusIcon: changeStatusIcon,
+    seeMembersIcon: seeMembersIcon,
   };
 
   return icons[option];

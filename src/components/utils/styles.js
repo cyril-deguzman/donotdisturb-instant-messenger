@@ -94,6 +94,21 @@ const styles = StyleSheet.create({
     height: normalize(35),
   },
 
+  chatInfoOptionIcon: {
+    marginLeft: normalize(40),
+    marginRight: normalize(20),
+    marginTop: normalize(15),
+    marginBottom: normalize(15),
+    alignSelf: "flex-start",
+    width: normalize(35),
+    height: normalize(35),
+  },
+
+  switchContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+
   //header
   headerContainer: {
     flexDirection: "row",
