@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, View } from "react-native";
+import { Image, View, TouchableHighlight } from "react-native";
 import { ListItem, Avatar } from "@rneui/base";
 import {
   collection,
@@ -10,11 +10,9 @@ import {
   orderBy,
 } from "firebase/firestore";
 import { auth, database } from "../../config/firebase";
-
-import styles from "./utils/styles";
-import useIndicator from "../hooks/useIndicator";
 import QuickAccessViewModal from "./QuickAccessViewModal";
-import { Pressable, TouchableHighlight, TouchableOpacity } from "react-native";
+import useIndicator from "../hooks/useIndicator";
+import styles from "./utils/styles";
 
 const profileImg = require("../assets/profile-picture.png");
 
@@ -27,8 +25,14 @@ const MessageBox = ({
   setPrevModalVisible,
 }) => {
   const [msgPreview, setMsgPreview] = useState("Say Hi!");
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isIndividialModal, setIndividualModal] = useState(true);
   const userIndicator = useIndicator(userStatus);
   const friendIndicator = useIndicator(friendStatus);
+  const title =
+    dataSnap?.title == auth.currentUser.displayName
+      ? dataSnap?.altTitle
+      : dataSnap?.title;
 
   /** TODO: optimize by utilizing colors.js */
   const borderColors = {
@@ -61,9 +65,6 @@ const MessageBox = ({
     }
   }, []);
 
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [isIndividialModal, setIndividualModal] = useState(true);
-
   return (
     <TouchableHighlight
       onLongPress={() => setModalVisible(!isModalVisible)}
@@ -85,10 +86,7 @@ const MessageBox = ({
           setIndividualModal={setIndividualModal}
         />
 
-        <ListItem
-          //onPress={() => navigation.navigate("Chat")}
-          containerStyle={styles.listContainer}
-        >
+        <ListItem containerStyle={styles.listContainer}>
           {/** TODO: optimize by converting into a component with small, medium, and large options */}
           <View>
             <Avatar size={61} rounded source={profileImg} />
@@ -98,7 +96,7 @@ const MessageBox = ({
           <ListItem.Content style={styles.wholePreview}>
             <ListItem.Content style={styles.row}>
               <ListItem.Title numberOfLines={1} style={styles.name}>
-                {dataSnap?.title}
+                {title ? title : "Bubble User"}
               </ListItem.Title>
               <ListItem.Subtitle style={styles.time}>
                 11:10 PM

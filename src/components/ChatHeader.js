@@ -20,6 +20,8 @@ const ChatHeader = ({ navigation, title }) => {
           {
             backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
             borderRadius: 50,
+            marginRight: 10,
+            marginLeft: 20,
           },
         ]}
       >
@@ -52,16 +54,15 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
     backgroundColor: "white",
-    paddingTop: 20,
+    paddingTop: 30,
   },
   headerBackButton: {
     width: 18,
     height: 18,
-    marginLeft: 20,
-    marginRight: 10,
+    margin: 5,
     tintColor: "#7A6BBC",
   },
   headerText: {
