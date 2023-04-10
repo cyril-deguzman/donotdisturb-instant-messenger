@@ -6,7 +6,7 @@ import ProfileCheckBox from "../../components/ProfileCheckBox";
 import normalize from "react-native-normalize";
 import useIcon from "../../hooks/useIcon";
 
-const AddMembers = ({ navigation }) => {
+const CreateAudience = ({ navigation }) => {
   const bgImg = useBackground("topBubbles");
   const nextButton = useIcon("nextButton");
   const backIcon = useIcon("backIcon");
@@ -145,4 +145,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddMembers;
+export default CreateAudience;
