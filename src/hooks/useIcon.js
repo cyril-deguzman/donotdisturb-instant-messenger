@@ -37,6 +37,7 @@ const changeStatusIcon = require("../assets/icons/change-status-icon.png");
 const seeMembersIcon = require("../assets/icons/see-members-icon.png");
 
 const deleteAlertIcon = require("../assets/icons/delete-alert-icon.png");
+const resetIcon = require("../assets/icons/reset-icon.png");
 
 const useIcon = (option) => {
   const icons = {
@@ -72,6 +73,7 @@ const useIcon = (option) => {
     changeStatusIcon: changeStatusIcon,
     seeMembersIcon: seeMembersIcon,
     deleteAlertIcon: deleteAlertIcon,
+    resetIcon: resetIcon,
   };
 
   return icons[option];

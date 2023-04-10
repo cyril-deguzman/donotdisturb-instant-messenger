@@ -1,14 +1,14 @@
 import React from "react";
-import { Image, Text, View, Modal, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { Image, Text, View, Modal, TouchableOpacity } from "react-native";
 import useIcon from "../hooks/useIcon";
 import { Overlay } from "react-native-elements";
 import popupStyles from "./utils/popupStyles";
 
-const DeleteAlertPopup = ({is2ndModalVisible, set2ndModalVisible, set1stModalVisible, deleteWhatText}) => {
-    const deleteAlertIcon = useIcon("deleteAlertIcon");
+const ResetPopup = ({isResetModalVisible, setResetModalVisible}) => {
+    const resetIcon = useIcon("resetIcon");
 
-    const isModalVisible = is2ndModalVisible;
-    const setModalVisible = set2ndModalVisible;
+    const isModalVisible = isResetModalVisible;
+    const setModalVisible = setResetModalVisible;
 
     return (
         <View style={popupStyles.popupContainer}>
@@ -22,16 +22,16 @@ const DeleteAlertPopup = ({is2ndModalVisible, set2ndModalVisible, set1stModalVis
             >
                 <View style={popupStyles.popupDeleteDescriptionContainer}>
                     <Image
-                        source={deleteAlertIcon}
+                        source={resetIcon}
                         style={popupStyles.popupDeleteAlertIcon}
                     />
                     
-                    <Text style={popupStyles.popupDeleteDescriptionText}>Are you sure you want to {deleteWhatText}?</Text>
+                    <Text style={popupStyles.popupDeleteDescriptionText}>Are you sure you want to reset to your default status?</Text>
                 </View>
 
                 <View style={popupStyles.popupCancelDeleteButtonContainer}>
                     <TouchableOpacity 
-                        onPress={()=> set1stModalVisible(false)}
+                        onPress={()=> setModalVisible(false)}
                         style={popupStyles.popupButtonContainer}
                     >
                         <View>
@@ -40,11 +40,11 @@ const DeleteAlertPopup = ({is2ndModalVisible, set2ndModalVisible, set1stModalVis
                     </TouchableOpacity>
 
                     <TouchableOpacity 
-                        onPress={()=> set1stModalVisible(false)}
+                        onPress={()=> setModalVisible(false)}
                         style={popupStyles.popupButtonContainer}
                     >
                         <View>
-                            <Text style={popupStyles.popupDeleteText}>DELETE</Text>
+                            <Text style={popupStyles.popupDeleteText}>RESET</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -56,4 +56,4 @@ const DeleteAlertPopup = ({is2ndModalVisible, set2ndModalVisible, set1stModalVis
     );
 };
 
-export default DeleteAlertPopup;
+export default ResetPopup;
