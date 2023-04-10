@@ -13,6 +13,10 @@ import Signup from "./src/screens/Signup";
 import StatusForSpecificAudience from "./src/screens/Home/StatusForSpecificAudience";
 import NewMessage from "./src/screens/Home/NewMessage";
 import AddBubble from "./src/screens/Home/AddBubble";
+import ChatInfo from "./src/screens/Home/ChatInfo";
+import ChatInfoGroup from "./src/screens/Home/ChatInfoGroup";
+import AddMembers from "./src/screens/Home/AddMembers";
+import SeeMembers from "./src/screens/Home/SeeMembers";
 
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -34,9 +38,16 @@ const ChatStack = () => {
     >
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="Chat" component={Chat} />
-      <Stack.Screen name="StatusForSpecificAudience" component={StatusForSpecificAudience} />
+      <Stack.Screen
+        name="StatusForSpecificAudience"
+        component={StatusForSpecificAudience}
+      />
       <Stack.Screen name="NewMessage" component={NewMessage} />
       <Stack.Screen name="AddBubble" component={AddBubble} />
+      <Stack.Screen name="ChatInfo" component={ChatInfo} />
+      <Stack.Screen name="ChatInfoGroup" component={ChatInfoGroup} />
+      <Stack.Screen name="AddMembers" component={AddMembers} />
+      <Stack.Screen name="SeeMembers" component={SeeMembers} />
     </Stack.Navigator>
   );
 };

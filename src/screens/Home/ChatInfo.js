@@ -1,0 +1,89 @@
+import React, { useState } from "react";
+import { View, Text, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import settingsStyles from "./utils/settingsStyles";
+import { ScrollView } from "react-native-gesture-handler";
+
+import ChatInfoOptionBox from "../../components/ChatInfoOptionBox";
+import OptionHeaderBox from "../../components/OptionHeaderBox";
+import Header from "../../components/Header";
+
+import useIndicator from "../../hooks/useIndicator";
+import useBackground from "../../hooks/useBackground";
+import useIcon from "../../hooks/useIcon";
+import messagesStyles from "./utils/messagesStyles";
+
+import SwitchBox from "../../components/SwitchBox";
+import StatusBox from "../../components/StatusBox";
+
+const profilePic = require("../../assets/profile-picture.png");
+
+const ChatInfo = ({ navigation }) => {
+  const bgImg = useBackground("topBubbles");
+  const indicator = useIndicator("openToChat");
+
+  const muteIcon = useIcon("muteIcon");
+  const changeStatusIcon = useIcon("changeStatusIcon");
+  const blockIcon = useIcon("blockIcon");
+  const deleteIcon = useIcon("deleteIcon");
+
+  return (
+    <SafeAreaView style={settingsStyles.container}>
+      <Image source={bgImg} style={messagesStyles.bgImg} />
+      <Header title="" navigation={navigation} />
+
+      <ScrollView>
+        <View style={settingsStyles.bgContainer}>
+          <View style={settingsStyles.userInfoContainer}>
+            <View style={settingsStyles.userProfileContainer}>
+              <Image source={profilePic} style={settingsStyles.userImage} />
+              <Image source={indicator} style={settingsStyles.userOSI} />
+            </View>
+
+            <View style={settingsStyles.chatInfoTextContainer}>
+              <Text style={settingsStyles.userTextName}>Person LastName</Text>
+              <Text style={settingsStyles.userTextStatus}>
+                Set Status Message
+              </Text>
+
+              <StatusBox userStatus={"doNotDisturb"} />
+            </View>
+          </View>
+
+          <View style={settingsStyles.chatInfoContainer}>
+            <>
+              <OptionHeaderBox header="Actions" />
+              <SwitchBox
+                icon={muteIcon}
+                name="Mute chat"
+                navigation={navigation}
+                routeName={"ChatInfo"}
+              />
+              <ChatInfoOptionBox
+                icon={changeStatusIcon}
+                name="Change how they see you"
+                navigation={navigation}
+                routeName={"ChatInfo"}
+              />
+              <ChatInfoOptionBox
+                icon={blockIcon}
+                name="Block this contact"
+                navigation={navigation}
+                routeName={"ChatInfo"}
+              />
+              <ChatInfoOptionBox
+                icon={deleteIcon}
+                name="Delete this chat"
+                navigation={navigation}
+                routeName={"ChatInfo"}
+              />
+            </>
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
+export default ChatInfo;

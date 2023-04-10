@@ -33,6 +33,8 @@ const ChatHeader = ({ navigation, title }) => {
       </View>
       <Text style={styles.headerText}>{title}</Text>
       <Pressable
+        // change to either ChatInfo for individual or ChatInfoGroup for group chats
+        onPress={() => navigation.navigate("ChatInfoGroup")}
         style={({ pressed }) => [
           {
             backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
