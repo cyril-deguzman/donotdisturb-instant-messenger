@@ -45,7 +45,7 @@ const StatusForSpecificAudience = ({navigation}) => {
                 </TouchableOpacity>
               </View>
               
-              <AudienceBox audienceIndicator={indicator}/>
+              <AudienceBox audienceIndicator={indicator} navigation={navigation}/>
 
             </View>
         </View>

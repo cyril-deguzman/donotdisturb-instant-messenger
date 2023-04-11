@@ -58,6 +58,16 @@ const statusForSpecificAudienceStyles = StyleSheet.create({
 
         height: "100%",
     },
+
+    editBubbleContainer: {
+        width: "100%",
+        backgroundColor: "#fff",
+        borderTopLeftRadius: normalize(50),
+        borderTopRightRadius: normalize(50),
+        padding: normalize(20),
+
+        height: "100%",
+    },
     audienceContainerHeader: {
         flexDirection: "row",
         alignItems: "center",
