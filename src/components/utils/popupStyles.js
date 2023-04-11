@@ -1,12 +1,10 @@
 import { StyleSheet } from "react-native";
 import colors from "../../../colors";
-import normalize from 'react-native-normalize';
+import normalize from "react-native-normalize";
 
 const modalStyles = StyleSheet.create({
   //pop ups
-  popupContainer: {
-
-  },
+  popupContainer: {},
   popupContentContainer: {
     borderRadius: normalize(20),
     backgroundColor: "#fff",
@@ -24,6 +22,7 @@ const modalStyles = StyleSheet.create({
     justifyContent: "center",
   },
   popupDeleteDescriptionText: {
+    fontWeight: "700",
     fontWeight: "bold",
     color: "#383157",
     fontSize: normalize(18),
@@ -37,6 +36,7 @@ const modalStyles = StyleSheet.create({
     //marginHorizontal: normalize(10),
   },
   popupButtonContainer: {
+    //paddingHorizontal: normalize(10),
     paddingHorizontal: normalize(10),
     paddingVertical: normalize(5),
   },
@@ -47,6 +47,17 @@ const modalStyles = StyleSheet.create({
   popupCancelText: {
     color: "#383157",
     fontSize: normalize(16),
+  },
+  popupGroupNameText: {
+    fontWeight: "700",
+    color: "#383157",
+    fontSize: normalize(18),
+  },
+  popupTextInputContainer: {
+    borderBottomColor: "#000000",
+    borderBottomWidth: 1,
+    marginBottom: normalize(20),
+    marginTop: normalize(15),
   },
 });
 

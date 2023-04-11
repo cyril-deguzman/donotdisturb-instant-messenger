@@ -5,6 +5,7 @@ import WhiteSearchBox from "../../components/WhiteSearchBox";
 import ProfileCheckBox from "../../components/ProfileCheckBox";
 import normalize from "react-native-normalize";
 import useIcon from "../../hooks/useIcon";
+import GroupNamePopup from "../../components/GroupNamePopup";
 
 const CreateAudience = ({ navigation }) => {
   const bgImg = useBackground("topBubbles");
@@ -12,11 +13,13 @@ const CreateAudience = ({ navigation }) => {
   const backIcon = useIcon("backIcon");
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [isGroupNameModalVisible, setGroupNameModalVisible] = useState(false);
 
   return (
     <View style={styles.container}>
       <Image source={bgImg} style={styles.backImage} />
 
+      <GroupNamePopup isGroupNameModalVisible={isGroupNameModalVisible} setGroupNameModalVisible={setGroupNameModalVisible} GroupNameHeader={"Group Name (required)"}/>
       <View style={styles.topContainer}>
         <View style={styles.row}>
           <View style={styles.together}>
@@ -33,7 +36,7 @@ const CreateAudience = ({ navigation }) => {
               Create New Audience
             </Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => setGroupNameModalVisible(true)}>
             <Image source={nextButton} style={styles.nextButton} />
           </TouchableOpacity>
         </View>
