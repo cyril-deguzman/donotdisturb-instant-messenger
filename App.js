@@ -17,6 +17,7 @@ import ChatInfo from "./src/screens/Home/ChatInfo";
 import ChatInfoGroup from "./src/screens/Home/ChatInfoGroup";
 import AddMembers from "./src/screens/Home/AddMembers";
 import SeeMembers from "./src/screens/Home/SeeMembers";
+import CreateAudience from "./src/screens/Home/CreateAudience";
 
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -48,6 +49,7 @@ const ChatStack = () => {
       <Stack.Screen name="ChatInfoGroup" component={ChatInfoGroup} />
       <Stack.Screen name="AddMembers" component={AddMembers} />
       <Stack.Screen name="SeeMembers" component={SeeMembers} />
+      <Stack.Screen name="CreateAudience" component={CreateAudience} />
     </Stack.Navigator>
   );
 };
