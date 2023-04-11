@@ -8,6 +8,8 @@ NOTE: all lowercase and no ending punctuation marks
 -->
 
 ## Next release v1.0
+
+- [PB] - [#43](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/43) app(feature): delete popup
 - [PB] - [#41](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/41) app(screen): create audience screen
 - [CY] - [#38](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/38) app(feature): implement group chat
 - [LE] - [#18](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/33) app(screen): chat info screen
