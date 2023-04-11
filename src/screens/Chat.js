@@ -18,7 +18,7 @@ import chatStyles from "./utils/chatStyles";
 export default function Chat({ route, navigation }) {
   const [messages, setMessages] = useState([]);
   const bgImg = useBackground("bubbles");
-  const { convID, title } = route.params;
+  const { convID, title, type } = route.params;
 
   const renderBubble = (props) => {
     return (
@@ -87,7 +87,12 @@ export default function Chat({ route, navigation }) {
 
   return (
     <View style={chatStyles.container}>
-      <ChatHeader title={title} navigation={navigation} />
+      <ChatHeader
+        title={title}
+        navigation={navigation}
+        convID={convID}
+        type={type}
+      />
       <ImageBackground source={bgImg} style={{ flex: 10 }}>
         <GiftedChat
           wrapInSafeArea={false}

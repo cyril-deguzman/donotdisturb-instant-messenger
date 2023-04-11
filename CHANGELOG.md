@@ -9,6 +9,7 @@ NOTE: all lowercase and no ending punctuation marks
 
 ## Next release v1.0
 
+- [CY] - [#40](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/40) app(feature): chat info backend
 - [CY] - [#38](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/38) app(feature): implement group chat
 - [LE] - [#18](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/33) app(screen): chat info screen
 - [CY] - [#22](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/22) app(feature): source message boxes from firestore

@@ -13,6 +13,7 @@ import { auth, database } from "../../config/firebase";
 import QuickAccessViewModal from "./QuickAccessViewModal";
 import useIndicator from "../hooks/useIndicator";
 import styles from "./utils/styles";
+import formatTime from "./utils/MessageBox/formatTime";
 
 const profileImg = require("../assets/profile-picture.png");
 
@@ -25,6 +26,7 @@ const MessageBox = ({
   setPrevModalVisible,
 }) => {
   const [msgPreview, setMsgPreview] = useState("Say Hi!");
+  const [msgTime, setMsgTime] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   const [isIndividialModal, setIndividualModal] = useState(true);
   const userIndicator = useIndicator(userStatus);
@@ -55,7 +57,10 @@ const MessageBox = ({
         if (querySnapshot.empty) return;
 
         querySnapshot.forEach((doc) => {
+          const date = doc.data().createdAt.toDate();
+          const time = formatTime(date);
           setMsgPreview(doc.data().text);
+          setMsgTime(time);
         });
       });
 
@@ -71,7 +76,8 @@ const MessageBox = ({
       onPress={() => {
         navigation.navigate("Chat", {
           convID: dataSnap?.convRef.id,
-          title: dataSnap?.title,
+          title: title,
+          type: dataSnap?.type,
         });
         setPrevModalVisible(false);
       }}
@@ -99,7 +105,7 @@ const MessageBox = ({
                 {title ? title : "Bubble User"}
               </ListItem.Title>
               <ListItem.Subtitle style={styles.time}>
-                11:10 PM
+                {msgTime}
               </ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Content>

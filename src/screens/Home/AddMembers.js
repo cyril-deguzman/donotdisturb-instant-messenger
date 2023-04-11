@@ -1,42 +1,83 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import useBackground from "../../hooks/useBackground";
 import WhiteSearchBox from "../../components/WhiteSearchBox";
 import ProfileCheckBox from "../../components/ProfileCheckBox";
 import normalize from "react-native-normalize";
+import useFetchConversationUsers from "../../hooks/useFetchConversationUsers";
+import useFetchUsers from "../../hooks/useFetchUsers";
+import addMembersStyles from "./utils/addMembersStyles";
+import handleSaveButton from "./utils/AddMembers/handleSaveButton";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 const saveButton = require("../../assets/icons/save-button.png");
 
-const AddMembers = ({ navigation }) => {
+const AddMembers = ({ navigation, route }) => {
+  const { convID, type } = route.params;
+  const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const bgImg = useBackground("topBubbles");
   const [searchQuery, setSearchQuery] = useState("");
 
-  return (
-    <View style={styles.container}>
-      <Image source={bgImg} style={styles.backImage} />
+  const addToSelectedUsers = (name) => {
+    const updatedSelectedUsers = [...selectedUsers];
+    updatedSelectedUsers.push(name);
+    setSelectedUsers(updatedSelectedUsers);
+  };
 
-      <View style={styles.topContainer}>
-        <View style={styles.row}>
-          <View style={styles.together}>
+  const removeFromSelectedUsers = (name) => {
+    const updatedSelectedUsers = selectedUsers.filter((user) => user !== name);
+    setSelectedUsers(updatedSelectedUsers);
+  };
+
+  useEffect(() => {
+    const fetchSuggestedMembers = async () => {
+      const allUsers = await useFetchUsers(true);
+      const members = await useFetchConversationUsers(convID);
+      const memberNames = members.map((m) => m.name);
+
+      const filteredUsers = allUsers.filter(
+        (user) => !memberNames.includes(user.name)
+      );
+
+      setSuggestedUsers(filteredUsers);
+    };
+
+    fetchSuggestedMembers();
+  }, []);
+
+  return (
+    <View style={addMembersStyles.container}>
+      <Image source={bgImg} style={addMembersStyles.backImage} />
+
+      <View style={addMembersStyles.topContainer}>
+        <View style={addMembersStyles.row}>
+          <View style={addMembersStyles.together}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Image source={backIcon} style={styles.backIcon} />
+              <Image source={backIcon} style={addMembersStyles.backIcon} />
             </TouchableOpacity>
-            <Text
-              style={{
-                fontSize: normalize(20),
-                fontWeight: "bold",
-                marginTop: normalize(5),
-              }}
-            >
-              Add Members
-            </Text>
+            <Text style={addMembersStyles.label}>Add Members</Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={saveButton} style={styles.nextButton} />
+          <TouchableOpacity
+            onPress={() =>
+              handleSaveButton(
+                convID,
+                suggestedUsers,
+                selectedUsers,
+                navigation
+              )
+            }
+          >
+            <Image source={saveButton} style={addMembersStyles.nextButton} />
           </TouchableOpacity>
         </View>
-        {/** Insert search bar made by cy */}
 
         <View
           style={{ marginTop: normalize(15), marginHorizontal: normalize(10) }}
@@ -45,103 +86,22 @@ const AddMembers = ({ navigation }) => {
         </View>
       </View>
 
-      {/** Make a component for displaying profile img + osi, name, icon */}
-      <View style={styles.messageContainer}>
-        <Text
-          style={{
-            fontSize: normalize(20),
-            fontWeight: "bold",
-            color: "#4F457C",
-            marginLeft: normalize(5),
-          }}
-        >
-          Suggested
-        </Text>
-        {/* <ProfileCheckBox userStatus="idle" />
-          <ProfileCheckBox userStatus="doNotDisturb" />
-          <ProfileCheckBox userStatus="openToChat" /> */}
+      <View style={addMembersStyles.messageContainer}>
+        <Text style={addMembersStyles.containerLabel}>Suggested</Text>
+        <FlatList
+          data={suggestedUsers}
+          renderItem={({ item }) => (
+            <ProfileCheckBox
+              user={{ ...item }}
+              handleAdd={addToSelectedUsers}
+              handleRemove={removeFromSelectedUsers}
+            />
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  indicator: {
-    width: normalize(20),
-    height: normalize(20),
-    position: "absolute",
-    bottom: 0,
-    right: 0,
-  },
-  rowSpace: {
-    flexDirection: "row",
-    marginTop: normalize(20),
-    marginHorizontal: normalize(20),
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  topContainer: {
-    marginHorizontal: normalize(20),
-  },
-  profileImg: {
-    width: normalize(60),
-    height: normalize(60),
-    borderRadius: normalize(50),
-  },
-  together: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  column: {
-    flexDirection: "column",
-  },
-  nextStyle: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    marginTop: normalize(5),
-  },
-  nextButton: {
-    width: normalize(77),
-    height: normalize(35),
-    marginTop: normalize(8),
-    justifyContent: "flex-end",
-  },
-  backIcon: {
-    width: normalize(20),
-    height: normalize(20),
-    marginTop: normalize(8),
-    marginRight: normalize(20),
-  },
-  row: {
-    flexDirection: "row",
-    marginTop: normalize(40),
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  messageContainer: {
-    width: "100%",
-    height: "80%",
-    position: "absolute",
-    bottom: 0,
-    backgroundColor: "#fff",
-    borderTopLeftRadius: normalize(50),
-    borderTopRightRadius: normalize(50),
-    overflow: "hidden",
-    paddingTop: normalize(35),
-    paddingLeft: normalize(20),
-    paddingRight: normalize(10),
-  },
-  backImage: {
-    width: "100%",
-    height: "120%",
-    position: "absolute",
-    top: 0,
-    resizeMode: "cover",
-  },
-});
 
 export default AddMembers;
