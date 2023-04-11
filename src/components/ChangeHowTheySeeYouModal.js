@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { Image, View, Text, Modal, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { Image, View, Text, Modal, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, Button } from "react-native";
 import useIcon from "../hooks/useIcon";
 import { Overlay } from "react-native-elements";
 import modalStyles from "./utils/modalStyles";
 import GestureRecognizer from 'react-native-swipe-gestures';
 import OSIOptionBox from "./OSIOptionBox";
 import DropDownPicker from 'react-native-dropdown-picker';
-import { ScrollView } from "react-native-gesture-handler";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import ModalDropdown from 'react-native-modal-dropdown';
 
 const ChangeHowTheySeeYouModal = (props) => {
     const slideUpDownIcon = useIcon("slideUpDownIcon");
@@ -48,6 +49,39 @@ const ChangeHowTheySeeYouModal = (props) => {
         {label: 'Never', value: 'Never', labelStyle: { color: "#4F457C" },},
         {label: 'Custom', value: 'Custom', labelStyle: { color: "#4F457C" },},
     ]);
+
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+      };
+    
+      const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+      };
+    
+      const handleConfirm = (date) => {
+        //console.warn("A date has been picked: ", date);
+        //setDropdownValue("3hours");
+        
+        const customDuration = date.getHours().toString() + " hours and " + date.getMinutes().toString() + " minutes";
+
+        //setDropdownValue(date);
+        setDropdownItems([
+            {label: customDuration, value: customDuration, labelStyle: { color: "#4F457C" },},
+            {label: '1 hour', value: '1 hour', labelStyle: { color: "#4F457C" },},
+            {label: '30 minutes', value: '30 minutes', labelStyle: { color: "#4F457C" },},
+            {label: '6 hours', value: '6 hours', labelStyle: { color: "#4F457C" },},
+            {label: '12 hours', value: '12 hours', labelStyle: { color: "#4F457C" },},
+            {label: '1 day', value: '1 day', labelStyle: { color: "#4F457C" },},
+            {label: 'Never', value: 'Never', labelStyle: { color: "#4F457C" },},
+            {label: 'Custom', value: 'Custom', labelStyle: { color: "#4F457C" },},
+        ]);
+
+        setDropdownValue(customDuration);
+
+        hideDatePicker();
+      };
 
     return (
         
@@ -112,7 +146,7 @@ const ChangeHowTheySeeYouModal = (props) => {
                                 <View style={modalStyles.modalSubheaderTextContainer}>
                                     <Text style={modalStyles.modalSubheaderText}>Clear After</Text>        
                                 </View>
-
+                                
                                 <DropDownPicker
                                     open={openDropdown}
                                     value={dropdownValue}
@@ -128,8 +162,21 @@ const ChangeHowTheySeeYouModal = (props) => {
                                         fontWeight: "600"
                                     }}
                                     style={{backgroundColor: "transparent"}}
+                                    onChangeValue={() => { dropdownValue == "Custom" ? showDatePicker() : hideDatePicker }}
                                 />
-
+                                
+                                {isDatePickerVisible ? (
+                                    <View>
+                                         <DateTimePickerModal
+                                            isVisible={isDatePickerVisible}
+                                            mode="time"
+                                            onConfirm={handleConfirm}
+                                            onCancel={hideDatePicker}
+                                            is24Hour={true}
+                                        />
+                                    </View>
+                                ): null}
+                                    
                                 <TouchableOpacity onPress={() => setToggledOn(!isToggledOn)}>
                                     <View style={modalStyles.modalSubheaderTextContainer}>
                                         <Text style={modalStyles.modalSubheaderSubtext}>Display duration of status to others?</Text>
