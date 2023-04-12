@@ -1,24 +1,32 @@
 import React, { useState } from "react";
 import { View, Text, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import settingsStyles from "./utils/settingsStyles";
 import { ScrollView } from "react-native-gesture-handler";
-
+import {
+  collection,
+  addDoc,
+  orderBy,
+  query,
+  onSnapshot,
+  where,
+  doc,
+} from "firebase/firestore";
+import { auth, database } from "../../../config/firebase";
 import ChatInfoOptionBox from "../../components/ChatInfoOptionBox";
 import OptionHeaderBox from "../../components/OptionHeaderBox";
 import Header from "../../components/Header";
+import SwitchBox from "../../components/SwitchBox";
 
 import useIndicator from "../../hooks/useIndicator";
 import useBackground from "../../hooks/useBackground";
 import useIcon from "../../hooks/useIcon";
 import messagesStyles from "./utils/messagesStyles";
-
-import SwitchBox from "../../components/SwitchBox";
+import settingsStyles from "./utils/settingsStyles";
 
 const profilePic = require("../../assets/profile-picture.png");
 
-const ChatInfoGroup = ({ navigation }) => {
+const ChatInfoGroup = ({ route, navigation }) => {
+  const { title, convID } = route.params;
   const bgImg = useBackground("topBubbles");
   const indicator = useIndicator("openToChat");
 
@@ -32,7 +40,7 @@ const ChatInfoGroup = ({ navigation }) => {
   return (
     <SafeAreaView style={settingsStyles.container}>
       <Image source={bgImg} style={messagesStyles.bgImg} />
-      <Header title="" navigation={navigation} />
+      <Header title={title} navigation={navigation} />
 
       <ScrollView>
         <View style={settingsStyles.bgContainer}>
@@ -43,7 +51,7 @@ const ChatInfoGroup = ({ navigation }) => {
             </View>
 
             <View style={settingsStyles.chatInfoTextContainer}>
-              <Text style={settingsStyles.userTextName}>Some Group Name</Text>
+              <Text style={settingsStyles.userTextName}>{title}</Text>
               <Text style={settingsStyles.userTextStatus}>
                 Set Status Message
               </Text>
@@ -59,13 +67,15 @@ const ChatInfoGroup = ({ navigation }) => {
                 icon={addMembersIcon}
                 name="Add members"
                 navigation={navigation}
-                routeName={"AddMembers"}
+                route={"AddMembers"}
+                convID={convID}
               />
               <ChatInfoOptionBox
                 icon={seeMembersIcon}
                 name="See members"
                 navigation={navigation}
-                routeName={"SeeMembers"}
+                route={"SeeMembers"}
+                convID={convID}
               />
               <Text>{"\n"}</Text>
 
@@ -74,25 +84,25 @@ const ChatInfoGroup = ({ navigation }) => {
                 icon={muteIcon}
                 name="Mute chat"
                 navigation={navigation}
-                routeName={"ChatInfoGroup"}
+                route={"ChatInfoGroup"}
               />
               <ChatInfoOptionBox
                 icon={changeStatusIcon}
                 name="Change how they see you"
                 navigation={navigation}
-                routeName={"ChatInfoGroup"}
+                route={"ChatInfoGroup"}
               />
               <ChatInfoOptionBox
                 icon={blockIcon}
                 name="Block this contact"
                 navigation={navigation}
-                routeName={"ChatInfoGroup"}
+                route={"ChatInfoGroup"}
               />
               <ChatInfoOptionBox
                 icon={deleteIcon}
                 name="Delete this chat"
                 navigation={navigation}
-                routeName={"ChatInfoGroup"}
+                route={"ChatInfoGroup"}
               />
               <Text>{"\n"}</Text>
             </>

@@ -10,10 +10,15 @@ const handleNextButton = async (users, selectedUsers, navigation) => {
 
   const userRef = doc(database, "users", auth.currentUser.uid);
   let title = selectedUsers[0];
+  let type = "Direct";
 
-  if (selectedUsers.length > 1) title = "GC by " + auth.currentUser.displayName;
+  if (selectedUsers.length > 1) {
+    title = "GC by " + auth.currentUser.displayName;
+    type = "Group";
+  }
 
   const convRef = await addDoc(collection(database, "conversations"), {
+    type: type,
     title: title,
     altTitle: auth.currentUser.displayName,
   });

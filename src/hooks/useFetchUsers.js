@@ -3,16 +3,18 @@ import { auth, database } from "../../config/firebase";
 
 /**
  * useFetchUsers hook
- * @returns users except for the currently logged in user.
+ * @params includeUser defaults to false. set to true if you want to include logged in user.
+ * @returns users except for the currently logged in user by default.
  */
-const useFetchUsers = async () => {
+const useFetchUsers = async (includeUser = false) => {
   const users = [];
-  const dataSnap = await getDocs(
-    query(
-      collection(database, "users"),
-      where("name", "!=", auth.currentUser.displayName)
-    )
-  );
+  const q = includeUser
+    ? query(collection(database, "users"))
+    : query(
+        collection(database, "users"),
+        where("name", "!=", auth.currentUser.displayName)
+      );
+  const dataSnap = await getDocs(q);
 
   dataSnap.forEach((user) => {
     users.push({

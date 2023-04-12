@@ -7,7 +7,7 @@ import useIndicator from "../hooks/useIndicator";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const ChatHeader = ({ navigation, title }) => {
+const ChatHeader = ({ navigation, title, type, convID }) => {
   const backIcon = useIcon("backIcon");
   const infoIcon = useIcon("infoIcon");
   const friendIndicator = useIndicator("invisible");
@@ -34,7 +34,12 @@ const ChatHeader = ({ navigation, title }) => {
       <Text style={styles.headerText}>{title}</Text>
       <Pressable
         // change to either ChatInfo for individual or ChatInfoGroup for group chats
-        onPress={() => navigation.navigate("ChatInfoGroup")}
+        onPress={() =>
+          navigation.navigate(type == "Direct" ? "ChatInfo" : "ChatInfoGroup", {
+            title: title,
+            convID: convID,
+          })
+        }
         style={({ pressed }) => [
           {
             backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
     backgroundColor: "white",
-    paddingTop: 30,
+    paddingTop: 20,
   },
   headerBackButton: {
     width: 18,

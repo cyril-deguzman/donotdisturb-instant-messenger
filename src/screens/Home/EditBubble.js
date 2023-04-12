@@ -59,19 +59,19 @@ const EditBubble = ({ navigation }) => {
               icon={changeGroupNameIcon}
               name="Change group name"
               navigation={navigation}
-              routeName={"EditBubble"}
+              route={"EditBubble"}
             />
             <ChatInfoOptionBox
               icon={editMembersIcon}
               name="Edit members"
               navigation={navigation}
-              routeName={"EditMembers"}
+              route={"EditMembers"}
             />
             <ChatInfoOptionBox
               icon={seeMembersIcon}
               name="See members"
               navigation={navigation}
-              routeName={"SeeMembers"}
+              route={"SeeMembers"}
             />
             <Text>{"\n"}</Text>
 

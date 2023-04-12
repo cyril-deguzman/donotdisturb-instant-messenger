@@ -1,33 +1,31 @@
 import React from "react";
-import { Image, View, Text} from "react-native";
+import { Image, View, Text } from "react-native";
 import styles from "./utils/styles";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 
-const ChatInfoOptionBox = (props) => {
+const ChatInfoOptionBox = ({
+  navigation,
+  route,
+  name,
+  icon,
+  convID = "",
+  type = "conv",
+}) => {
   return (
     <Pressable
-        onPress={() => 
-            props.navigation.navigate(props.routeName) 
-        }
-      
-        style={({pressed}) => [
+      onPress={() => navigation.navigate(route, { convID: convID, type: type })}
+      style={({ pressed }) => [
         {
-            backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
+          backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
         },
-    ]}>
-
+      ]}
+    >
       <View style={styles.optionContainer}>
-        <Image
-            source = {props.icon} 
-            style={styles.chatInfoOptionIcon}
-        />
-        <Text style={styles.optionText}>
-            {props.name}
-        </Text>
+        <Image source={icon} style={styles.chatInfoOptionIcon} />
+        <Text style={styles.optionText}>{name}</Text>
       </View>
-
     </Pressable>
-  )
+  );
 };
 
 export default ChatInfoOptionBox;

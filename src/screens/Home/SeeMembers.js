@@ -1,47 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import useBackground from "../../hooks/useBackground";
-import WhiteSearchBox from "../../components/WhiteSearchBox";
-import ProfileCheckBox from "../../components/ProfileCheckBox";
 import normalize from "react-native-normalize";
 import ProfileBox from "../../components/ProfileBox";
-
+import useFetchConversationUsers from "../../hooks/useFetchConversationUsers";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 
-const SeeMembers = ({ navigation }) => {
-    const bgImg = useBackground("topBubbles");
-    const [searchQuery, setSearchQuery] = useState("");
+const SeeMembers = ({ navigation, route }) => {
+  const { convID } = route.params;
+  const [members, setMembers] = useState([]);
+  const bgImg = useBackground("topBubbles");
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const data = await useFetchConversationUsers(convID);
+      setMembers(data);
+    };
+
+    fetchMembers();
+  }, []);
 
   return (
     <View style={styles.container}>
       <Image source={bgImg} style={styles.backImage} />
-      
-      <View style={styles.topContainer} >
+
+      <View style={styles.topContainer}>
         <View style={styles.row}>
-            <View style={styles.together}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Image source={backIcon} style={styles.backIcon} />
-                </TouchableOpacity>
-                <Text style={{ fontSize: normalize(20), fontWeight: "bold", marginTop: normalize(5)}}>All Members</Text>
-            </View>
-            
+          <View style={styles.together}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={backIcon} style={styles.backIcon} />
+            </TouchableOpacity>
+            <Text style={styles.text}>See Members</Text>
+          </View>
         </View>
-        
       </View>
 
       {/** Make a component for displaying profile img + osi, name, icon */}
-      <View style={styles.messageContainer}>
-        {/* <Text style={{ fontSize: normalize(20), fontWeight: "bold", color: "#4F457C", marginLeft: normalize(5) }}>Suggested</Text> */}
-          <ProfileBox userStatus="idle" navigation={navigation} routeName={"SeeMembers"} />
-          <ProfileBox userStatus="doNotDisturb" navigation={navigation} routeName={"SeeMembers"} />
-          <ProfileBox userStatus="openToChat" navigation={navigation} routeName={"SeeMembers"} />
+      <View style={styles.memberContainer}>
+        <FlatList
+          data={members}
+          renderItem={({ item }) => (
+            <ProfileBox navigation={navigation} dataSnap={{ ...item }} />
+          )}
+          keyExtractor={(item) => item.id}
+        />
       </View>
     </View>
   );
@@ -64,9 +74,9 @@ const styles = StyleSheet.create({
     marginTop: normalize(20),
     marginHorizontal: normalize(20),
     alignItems: "center",
-    justifyContent:"space-between"
+    justifyContent: "space-between",
   },
-  topContainer:{
+  topContainer: {
     marginHorizontal: normalize(20),
   },
   profileImg: {
@@ -76,10 +86,10 @@ const styles = StyleSheet.create({
   },
   together: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   column: {
-    flexDirection: "column"
+    flexDirection: "column",
   },
   nextStyle: {
     flexDirection: "row",
@@ -90,9 +100,9 @@ const styles = StyleSheet.create({
     width: normalize(77),
     height: normalize(35),
     marginTop: normalize(8),
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
   },
-  backIcon : {
+  backIcon: {
     width: normalize(20),
     height: normalize(20),
     marginTop: normalize(8),
@@ -102,9 +112,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: normalize(48),
     alignItems: "center",
-    justifyContent:"space-between",
+    justifyContent: "space-between",
   },
-  messageContainer: {
+  memberContainer: {
     width: "100%",
     height: "85%",
     position: "absolute",
@@ -123,7 +133,12 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     resizeMode: "cover",
-  }
+  },
+  text: {
+    fontSize: normalize(20),
+    fontWeight: "bold",
+    marginTop: normalize(5),
+  },
 });
 
 export default SeeMembers;
