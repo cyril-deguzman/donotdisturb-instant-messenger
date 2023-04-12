@@ -20,6 +20,7 @@ import SeeMembers from "./src/screens/Home/SeeMembers";
 import EditBubble from "./src/screens/Home/EditBubble";
 import EditMembers from "./src/screens/Home/EditMembers";
 import ExcludeMembers from "./src/screens/Home/ExcludeMembers";
+import CreateAudience from "./src/screens/Home/CreateAudience";
 
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -54,6 +55,7 @@ const ChatStack = () => {
       <Stack.Screen name="EditBubble" component={EditBubble} />
       <Stack.Screen name="EditMembers" component={EditMembers} />
       <Stack.Screen name="ExcludeMembers" component={ExcludeMembers} />
+      <Stack.Screen name="CreateAudience" component={CreateAudience} />
     </Stack.Navigator>
   );
 };

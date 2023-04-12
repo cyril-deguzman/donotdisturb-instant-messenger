@@ -39,6 +39,8 @@ const seeMembersIcon = require("../assets/icons/see-members-icon.png");
 const editMembersIcon = require("../assets/icons/edit-member-icon.png");
 const changeGroupNameIcon = require("../assets/icons/change-group-name-icon.png");
 const redDeleteIcon = require("../assets/icons/red-delete-icon.png");
+const deleteAlertIcon = require("../assets/icons/delete-alert-icon.png");
+const resetIcon = require("../assets/icons/reset-icon.png");
 
 const useIcon = (option) => {
   const icons = {
@@ -76,6 +78,8 @@ const useIcon = (option) => {
     editMembersIcon: editMembersIcon,
     changeGroupNameIcon: changeGroupNameIcon,
     redDeleteIcon: redDeleteIcon,
+    deleteAlertIcon: deleteAlertIcon,
+    resetIcon: resetIcon,
   };
 
   return icons[option];
