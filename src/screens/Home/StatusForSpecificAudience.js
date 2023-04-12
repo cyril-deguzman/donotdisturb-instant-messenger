@@ -39,6 +39,19 @@ const StatusForSpecificAudience = ({navigation}) => {
   const [users, setUsers] = useState([]);
   
 
+  useEffect(async () => {
+
+    const usersRef = collection(db, "users");
+
+    const docSnap = await getDoc(doc(usersRef, auth.currentUser.uid));
+
+    if (docSnap.empty) return;
+
+    setDefaultStatus(docSnap.data().statusID);
+    
+  }, []);
+
+
   useEffect(() => {
 
     const userRef = doc(database, "users", auth.currentUser.uid);
