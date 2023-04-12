@@ -127,6 +127,14 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     marginLeft: normalize(10),
   },
+
+  //chatinfostatusbox
+  chatInfoOptionContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginLeft: 90,
+    marginRight: 30
+  },
 });
 
 export default styles;

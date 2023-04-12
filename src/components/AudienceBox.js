@@ -89,7 +89,7 @@ const AudienceBox = (props) => {
                 <Text style={audienceBoxStyles.audienceBoxClearStatusText}>Status will clear after tomorrow 8:30 PM</Text>
             </View>
             <View style={audienceBoxStyles.audienceBoxIconsContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => props.navigation.navigate("EditBubble")}>
                     <Image
                         source={editIcon}
                         style={audienceBoxStyles.audienceBoxEditIcon}

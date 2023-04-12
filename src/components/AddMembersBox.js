@@ -8,24 +8,23 @@ import {
 } from "react-native";
 import normalize from "react-native-normalize";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import useIcon from "../hooks/useIcon";
 
 import useIndicator from "../hooks/useIndicator";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const ProfileBox = ({ userStatus, navigation, routeName }) => {
-    const indicator = useIndicator(userStatus);
+const AddMembersBox = ({ navigation, routeName }) => {
+    const addMembersIcon = useIcon("addMembersIcon");
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate(routeName)}>
         <View style={styles.rowSpace}>
             <View style={styles.together}>
-                <View>
-                    <Image source={profileImg} style={styles.profileImg} />
-                    <Image source={indicator} style={styles.indicator} />
-                </View>
-                <Text style={{ fontSize: normalize(18), color: "#4F457C", paddingLeft: normalize(20) }} >Leana Hyacinth Rebong</Text>
+                <Image source={addMembersIcon} style={{ height: normalize(50), width: normalize(50), marginStart: normalize(5), marginEnd: normalize(30) }} />
+                <Text style={styles.text}>Add member</Text>
             </View>
+
         </View>
     </TouchableOpacity>
 
@@ -57,7 +56,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
 
-  }
+  },
+  text: {
+    fontSize: normalize(18),
+    fontWeight: "800",
+    color: "#4F457C",
+  },
 });
 
-export default ProfileBox;
+export default AddMembersBox;
