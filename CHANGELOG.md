@@ -9,6 +9,7 @@ NOTE: all lowercase and no ending punctuation marks
 
 ## Next release v1.0
 
+- [LE] - [#49](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/49) app(screen): edit bubble
 - [PB] - [#47](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/47) app(feature): reset popup
 - [PB] - [#45](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/45) app(feature): group name popup
 - [PB] - [#43](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/43) app(feature): delete popup

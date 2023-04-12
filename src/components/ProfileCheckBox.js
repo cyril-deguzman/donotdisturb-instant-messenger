@@ -12,9 +12,10 @@ const ProfileCheckBox = ({
   user,
   handleAdd,
   handleRemove,
+  isChecked=false,
 }) => {
   const indicator = useIndicator(userStatus);
-  const [check, setCheck] = useState(false);
+  const [check, setCheck] = useState(isChecked);
 
   const handleCheck = () => {
     if (check) handleRemove(user.name);

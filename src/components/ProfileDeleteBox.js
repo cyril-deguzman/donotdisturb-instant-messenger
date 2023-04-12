@@ -8,13 +8,15 @@ import {
 } from "react-native";
 import normalize from "react-native-normalize";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
+import useIcon from "../hooks/useIcon";
 
 import useIndicator from "../hooks/useIndicator";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const ProfileBox = ({ userStatus, navigation, routeName }) => {
+const ProfileDeleteBox = ({ userStatus, navigation, routeName }) => {
     const indicator = useIndicator(userStatus);
+    const redDeleteIcon = useIcon("redDeleteIcon");
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate(routeName)}>
@@ -26,6 +28,8 @@ const ProfileBox = ({ userStatus, navigation, routeName }) => {
                 </View>
                 <Text style={{ fontSize: normalize(18), color: "#4F457C", paddingLeft: normalize(20) }} >Leana Hyacinth Rebong</Text>
             </View>
+
+            <Image source={redDeleteIcon} style={{ height: normalize(36), width: normalize(33) }} />
         </View>
     </TouchableOpacity>
 
@@ -60,4 +64,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default ProfileBox;
+export default ProfileDeleteBox;
