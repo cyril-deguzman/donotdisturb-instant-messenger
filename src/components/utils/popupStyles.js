@@ -23,7 +23,6 @@ const modalStyles = StyleSheet.create({
   },
   popupDeleteDescriptionText: {
     fontWeight: "700",
-    fontWeight: "bold",
     color: "#383157",
     fontSize: normalize(18),
 
