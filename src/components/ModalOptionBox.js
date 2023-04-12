@@ -3,6 +3,7 @@ import { Image, View, Text, TouchableHighlight} from "react-native";
 import modalStyles from "./utils/modalStyles";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import ChangeHowTheySeeYouModal from "./ChangeHowTheySeeYouModal";
+import DeleteAlertPopup from "./DeleteAlertPopup";
 
 const ModalOptionBox = (props) => {
     
@@ -15,6 +16,9 @@ const ModalOptionBox = (props) => {
                 <ChangeHowTheySeeYouModal is2ndModalVisible={is2ndModalVisible} set2ndModalVisible={set2ndModalVisible} set1stModalVisible={props.set1stModalVisible}/>
             ) : null}
             
+            {props.optionName == "Delete this chat" ? (
+                <DeleteAlertPopup is2ndModalVisible={is2ndModalVisible} set2ndModalVisible={set2ndModalVisible} set1stModalVisible={props.set1stModalVisible} deleteWhatText={"delete this chat"}/>
+            ) : null}
 
             <TouchableHighlight
                 onPress={() => {

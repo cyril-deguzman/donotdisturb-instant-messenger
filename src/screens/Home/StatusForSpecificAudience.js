@@ -38,14 +38,14 @@ const StatusForSpecificAudience = ({navigation}) => {
               <View style={statusForSpecificAudienceStyles.audienceContainerHeader}>
                 <Text style={statusForSpecificAudienceStyles.audienceContainerTextHeader}>Select Audience</Text>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate("CreateAudience")}>
                   <View>
                     <Text>+ ADD</Text>
                   </View>
                 </TouchableOpacity>
               </View>
               
-              <AudienceBox audienceIndicator={indicator}/>
+              <AudienceBox audienceIndicator={indicator} navigation={navigation}/>
 
             </View>
         </View>

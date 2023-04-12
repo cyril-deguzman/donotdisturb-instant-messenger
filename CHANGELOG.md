@@ -10,6 +10,12 @@ NOTE: all lowercase and no ending punctuation marks
 ## Next release v1.0
 
 - [CY] - [#40](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/40) app(feature): chat info backend
+- [PB] - [#51](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/51) app(feature): custom duration popup
+- [LE] - [#49](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/49) app(screen): edit bubble
+- [PB] - [#47](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/47) app(feature): reset popup
+- [PB] - [#45](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/45) app(feature): group name popup
+- [PB] - [#43](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/43) app(feature): delete popup
+- [PB] - [#41](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/41) app(screen): create audience screen
 - [CY] - [#38](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/38) app(feature): implement group chat
 - [LE] - [#18](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/33) app(screen): chat info screen
 - [CY] - [#22](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/22) app(feature): source message boxes from firestore
