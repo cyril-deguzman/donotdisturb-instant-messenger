@@ -60,7 +60,7 @@ const Settings = ({navigation}) => {
           <View style={settingsStyles.settingsContainer}>
               <>
                 <OptionHeaderBox header="Online Status"/>
-                <OptionBox icon={defaultStatusIcon} name="Default Status" navigation={navigation} routeName={"Settings"}/>
+                <OptionBox icon={defaultStatusIcon} name="Default Status" navigation={navigation} routeName={"DefaultStatus"}/>
                 <OptionBox icon={specificStatusIcon} name="Status for Specific Audience" navigation={navigation} routeName={"StatusForSpecificAudience"}/>
                 <Text>{'\n'}</Text>
 
