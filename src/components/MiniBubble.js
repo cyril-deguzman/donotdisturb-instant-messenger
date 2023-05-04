@@ -1,10 +1,21 @@
-import React, { useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Image, View, Text, TouchableWithoutFeedback, TouchableOpacity} from "react-native";
 import useIcon from "../hooks/useIcon";
 import bubbleStyles from "../screens/Home/utils/bubbleStyles";
 import MessageBox from "./MessageBox";
 import normalize from "react-native-normalize";
 import MiniBubbleSeeAllModal from "./MiniBubbleSeeAllModal";
+
+
+import {
+    collection,
+    query,
+    where,
+    getDoc,
+    onSnapshot,
+    doc,
+  } from "firebase/firestore";
+  import { auth, database } from "../../config/firebase";
 
 const MiniBubble = (props) => {
     const openIcon = useIcon("openIcon");
@@ -16,10 +27,49 @@ const MiniBubble = (props) => {
     
     const [isModalVisible, setModalVisible] = useState(false);
 
+    const [bubbleMembers, setBubbleMembers] = useState([]);
+
+
+    useEffect(() => {
+
+        const bubbleRef = doc(database, "bubbles", props.bubbleID);
+        const q = query(
+          collection(database, "bubble_members"),
+          where("bubbleID", "==", bubbleRef),
+        );
+    
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const bubblesMembersArray = [];
+          let counter = 0;
+          if (querySnapshot.empty) return;
+    
+          
+    
+          querySnapshot.forEach(async (doc) => {
+    
+            counter++;
+    
+            const dataSnap = await getDoc(doc.data().memberID);
+            console.log("dataSnap.data()");
+            console.log(dataSnap.data());
+    
+            bubblesMembersArray.push(
+              doc.data().memberID,
+            );
+    
+            if (querySnapshot.size == counter) setBubbleMembers(bubblesMembersArray);
+    
+    
+          });
+        });
+    
+        return () => unsubscribe();
+      }, []);
+
     return (
         <View style={bubbleStyles.miniBubbleContainer}>
             
-            <MiniBubbleSeeAllModal isModalVisible={isModalVisible} setModalVisible={setModalVisible} navigation={props.navigation}/>
+            <MiniBubbleSeeAllModal isModalVisible={isModalVisible} setModalVisible={setModalVisible}/>
 
             <TouchableWithoutFeedback
                 onPress={() => 
@@ -53,38 +103,17 @@ const MiniBubble = (props) => {
             {openMiniBubble ? (
                 <View style={bubbleStyles.bubblePeopleContainer}> 
                 
-                    <MessageBox
-                        navigation={props.navigation}
-                        userStatus="idle"
-                        friendStatus="openToChat"
-
-                        isPrevModalVisible={isModalVisible}
-                        setPrevModalVisible={setModalVisible}
-                    />
-                    <MessageBox
-                        navigation={props.navigation}
-                        userStatus="openToChat"
-                        friendStatus="doNotDisturb"
-
-                        isPrevModalVisible={isModalVisible}
-                        setPrevModalVisible={setModalVisible}
-                    />
-                    <MessageBox
-                        navigation={props.navigation}
-                        userStatus="invisible"
-                        friendStatus="idle"
-
-                        isPrevModalVisible={isModalVisible}
-                        setPrevModalVisible={setModalVisible}
-                    />
+                    <MessageBox userStatus="idle" friendStatus="openToChat" />
+                    <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
+                    <MessageBox userStatus="invisible" friendStatus="idle" />
                     
                     <TouchableOpacity
                         onPress={() => setModalVisible(true)}
                         activeOpacity={0.5}
-                        style={bubbleStyles.seeAllButtonContainer}
                     >
-                        <Text style={bubbleStyles.seeAllButtonText}>See all</Text>
-                        
+                        <View style={bubbleStyles.seeAllButtonContainer}>
+                            <Text style={bubbleStyles.seeAllButtonText}>See all</Text>
+                        </View>
                     </TouchableOpacity>
                 
                 </View>
