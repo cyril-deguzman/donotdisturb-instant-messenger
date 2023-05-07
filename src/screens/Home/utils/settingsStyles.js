@@ -87,6 +87,10 @@ const settingsStyles = StyleSheet.create({
     elevation: 10,
     shadowColor: "#000",
   },
+  userTextContainerTouchable: {
+    alignItems: "center",
+  },
+
   userTextContainerShadow: {
     width: "80%",
     marginBottom: "5%",
