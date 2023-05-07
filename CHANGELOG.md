@@ -9,6 +9,7 @@ NOTE: all lowercase and no ending punctuation marks
 
 ## Next release v1.0
 
+- [RY] - [#59](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/59) app(feature) bubble backend
 - [CY] - [#40](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/40) app(feature): chat info backend
 - [PB] - [#51](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/51) app(feature): custom duration popup
 - [LE] - [#49](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/49) app(screen): edit bubble
