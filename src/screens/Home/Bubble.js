@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState, useEffect } from 'react';
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useState, useEffect } from "react";
 
 import SearchBoxBrighter from "../../components/SeachBoxBrighter";
 import useBackground from "../../hooks/useBackground";
@@ -20,7 +20,7 @@ import {
 } from "firebase/firestore";
 import { auth, database } from "../../../config/firebase";
 
-const Bubble = ({navigation}) => {  
+const Bubble = ({ navigation }) => {
   const bgImg = useBackground("bubbles");
   const addBubbleIcon = useIcon("addBubbleIcon");
 
@@ -28,11 +28,10 @@ const Bubble = ({navigation}) => {
   const [bubbles, setBubbles] = useState([]);
 
   useEffect(() => {
-
     const userRef = doc(database, "users", auth.currentUser.uid);
     const q = query(
       collection(database, "bubbles"),
-      where("creatorID", "==", userRef),
+      where("creatorID", "==", userRef)
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -40,10 +39,7 @@ const Bubble = ({navigation}) => {
       let counter = 0;
       if (querySnapshot.empty) return;
 
-      
-
       querySnapshot.forEach(async (doc) => {
-
         counter++;
 
         const dataSnap = await getDoc(doc.data().statusID);
@@ -51,14 +47,11 @@ const Bubble = ({navigation}) => {
         console.log(dataSnap.data());
 
         bubblesArray.push({
-
           bubbleID: doc.data().bubbleID,
           title: doc.data().title,
         });
 
         if (querySnapshot.size == counter) setBubbles(bubblesArray);
-
-
       });
     });
 
@@ -72,10 +65,12 @@ const Bubble = ({navigation}) => {
         <View style={bubbleStyles.headerContainer}>
           <View style={bubbleStyles.headerTextContainer}>
             <Text style={bubbleStyles.headerText}>Bubbles</Text>
-            <Text style={bubbleStyles.headerSubtext}>Categorize conveniently</Text>
+            <Text style={bubbleStyles.headerSubtext}>
+              Categorize conveniently
+            </Text>
           </View>
           <View style={bubbleStyles.headerAddButtonContainer}>
-            <Image 
+            <Image
               source={addBubbleIcon}
               style={bubbleStyles.headerAddButton}
             />
@@ -84,27 +79,27 @@ const Bubble = ({navigation}) => {
       </View>
 
       <View style={bubbleStyles.bubbleContainer}>
-        
         <ScrollView>
           <View style={bubbleStyles.searchContainer}>
             <SearchBoxBrighter setValue={setSearchQuery} value={searchQuery} />
           </View>
 
           {bubbles.map((item) => {
-
-            return (<MiniBubble bubbleName={item.title} bubbleID={item.bubbleID}/>);
-
-
+            return (
+              <MiniBubble
+                bubbleName={item.title}
+                bubbleID={item.bubbleID}
+                navigation={navigation}
+              />
+            );
           })}
-          
+
           {/* <MiniBubble bubbleName="DLSU Friends"/>
           <MiniBubble bubbleName="La Familia"/>
           <MiniBubble bubbleName="Work"/> */}
-            
         </ScrollView>
       </View>
     </SafeAreaView>
-
   );
 };
 

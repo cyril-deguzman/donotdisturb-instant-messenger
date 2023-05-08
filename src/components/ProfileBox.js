@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import normalize from "react-native-normalize";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
@@ -7,9 +7,42 @@ import useIndicator from "../hooks/useIndicator";
 
 const profileImg = require("../assets/profile-picture.png");
 
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+} from "firebase/firestore";
+import { auth, database } from "../../config/firebase";
+
 const ProfileBox = ({ navigation, dataSnap }) => {
   const indicator = useIndicator("openToChat");
   const { name } = dataSnap;
+  const { statusID } = dataSnap;
+
+  const [status, setStatus] = useState(null);
+
+  const dictionary = {
+    "Open to Chat": "openToChat",
+    "Be Right Back": "idle",
+    "Do Not Disturb": "doNotDisturb",
+    Invisible: "invisible",
+  };
+
+  useLayoutEffect(() => {
+    const initialUpdate = async () => {
+      console.log("statusData  " + statusID);
+      const statusData = await getDoc(statusID);
+
+      console.log(statusData.data().osi);
+
+      setStatus(statusData.data().osi);
+    };
+
+    initialUpdate();
+  }, []);
 
   return (
     <TouchableOpacity onPress={() => navigation.navigate("SeeMembers")}>
@@ -17,7 +50,10 @@ const ProfileBox = ({ navigation, dataSnap }) => {
         <View style={styles.together}>
           <View>
             <Image source={profileImg} style={styles.profileImg} />
-            <Image source={indicator} style={styles.indicator} />
+            <Image
+              source={useIndicator(dictionary[status])}
+              style={styles.indicator}
+            />
           </View>
           <Text
             style={{

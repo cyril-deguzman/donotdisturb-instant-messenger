@@ -16,6 +16,7 @@ const DeleteAlertPopup = ({
   set2ndModalVisible,
   set1stModalVisible,
   deleteWhatText,
+  deleteFunction,
 }) => {
   const deleteAlertIcon = useIcon("deleteAlertIcon");
 
@@ -54,7 +55,10 @@ const DeleteAlertPopup = ({
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => set1stModalVisible(false)}
+            onPress={() => {
+              deleteFunction();
+              set1stModalVisible(false);
+            }}
             style={popupStyles.popupButtonContainer}
           >
             <View>
