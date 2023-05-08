@@ -63,6 +63,7 @@ const EditBubble = ({ route, navigation }) => {
     const data = await deleteDoc(bubbleRef)
       .then(() => {
         console.log("Bubble deleted!");
+        navigation.goBack();
       })
       .catch((error) => console.error(error));
   };
@@ -119,7 +120,7 @@ const EditBubble = ({ route, navigation }) => {
               <ChatInfoOptionBox
                 icon={changeGroupNameIcon}
                 name="Change group name"
-                convID={"rkuPWXXCJsWehfSlLiIN"}
+                convID={route.params.bubbleID}
                 modalFunction={setGroupNameModalVisible}
               />
               <ChatInfoOptionBox
@@ -127,14 +128,14 @@ const EditBubble = ({ route, navigation }) => {
                 name="Edit members"
                 navigation={navigation}
                 route={"EditMembers"}
-                convID={"rkuPWXXCJsWehfSlLiIN"}
+                convID={route.params.bubbleID}
               />
               <ChatInfoOptionBox
                 icon={seeMembersIcon}
                 name="See members"
                 navigation={navigation}
                 route={"SeeMembers"}
-                convID={"rkuPWXXCJsWehfSlLiIN"}
+                convID={route.params.bubbleID}
               />
               <Text>{"\n"}</Text>
 
