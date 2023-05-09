@@ -1,7 +1,7 @@
 import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import SearchBoxBrighter from "../../components/SeachBoxBrighter";
 import useBackground from "../../hooks/useBackground";
@@ -10,11 +10,60 @@ import { ScrollView } from "react-native-gesture-handler";
 import useIcon from "../../hooks/useIcon";
 import MiniBubble from "../../components/MiniBubble";
 
+import {
+  collection,
+  query,
+  where,
+  getDoc,
+  onSnapshot,
+  doc,
+} from "firebase/firestore";
+import { auth, database } from "../../../config/firebase";
+
 const Bubble = ({navigation}) => {  
   const bgImg = useBackground("bubbles");
   const addBubbleIcon = useIcon("addBubbleIcon");
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [bubbles, setBubbles] = useState([]);
+
+  useEffect(() => {
+
+    const userRef = doc(database, "users", auth.currentUser.uid);
+    const q = query(
+      collection(database, "bubbles"),
+      where("creatorID", "==", userRef),
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const bubblesArray = [];
+      let counter = 0;
+      if (querySnapshot.empty) return;
+
+      
+
+      querySnapshot.forEach(async (doc) => {
+
+        counter++;
+
+        const dataSnap = await getDoc(doc.data().statusID);
+        console.log("dataSnap.data()");
+        console.log(dataSnap.data());
+
+        bubblesArray.push({
+
+          bubbleID: doc.data().bubbleID,
+          title: doc.data().title,
+        });
+
+        if (querySnapshot.size == counter) setBubbles(bubblesArray);
+
+
+      });
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <SafeAreaView style={bubbleStyles.container}>
@@ -25,14 +74,12 @@ const Bubble = ({navigation}) => {
             <Text style={bubbleStyles.headerText}>Bubbles</Text>
             <Text style={bubbleStyles.headerSubtext}>Categorize conveniently</Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate("AddBubble")}>
-            <View style={bubbleStyles.headerAddButtonContainer}>
-              <Image 
-                source={addBubbleIcon}
-                style={bubbleStyles.headerAddButton}
-              />
-            </View>
-          </TouchableOpacity>
+          <View style={bubbleStyles.headerAddButtonContainer}>
+            <Image 
+              source={addBubbleIcon}
+              style={bubbleStyles.headerAddButton}
+            />
+          </View>
         </View>
       </View>
 
@@ -42,10 +89,17 @@ const Bubble = ({navigation}) => {
           <View style={bubbleStyles.searchContainer}>
             <SearchBoxBrighter setValue={setSearchQuery} value={searchQuery} />
           </View>
+
+          {bubbles.map((item) => {
+
+            return (<MiniBubble bubbleName={item.title} bubbleID={item.bubbleID}/>);
+
+
+          })}
           
-          <MiniBubble bubbleName="DLSU Friends" navigation={navigation}/>
-          <MiniBubble bubbleName="La Familia" navigation={navigation}/>
-          <MiniBubble bubbleName="Work" navigation={navigation}/>
+          {/* <MiniBubble bubbleName="DLSU Friends"/>
+          <MiniBubble bubbleName="La Familia"/>
+          <MiniBubble bubbleName="Work"/> */}
             
         </ScrollView>
       </View>

@@ -9,6 +9,7 @@ NOTE: all lowercase and no ending punctuation marks
 
 ## Next release v1.0
 
+- [RY] - [#59](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/59) app(feature) bubble backend
 - [RY] - [#58](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/58) app(feature) default status navigation
 - [RY] - [#57](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/57) app(feature) default status screen backend
 - [RY] - [#12](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/12) app(screen): default status screen
