@@ -10,6 +10,7 @@ import Home from "./src/screens/Home";
 import Chat from "./src/screens/Chat";
 import Login from "./src/screens/Login";
 import Signup from "./src/screens/Signup";
+import DefaultStatus from "./src/screens/Home/DefaultStatus";
 import StatusForSpecificAudience from "./src/screens/Home/StatusForSpecificAudience";
 import NewMessage from "./src/screens/Home/NewMessage";
 import AddBubble from "./src/screens/Home/AddBubble";
@@ -46,6 +47,7 @@ const ChatStack = () => {
         name="StatusForSpecificAudience"
         component={StatusForSpecificAudience}
       />
+      <Stack.Screen name="DefaultStatus" component={DefaultStatus} />
       <Stack.Screen name="NewMessage" component={NewMessage} />
       <Stack.Screen name="AddBubble" component={AddBubble} />
       <Stack.Screen name="ChatInfo" component={ChatInfo} />

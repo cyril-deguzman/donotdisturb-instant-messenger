@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     marginTop: normalize(20),
     marginBottom: normalize(20),
     marginLeft: normalize(18),
+    width: "100%",
   },
   headerBackButton: {
     width: normalize(20),
@@ -134,6 +135,48 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     marginLeft: 90,
     marginRight: 30
+  },
+
+  SaveButton: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    height: "100%",
+    borderRadius: 50,
+    boxSizing: "border-box",
+    backgroundColor: "rgba(122,107,188,1)",
+    left: 1,
+  },
+  SaveHeaderButtonBG: {
+    display: "flex",
+    flexDirection: "column",
+    
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    paddingLeft: 19,
+    paddingRight: 19,
+    paddingTop: 8,
+    paddingBottom: 11,
+    borderRadius: 30,
+    boxSizing: "border-box",
+    backgroundColor: "rgba(122,107,188,1)",
+    marginLeft: 90,
+    
+ 
+    
+  },
+  SaveText: {
+    top: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    color: "rgba(255,255,255,1)",
+    fontSize: 16,
+    lineHeight: 16,
+    //fontFamily: "Inter, sans-serif",
+    fontWeight: "700",
+    textAlign: "center",
   },
 });
 
