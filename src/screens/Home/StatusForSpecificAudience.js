@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { firebase } from "../../../config/firebase";
+
+import {
+  collection,
+  query,
+  where,
+  getDoc,
+  onSnapshot,
+  doc,
+} from "firebase/firestore";
+import { auth, database } from "../../../config/firebase";
 
 import { ScrollView } from "react-native-gesture-handler";
 
 import Header from "../../components/Header";
 
-import useIndicator from "../../hooks/useIndicator";
 import useBackground from "../../hooks/useBackground";
 import useIcon from "../../hooks/useIcon";
 import messagesStyles from "./utils/messagesStyles";
@@ -15,7 +25,93 @@ import AudienceBox from "../../components/AudienceBox";
 
 const StatusForSpecificAudience = ({ navigation }) => {
   const bgImg = useBackground("topBubbles");
-  const indicator = useIndicator("idle");
+
+  const [bubbles, setBubbles] = useState([]);
+
+  const [defaultStatus, setDefaultStatus] = useState(null);
+
+  // useLayoutEffect(async () => {
+  //   const userRef = doc(database, "users", auth.currentUser.uid);
+
+  //   const docSnap = await getDoc(userRef);
+
+  //   if (!docSnap.empty) setDefaultStatus(docSnap.data().statusID);
+
+  //   return () => unsubscribe();
+  // }, []);
+
+  useLayoutEffect(() => {
+    const initialUpdate = async () => {
+      const userRef = doc(database, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(userRef);
+      setDefaultStatus(docSnap.data().statusID);
+    };
+
+    initialUpdate();
+  }, []);
+
+  // useLayoutEffect(() => {
+  //   const userRef = doc(database, "users", auth.currentUser.uid);
+  //   const q = query(
+  //     collection(database, "bubbles"),
+  //     where("creatorID", "==", userRef)
+  //   );
+
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     const bubblesArray = [];
+  //     let counter = 0;
+  //     if (querySnapshot.empty) return;
+
+  //     querySnapshot.forEach(async (doc) => {
+  //       counter++;
+
+  //       // const bubbleSnap = await getDoc(doc.data().bubbleID);
+  //       const dataSnap = await getDoc(doc.data().statusID);
+  //       console.log("dataSnap.data()");
+  //       console.log(dataSnap.data());
+
+  //       bubblesArray.push({
+  //         bubbleID: doc.data().bubbleID,
+  //         title: doc.data().title,
+  //         indicator: doc.data().statusID,
+  //       });
+
+  //       if (querySnapshot.size == counter) setBubbles(bubblesArray);
+
+  //       console.log("BUBBLES: " + bubblesArray);
+  //     });
+  //   });
+
+  //   return () => unsubscribe();
+  // }, []);
+
+  useLayoutEffect(() => {
+    const userRef = doc(database, "users", auth.currentUser.uid);
+    const q = query(
+      collection(database, "bubbles"),
+      where("creatorID", "==", userRef)
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const bubblesArray = [];
+      let counter = 0;
+      if (querySnapshot.empty) return;
+
+      querySnapshot.forEach((doc) => {
+        counter++;
+
+        bubblesArray.push({
+          bubbleID: doc.data().bubbleID,
+          title: doc.data().title,
+          indicator: doc.data().statusID,
+        });
+
+        if (querySnapshot.size == counter) setBubbles(bubblesArray);
+      });
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   return (
     <SafeAreaView style={statusForSpecificAudienceStyles.container}>
@@ -51,16 +147,27 @@ const StatusForSpecificAudience = ({ navigation }) => {
               Select Audience
             </Text>
 
-            <TouchableOpacity
-              onPress={() => navigation.navigate("CreateAudience")}
-            >
+            <TouchableOpacity>
               <View>
                 <Text>+ ADD</Text>
               </View>
             </TouchableOpacity>
           </View>
 
-          <AudienceBox audienceIndicator={indicator} navigation={navigation} />
+          {bubbles.map((item) => {
+            if (
+              JSON.stringify(item.indicator) != JSON.stringify(defaultStatus)
+            ) {
+              return (
+                <AudienceBox
+                  key={item.title}
+                  audienceIndicator={item.indicator}
+                  title={item.title}
+                  bubbleID={item.bubbleID}
+                />
+              );
+            }
+          })}
         </View>
       </View>
     </SafeAreaView>
