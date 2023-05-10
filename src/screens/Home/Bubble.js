@@ -42,9 +42,8 @@ const Bubble = ({ navigation }) => {
       querySnapshot.forEach(async (doc) => {
         counter++;
 
-        const dataSnap = await getDoc(doc.data().statusID);
-        console.log("dataSnap.data()");
-        console.log(dataSnap.data());
+        //console.log("bubblee.data()");
+        console.log(doc.data().bubbleID);
 
         bubblesArray.push({
           bubbleID: doc.data().bubbleID,
@@ -87,6 +86,7 @@ const Bubble = ({ navigation }) => {
           {bubbles.map((item) => {
             return (
               <MiniBubble
+                key={item.bubbleID}
                 bubbleName={item.title}
                 bubbleID={item.bubbleID}
                 navigation={navigation}

@@ -49,10 +49,6 @@ const MiniBubble = (props) => {
       querySnapshot.forEach(async (doc) => {
         counter++;
 
-        const dataSnap = await getDoc(doc.data().memberID);
-        console.log("dataSnap.data()");
-        console.log(dataSnap.data());
-
         bubblesMembersArray.push(doc.data().memberID);
 
         if (querySnapshot.size == counter)
