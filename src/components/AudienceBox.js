@@ -255,7 +255,14 @@ const AudienceBox = (props) => {
           />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            props.bubbleSelectedFunction(props.bubbleID);
+            props.bubbleTitleSelectedFunction(props.title);
+
+            props.resetModal(true);
+          }}
+        >
           <Image
             source={trashIcon}
             style={audienceBoxStyles.audienceBoxTrashIcon}
