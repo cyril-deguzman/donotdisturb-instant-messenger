@@ -10,22 +10,43 @@ const ChatInfoOptionBox = ({
   icon,
   convID = "",
   type = "conv",
+  modalFunction = null,
 }) => {
-  return (
-    <Pressable
-      onPress={() => navigation.navigate(route, { convID: convID, type: type })}
-      style={({ pressed }) => [
-        {
-          backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
-        },
-      ]}
-    >
-      <View style={styles.optionContainer}>
-        <Image source={icon} style={styles.chatInfoOptionIcon} />
-        <Text style={styles.optionText}>{name}</Text>
-      </View>
-    </Pressable>
-  );
+  if (modalFunction != null) {
+    return (
+      <Pressable
+        onPress={() => modalFunction(true)}
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
+          },
+        ]}
+      >
+        <View style={styles.optionContainer}>
+          <Image source={icon} style={styles.chatInfoOptionIcon} />
+          <Text style={styles.optionText}>{name}</Text>
+        </View>
+      </Pressable>
+    );
+  } else {
+    return (
+      <Pressable
+        onPress={() =>
+          navigation.navigate(route, { convID: convID, type: type })
+        }
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",
+          },
+        ]}
+      >
+        <View style={styles.optionContainer}>
+          <Image source={icon} style={styles.chatInfoOptionIcon} />
+          <Text style={styles.optionText}>{name}</Text>
+        </View>
+      </Pressable>
+    );
+  }
 };
 
 export default ChatInfoOptionBox;

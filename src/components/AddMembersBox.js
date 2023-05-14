@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import normalize from "react-native-normalize";
 import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
 import useIcon from "../hooks/useIcon";
@@ -14,20 +8,32 @@ import useIndicator from "../hooks/useIndicator";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const AddMembersBox = ({ navigation, routeName }) => {
-    const addMembersIcon = useIcon("addMembersIcon");
+const AddMembersBox = ({ navigation, routeName, conversationID }) => {
+  const addMembersIcon = useIcon("addMembersIcon");
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate(routeName)}>
-        <View style={styles.rowSpace}>
-            <View style={styles.together}>
-                <Image source={addMembersIcon} style={{ height: normalize(50), width: normalize(50), marginStart: normalize(5), marginEnd: normalize(30) }} />
-                <Text style={styles.text}>Add member</Text>
-            </View>
-
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate(routeName, {
+          convID: conversationID,
+        })
+      }
+    >
+      <View style={styles.rowSpace}>
+        <View style={styles.together}>
+          <Image
+            source={addMembersIcon}
+            style={{
+              height: normalize(50),
+              width: normalize(50),
+              marginStart: normalize(5),
+              marginEnd: normalize(30),
+            }}
+          />
+          <Text style={styles.text}>Add member</Text>
         </View>
+      </View>
     </TouchableOpacity>
-
   );
 };
 
@@ -37,7 +43,7 @@ const styles = StyleSheet.create({
     height: normalize(20),
     position: "absolute",
     bottom: 0,
-    right: 0
+    right: 0,
   },
   rowSpace: {
     flexDirection: "row",
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
     marginRight: normalize(25),
     marginLeft: normalize(8),
     alignItems: "center",
-    justifyContent:"space-between"
+    justifyContent: "space-between",
   },
   profileImg: {
     width: normalize(60),
@@ -55,7 +61,6 @@ const styles = StyleSheet.create({
   together: {
     flexDirection: "row",
     alignItems: "center",
-
   },
   text: {
     fontSize: normalize(18),

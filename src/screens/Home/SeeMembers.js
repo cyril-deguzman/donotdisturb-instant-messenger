@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -14,17 +14,18 @@ import useFetchConversationUsers from "../../hooks/useFetchConversationUsers";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 
-const SeeMembers = ({ navigation, route }) => {
+const SeeMembers = ({ route, navigation }) => {
   const { convID } = route.params;
   const [members, setMembers] = useState([]);
   const bgImg = useBackground("topBubbles");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchMembers = async () => {
       const data = await useFetchConversationUsers(convID);
       setMembers(data);
+      console.log(data);
     };
-
+    console.log("hiihihi" + route.params.conversationID);
     fetchMembers();
   }, []);
 
