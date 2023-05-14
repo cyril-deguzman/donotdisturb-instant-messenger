@@ -42,9 +42,6 @@ const Bubble = ({ navigation }) => {
       querySnapshot.forEach(async (doc) => {
         counter++;
 
-        //console.log("bubblee.data()");
-        console.log(doc.data().bubbleID);
-
         bubblesArray.push({
           bubbleID: doc.data().bubbleID,
           title: doc.data().title,

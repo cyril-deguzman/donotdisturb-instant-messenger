@@ -12,7 +12,10 @@ NOTE: all lowercase and no ending punctuation marks
 - [RY] - [#64](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/64) app(hotfix): bubble display fix
 - [RY] - [#62](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/62) app(feature): status-for-specific-aud
 - [RY] - [#60](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/60) app(feature): bubble-edit-backend
-- [RY] - [#59](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/59) app(feature): bubble backend
+- [RY] - [#59](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/59) app(feature) bubble backend
+- [RY] - [#58](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/58) app(feature) default status navigation
+- [RY] - [#57](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/57) app(feature) default status screen backend
+- [RY] - [#12](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/12) app(screen): default status screen
 - [CY] - [#40](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/40) app(feature): chat info backend
 - [PB] - [#51](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/51) app(feature): custom duration popup
 - [LE] - [#49](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/49) app(screen): edit bubble

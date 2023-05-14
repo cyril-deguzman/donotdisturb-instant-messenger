@@ -32,7 +32,7 @@ const ChatInfoOptionBox = ({
     return (
       <Pressable
         onPress={() =>
-          navigation.navigate(route, { conversationID: convID, type: type })
+          navigation.navigate(route, { convID: convID, type: type })
         }
         style={({ pressed }) => [
           {

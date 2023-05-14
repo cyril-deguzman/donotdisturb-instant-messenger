@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import MessageBox from "../../components/MessageBox";
 import SearchBox from "../../components/SearchBox";
@@ -23,9 +23,38 @@ const Messages = ({ navigation }) => {
   const [conversations, setConversations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const indicator = useIndicator("openToChat");
   const bgImg = useBackground("topBubbles");
   const pencilIcon = useIcon("messagePencilIcon");
+
+  const [option, setOption] = useState(null);
+  const [customMessageValue, onChangeText] = useState(null);
+  const [name, updateName] = useState("");
+
+  const dictionary = {
+    "Open to Chat": "openToChat",
+    "Be Right Back": "idle",
+    "Do Not Disturb": "doNotDisturb",
+    Invisible: "invisible",
+  };
+
+  useLayoutEffect(() => {
+    const initialUpdate = async () => {
+      console.log(auth.currentUser);
+      const userRef = doc(database, "users", auth.currentUser.uid);
+      const dataSnap = await getDoc(userRef);
+
+      console.log(dataSnap.data());
+
+      updateName(dataSnap.data().name);
+
+      const dataOSISnap = await getDoc(dataSnap.data().statusID);
+      console.log(dataOSISnap.data());
+      setOption(dataOSISnap.data().osi);
+      onChangeText(dataOSISnap.data().message);
+    };
+
+    initialUpdate();
+  }, []);
 
   useEffect(() => {
     const userRef = doc(database, "users", auth.currentUser.uid);
@@ -64,13 +93,23 @@ const Messages = ({ navigation }) => {
         <View style={messagesStyles.statusBar}>
           <View style={messagesStyles.leftStatusBar}>
             <Image source={profileImg} style={messagesStyles.profileImg} />
-            <Image source={indicator} style={messagesStyles.indicator} />
+            <Image
+              source={useIndicator(dictionary[option])}
+              style={messagesStyles.indicator}
+            />
           </View>
           <View style={messagesStyles.rightStatusBar}>
-            <Text style={messagesStyles.name}>
-              {auth.currentUser.displayName}
-            </Text>
-            <Text style={messagesStyles.customMessage}>Set Custom Message</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("DefaultStatus")}
+            >
+              <Text style={messagesStyles.name}>
+                {auth.currentUser.displayName}
+              </Text>
+
+              <Text style={messagesStyles.customMessage}>
+                {customMessageValue}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
 
