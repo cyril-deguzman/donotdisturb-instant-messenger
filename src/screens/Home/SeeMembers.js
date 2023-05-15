@@ -15,7 +15,7 @@ import useFetchConversationUsers from "../../hooks/useFetchConversationUsers";
 const backIcon = require("../../assets/icons/back-icon.png");
 
 const SeeMembers = ({ route, navigation }) => {
-  const convID = route.params.conversationID;
+  const { convID } = route.params;
   const [members, setMembers] = useState([]);
   const bgImg = useBackground("topBubbles");
 

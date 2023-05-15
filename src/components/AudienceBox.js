@@ -42,6 +42,7 @@ const AudienceBox = (props) => {
 
   //console.log(props.members);
   const [excludeMembers, setExcludeMembers] = useState([]);
+  const [bubbleMembers, setBubbleMembers] = useState([]);
   const [statusForMessage, setStatusForMessage] = useState("");
   const [indicator, setIndicator] = useState("");
 
@@ -121,6 +122,7 @@ const AudienceBox = (props) => {
             );
 
           setExcludeMembers(excludeMembersArray);
+          setBubbleMembers(bubbleMembersArray);
         }
       });
 
