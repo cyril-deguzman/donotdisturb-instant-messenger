@@ -78,10 +78,10 @@ const AudienceBox = (props) => {
 
         bubbles.map(async (item) => {
           console.log("BUBBEID " + item.bubbleID);
-          console.log("Statu " + JSON.stringify(item.statusID));
-          console.log(
-            "Audience Ind " + JSON.stringify(props.audienceIndicator)
-          );
+          // console.log("Statu " + JSON.stringify(item.statusID));
+          // console.log(
+          //   "Audience Ind " + JSON.stringify(props.audienceIndicator)
+          // );
           if (
             item.computerGenerated &&
             JSON.stringify(item.statusID) !=
@@ -247,8 +247,16 @@ const AudienceBox = (props) => {
         {/* TO DO: ADD STATUS CLEAR INFO  */}
         {/* <Text style={audienceBoxStyles.audienceBoxClearStatusText}>Status will clear after tomorrow 8:30 PM</Text> */}
       </View>
+
       <View style={audienceBoxStyles.audienceBoxIconsContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate(props.route, {
+              bubbleID: props.bubbleID,
+              bubbleTitle: props.title,
+            });
+          }}
+        >
           <Image
             source={editIcon}
             style={audienceBoxStyles.audienceBoxEditIcon}

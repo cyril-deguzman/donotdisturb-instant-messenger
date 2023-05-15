@@ -11,6 +11,7 @@ import {
   onSnapshot,
   doc,
   updateDoc,
+  serverTimestamp,
 } from "firebase/firestore";
 import { auth, database } from "../../../config/firebase";
 
@@ -41,19 +42,21 @@ const StatusForSpecificAudience = ({ navigation }) => {
     const bubbleRef = doc(database, "bubbles", selectedBubble);
     console.log("Bubbldsdsdsd!" + selectedBubble);
     const data = await getDoc(bubbleRef);
+    const currentTime = serverTimestamp();
     await updateDoc(bubbleRef, {
       statusID: defaultStatus,
+      lastChanged: currentTime,
     })
       .then(() => {
         console.log("Bubble status reset!");
         if (!data.data().computerGenerated) {
-          resetBubbleMemberBubbles(bubbleRef);
+          resetBubbleMemberBubbles(bubbleRef, currentTime);
         }
       })
       .catch((error) => console.error(error));
   };
 
-  const resetBubbleMemberBubbles = async (bubbleRef) => {
+  const resetBubbleMemberBubbles = async (bubbleRef, currentTime) => {
     const q = query(
       collection(database, "bubble_members"),
       where("bubbleID", "==", bubbleRef)
@@ -83,6 +86,7 @@ const StatusForSpecificAudience = ({ navigation }) => {
               const standAloneBubble = doc(database, "bubbles", item.bubbleID);
               const data = await updateDoc(standAloneBubble, {
                 statusID: defaultStatus,
+                lastChanged: currentTime,
               })
                 .then(() => {
                   console.log("Bubble of bubblemember status reset!");
@@ -124,6 +128,7 @@ const StatusForSpecificAudience = ({ navigation }) => {
           bubbleID: doc.data().bubbleID,
           title: doc.data().title,
           indicator: doc.data().statusID,
+          computerGenerated: doc.data().computerGenerated,
         });
 
         if (querySnapshot.size == counter) setBubbles(bubblesArray);
@@ -178,7 +183,11 @@ const StatusForSpecificAudience = ({ navigation }) => {
                 Select Audience
               </Text>
 
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("CreateAudience");
+                }}
+              >
                 <View>
                   <Text>+ ADD</Text>
                 </View>
@@ -189,15 +198,23 @@ const StatusForSpecificAudience = ({ navigation }) => {
               if (
                 JSON.stringify(item.indicator) != JSON.stringify(defaultStatus)
               ) {
+                let routeName = "";
+                console.log("computerGenerated: " + item.computerGenerated);
+                item.computerGenerated
+                  ? (routeName = "ChangeStatusIndiv")
+                  : (routeName = "EditBubble");
+
                 return (
                   <AudienceBox
-                    key={item.title}
+                    key={item.bubbleID}
                     audienceIndicator={item.indicator}
                     title={item.title}
                     bubbleID={item.bubbleID}
                     resetModal={setResetModalVisible}
                     bubbleSelectedFunction={setSelectedBubble}
                     bubbleTitleSelectedFunction={setSelectedBubbleTitle}
+                    navigation={navigation}
+                    route={routeName}
                   />
                 );
               }
