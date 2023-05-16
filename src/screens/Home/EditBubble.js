@@ -144,8 +144,11 @@ const EditBubble = ({ route, navigation }) => {
                 icon={changeStatusIcon}
                 name="Change how they see you"
                 navigation={navigation}
-                routeName={"EditBubble"}
+                routeName={"ChangeStatusGroup"}
                 userStatus={"idle"}
+                bubbleID={route.params.bubbleID}
+                headerTitle={"Change how they see you"}
+                bubbleTitle={bubbleName}
               />
               <ChatInfoOptionBox
                 icon={deleteIcon}
