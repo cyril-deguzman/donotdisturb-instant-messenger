@@ -13,7 +13,7 @@ const handleNextButton = async (users, selectedUsers, navigation) => {
   let type = "Direct";
 
   if (selectedUsers.length > 1) {
-    title = "GC by " + auth.currentUser.displayName;
+    title = "Hackathon GC";
     type = "Group";
   }
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect } from "react";
 
@@ -31,7 +31,8 @@ const Bubble = ({ navigation }) => {
     const userRef = doc(database, "users", auth.currentUser.uid);
     const q = query(
       collection(database, "bubbles"),
-      where("creatorID", "==", userRef)
+      where("creatorID", "==", userRef),
+      where("computerGenerated", "==", false)
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -66,10 +67,16 @@ const Bubble = ({ navigation }) => {
             </Text>
           </View>
           <View style={bubbleStyles.headerAddButtonContainer}>
-            <Image
-              source={addBubbleIcon}
-              style={bubbleStyles.headerAddButton}
-            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("AddBubble");
+              }}
+            >
+              <Image
+                source={addBubbleIcon}
+                style={bubbleStyles.headerAddButton}
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </View>

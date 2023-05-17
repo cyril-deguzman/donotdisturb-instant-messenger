@@ -88,6 +88,8 @@ const loadBubbleIndicator = async (
     setBubbleIndicator(dictionary[indicator.data().osi]);
     setBubbleTime(formatTime(expiry));
   });
+
+  unsubscribeAll.push(unsubscribe);
 };
 
 /**

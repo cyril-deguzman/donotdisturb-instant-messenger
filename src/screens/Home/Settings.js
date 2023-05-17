@@ -13,7 +13,6 @@ import useIndicator from "../../hooks/useIndicator";
 import useBackground from "../../hooks/useBackground";
 import useIcon from "../../hooks/useIcon";
 import messagesStyles from "./utils/messagesStyles";
-
 import {
   collection,
   query,
@@ -23,8 +22,8 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-
 import { auth, database } from "../../../config/firebase";
+import useResetData from "../../hooks/useResetData";
 
 const profileImg = require("../../assets/profile-picture.png");
 
@@ -144,6 +143,27 @@ const Settings = ({ navigation }) => {
                 routeName={"Settings"}
               />
               <Text>{"\n"}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  useResetData();
+                }}
+              >
+                <Text
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    marginBottom: 50,
+                    fontWeight: "bold",
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    padding: 5,
+                    paddingLeft: 7,
+                    fontSize: 16,
+                  }}
+                >
+                  Reset
+                </Text>
+              </TouchableOpacity>
             </>
           </View>
         </View>

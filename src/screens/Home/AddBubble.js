@@ -57,9 +57,6 @@ const AddBubble = ({ navigation }) => {
         >
           Suggested
         </Text>
-        {/* <ProfileCheckBox userStatus="idle" />
-          <ProfileCheckBox userStatus="doNotDisturb" />
-          <ProfileCheckBox userStatus="openToChat" /> */}
       </View>
     </View>
   );
