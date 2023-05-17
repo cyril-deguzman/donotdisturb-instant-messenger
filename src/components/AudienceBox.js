@@ -22,6 +22,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { auth, database } from "../../config/firebase";
+import useFetchBubbleMembers from "../hooks/useFetchBubbleMembers";
 
 const AudienceBox = (props) => {
   const editIcon = useIcon("editIcon");
@@ -31,7 +32,7 @@ const AudienceBox = (props) => {
 
   const [isStatusMessageVisible, setStatusMessageVisible] = useState(false);
   const [isExcludeContainerVisible, setExcludeContainerVisible] =
-    useState(true);
+    useState(false);
   const [isExcludePersonVisible, setExcludePersonVisible] = useState(false);
 
   const [isExcludeMorePersonVisible, setExcludeMorePersonVisible] =
@@ -40,33 +41,64 @@ const AudienceBox = (props) => {
   const openCloseIcon = isExcludePersonVisible ? openIcon : closeIcon;
 
   //console.log(props.members);
+  const [excludeMembers, setExcludeMembers] = useState([]);
   const [bubbleMembers, setBubbleMembers] = useState([]);
   const [statusForMessage, setStatusForMessage] = useState("");
   const [indicator, setIndicator] = useState("");
 
+  const dictionary = {
+    "Open to Chat": "openToChat",
+    "Be Right Back": "idle",
+    "Do Not Disturb": "doNotDisturb",
+    Invisible: "invisible",
+  };
+
   useEffect(() => {
-    const q = query(collection(database, "bubble_members"));
+    const bubbleRef = doc(database, "bubbles", props.bubbleID);
+    const q = query(
+      collection(database, "bubble_members"),
+      where("bubbleID", "==", bubbleRef)
+    );
 
     const unsubscribe = onSnapshot(q, async (querySnapshot) => {
       const bubbleMembersArray = [];
+      const excludeMembersArray = [];
       let counter = 0;
 
       if (querySnapshot.empty) return;
+
+      setExcludeContainerVisible(false);
 
       querySnapshot.forEach(async (doc) => {
         counter++;
         const userRef = doc.data().memberID;
         const dataSnap = await getDoc(userRef);
-        const bubbleSnap = await getDoc(doc.data().bubbleID);
 
-        console.log("usee");
-        // console.log(dataSnap.data());
-        console.log(bubbleSnap.data().bubbleID);
-        console.log(props.bubbleID);
+        const bubbles = await useFetchBubbleMembers(bubbleRef, userRef);
+        console.log("List of bubbles with memberID: " + bubbles);
 
-        if (bubbleSnap.data().bubbleID == props.bubbleID) {
-          bubbleMembersArray.push(dataSnap.data().name);
-        }
+        bubbles.map(async (item) => {
+          console.log("BUBBEID " + item.bubbleID);
+          // console.log("Statu " + JSON.stringify(item.statusID));
+          // console.log(
+          //   "Audience Ind " + JSON.stringify(props.audienceIndicator)
+          // );
+          if (
+            item.computerGenerated &&
+            JSON.stringify(item.statusID) !=
+              JSON.stringify(props.audienceIndicator)
+          ) {
+            const bubbleCreator = await getDoc(item.creatorID);
+            console.log("bubbleCreator " + bubbleCreator.data().userID);
+            if (bubbleCreator.data().userID == auth.currentUser.uid) {
+              console.log("BUBBEstatus " + item.computerGenerated);
+              excludeMembersArray.push(dataSnap.data().name);
+              setExcludeContainerVisible(true);
+            }
+          }
+        });
+
+        bubbleMembersArray.push(dataSnap.data().name);
 
         if (querySnapshot.size == counter) {
           if (bubbleMembersArray.length == 1)
@@ -89,6 +121,7 @@ const AudienceBox = (props) => {
                 " more"
             );
 
+          setExcludeMembers(excludeMembersArray);
           setBubbleMembers(bubbleMembersArray);
         }
       });
@@ -96,43 +129,14 @@ const AudienceBox = (props) => {
       const osiSnap = await getDoc(props.audienceIndicator);
       console.log("props.audienceIndicator()");
       console.log(osiSnap.data());
-      if (osiSnap.data().osi == "Open To Chat")
-        setIndicator(useIndicator("openToChat"));
-      else if (osiSnap.data().osi == "Be Right Back")
-        setIndicator(useIndicator("idle"));
-      else if (osiSnap.data().osi == "Do Not Disturb")
-        setIndicator(useIndicator("doNotDisturb"));
-      else if (osiSnap.data().osi == "Invisible")
-        setIndicator(useIndicator("invisible"));
+      setIndicator(useIndicator(dictionary[osiSnap.data().osi]));
     });
-
-    // const osiSnap = getDoc(props.audienceIndicator);
-    // console.log("osiSnap");
-    // console.log(osiSnap);
-    // if(osiSnap.data().osi == "Open To Chat")
-    //     setIndicator("openToChat");
-
-    // else if(osiSnap.data().osi == "Be Right Back")
-    //     setIndicator("idle");
-
-    // else if(osiSnap.data().osi == "Do Not Disturb")
-    //     setIndicator("doNotDisturb");
-
-    // else if(osiSnap.data().osi == "Invisible")
-    //     setIndicator("invisible");
 
     return () => unsubscribe();
   }, []);
 
-  console.log("bubbleMembers");
-  console.log(statusForMessage);
-
-  //   console.log("bubbleMembers");
-  //   console.log(bubbleMembers);
-
-  // const osiSnap = getDoc(props.audienceIndicator);
-  //         console.log("osiSnap");
-  //         console.log(osiSnap);
+  console.log("excludeMembers");
+  console.log(excludeMembers);
 
   return (
     <View style={audienceBoxStyles.audienceBoxContainer}>
@@ -161,62 +165,114 @@ const AudienceBox = (props) => {
               {statusForMessage}
             </Text>
 
-            {/* {isExcludeContainerVisible ? (
-                            <View style={audienceBoxStyles.audienceBoxExcludeHeaderContainer}>
-                                <Image
-                                    source={openCloseIcon}
-                                    style={audienceBoxStyles.audienceBoxExcludeOpenCloseIcon}
-                                />
+            {isExcludeContainerVisible ? (
+              <View style={audienceBoxStyles.audienceBoxExcludeHeaderContainer}>
+                <Image
+                  source={openCloseIcon}
+                  style={audienceBoxStyles.audienceBoxExcludeOpenCloseIcon}
+                />
 
-                                <Text style={audienceBoxStyles.audienceBoxExcludeHeaderText}>Excluding</Text>
-                                
-                            </View>
-                        ) : null} */}
+                <Text style={audienceBoxStyles.audienceBoxExcludeHeaderText}>
+                  Excluding
+                </Text>
+              </View>
+            ) : null}
           </View>
         </TouchableWithoutFeedback>
-        {/*
-                {isExcludeContainerVisible ? (
-                    <View style={audienceBoxStyles.audienceBoxExcludeContainer}>
-                        {isExcludePersonVisible ? (
-                            <View style={audienceBoxStyles.audienceBoxExlcudePersonContainer}>
-                                <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person A</Text>
-                                <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person B</Text>
-                                <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person C</Text>
 
-                                {isExcludeMorePersonVisible ? (
-                                    <TouchableWithoutFeedback onPress={() => setExcludeMorePersonVisible(!isExcludeMorePersonVisible)}>
-                                        <Text style={audienceBoxStyles.audienceBoxExcludeSeeMoreLessText}>See 4 more</Text>
-                                    </TouchableWithoutFeedback>
-                                ): (
-                                    <View>
-                                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person A</Text>
-                                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person B</Text>
-                                        <Text style={audienceBoxStyles.audienceBoxExcludePersonText}>person C</Text>
-                                        <TouchableWithoutFeedback onPress={() => setExcludeMorePersonVisible(!isExcludeMorePersonVisible)}>
-                                            <Text style={audienceBoxStyles.audienceBoxExcludeSeeMoreLessText}>See Less</Text>
-                                        </TouchableWithoutFeedback>
-                                    </View>
-                                )}
-                                
-                                
-                            </View>
-                        ): null}
-                        
-                    </View>
-                ): null} */}
+        {isExcludeContainerVisible ? (
+          <View style={audienceBoxStyles.audienceBoxExcludeContainer}>
+            {isExcludePersonVisible ? (
+              <View style={audienceBoxStyles.audienceBoxExlcudePersonContainer}>
+                {excludeMembers.map((item) => {
+                  return (
+                    <Text
+                      style={audienceBoxStyles.audienceBoxExcludePersonText}
+                    >
+                      {item}
+                    </Text>
+                  );
+                })}
+
+                {/* SEE MORE */}
+                {/* {isExcludeMorePersonVisible ? (
+                  <TouchableWithoutFeedback
+                    onPress={() =>
+                      setExcludeMorePersonVisible(!isExcludeMorePersonVisible)
+                    }
+                  >
+                    <Text
+                      style={
+                        audienceBoxStyles.audienceBoxExcludeSeeMoreLessText
+                      }
+                    >
+                      See 4 more
+                    </Text>
+                  </TouchableWithoutFeedback>
+                ) : (
+                  <View>
+                    <Text
+                      style={audienceBoxStyles.audienceBoxExcludePersonText}
+                    >
+                      person A
+                    </Text>
+                    <Text
+                      style={audienceBoxStyles.audienceBoxExcludePersonText}
+                    >
+                      person B
+                    </Text>
+                    <Text
+                      style={audienceBoxStyles.audienceBoxExcludePersonText}
+                    >
+                      person C
+                    </Text>
+                    <TouchableWithoutFeedback
+                      onPress={() =>
+                        setExcludeMorePersonVisible(!isExcludeMorePersonVisible)
+                      }
+                    >
+                      <Text
+                        style={
+                          audienceBoxStyles.audienceBoxExcludeSeeMoreLessText
+                        }
+                      >
+                        See Less
+                      </Text>
+                    </TouchableWithoutFeedback>
+                  </View>
+                )} */}
+              </View>
+            ) : null}
+          </View>
+        ) : null}
 
         {/* TO DO: ADD STATUS CLEAR INFO  */}
         {/* <Text style={audienceBoxStyles.audienceBoxClearStatusText}>Status will clear after tomorrow 8:30 PM</Text> */}
       </View>
+
       <View style={audienceBoxStyles.audienceBoxIconsContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            props.navigation.navigate(props.route, {
+              bubbleID: props.bubbleID,
+              bubbleTitle: props.title,
+            });
+          }}
+        >
           <Image
             source={editIcon}
             style={audienceBoxStyles.audienceBoxEditIcon}
           />
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            props.bubbleSelectedFunction(props.bubbleID);
+            props.bubbleTitleSelectedFunction(props.title);
+
+            props.resetModal(true);
+          }}
+        >
           <Image
             source={trashIcon}
             style={audienceBoxStyles.audienceBoxTrashIcon}

@@ -39,16 +39,11 @@ const Messages = ({ navigation }) => {
 
   useLayoutEffect(() => {
     const initialUpdate = async () => {
-      console.log(auth.currentUser);
       const userRef = doc(database, "users", auth.currentUser.uid);
       const dataSnap = await getDoc(userRef);
-
-      console.log(dataSnap.data());
+      const dataOSISnap = await getDoc(dataSnap.data().statusID);
 
       updateName(dataSnap.data().name);
-
-      const dataOSISnap = await getDoc(dataSnap.data().statusID);
-      console.log(dataOSISnap.data());
       setOption(dataOSISnap.data().osi);
       onChangeText(dataOSISnap.data().message);
     };
@@ -127,8 +122,6 @@ const Messages = ({ navigation }) => {
             renderItem={({ item }) => (
               <MessageBox
                 navigation={navigation}
-                userStatus="idle"
-                friendStatus="openToChat"
                 dataSnap={{ ...item }}
                 isPrevModalVisible={isPrevModalVisible}
                 setPrevModalVisible={setPrevModalVisible}
