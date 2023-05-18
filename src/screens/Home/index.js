@@ -25,15 +25,6 @@ const Home = () => {
   return (
     <Tab.Navigator initialRouteName="Messages" screenOptions={options}>
       <Tab.Screen
-        name="Bubble"
-        component={Bubble}
-        options={{
-          tabBarIcon: () => (
-            <Image style={{ width: 40, height: 38 }} source={bubbleIcon} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Messages"
         component={Messages}
         options={{
@@ -41,6 +32,15 @@ const Home = () => {
             <Image style={{ width: 28, height: 27 }} source={messagesIcon} />
           ),
           //tabBarStyle: { display: "none" },
+        }}
+      />
+      <Tab.Screen
+        name="Bubble"
+        component={Bubble}
+        options={{
+          tabBarIcon: () => (
+            <Image style={{ width: 40, height: 38 }} source={bubbleIcon} />
+          ),
         }}
       />
       <Tab.Screen
