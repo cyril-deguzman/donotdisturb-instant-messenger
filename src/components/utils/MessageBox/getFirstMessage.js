@@ -27,9 +27,13 @@ const getFirstMessage = (
       if (querySnapshot.empty) return;
 
       querySnapshot.forEach((doc) => {
+        let prefix = "";
+        if (doc.data().user._id == auth.currentUser.displayName)
+          prefix = "You: ";
+
         const date = doc.data().createdAt.toDate();
         const time = formatTime(date);
-        setMsgPreview(doc.data().text);
+        setMsgPreview(prefix + doc.data().text);
         setMsgTime(time);
       });
     });

@@ -5,13 +5,13 @@ import {
   Text,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import useIcon from "../hooks/useIcon";
 import bubbleStyles from "../screens/Home/utils/bubbleStyles";
 import MessageBox from "./MessageBox";
 import normalize from "react-native-normalize";
 import MiniBubbleSeeAllModal from "./MiniBubbleSeeAllModal";
-
 import {
   collection,
   query,
@@ -21,42 +21,28 @@ import {
   doc,
 } from "firebase/firestore";
 import { auth, database } from "../../config/firebase";
+import useFetchMiniBubbleMembers from "../hooks/useFetchMiniBubbleMembers";
 
-const MiniBubble = (props) => {
+const MiniBubble = ({ bubbleName, bubbleID, navigation }) => {
   const openIcon = useIcon("openIcon");
   const closeIcon = useIcon("closeIcon");
   const editIcon = useIcon("editIcon");
 
   const [openMiniBubble, setOpenMiniBubble] = useState(true);
+  const [isPrevModalVisible, setPrevModalVisible] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [bubbleMembers, setBubbleMembers] = useState([]);
   const openCloseIcon = openMiniBubble ? openIcon : closeIcon;
 
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  const [bubbleMembers, setBubbleMembers] = useState([]);
-
   useEffect(() => {
-    const bubbleRef = doc(database, "bubbles", props.bubbleID);
-    const q = query(
-      collection(database, "bubble_members"),
-      where("bubbleID", "==", bubbleRef)
-    );
+    const unsubscribeAll = [];
+    useFetchMiniBubbleMembers(bubbleID, setBubbleMembers, unsubscribeAll);
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const bubblesMembersArray = [];
-      let counter = 0;
-      if (querySnapshot.empty) return;
-
-      querySnapshot.forEach(async (doc) => {
-        counter++;
-
-        bubblesMembersArray.push(doc.data().memberID);
-
-        if (querySnapshot.size == counter)
-          setBubbleMembers(bubblesMembersArray);
+    return () => {
+      unsubscribeAll.forEach((unsubscribe) => {
+        unsubscribe();
       });
-    });
-
-    return () => unsubscribe();
+    };
   }, []);
 
   return (
@@ -64,6 +50,10 @@ const MiniBubble = (props) => {
       <MiniBubbleSeeAllModal
         isModalVisible={isModalVisible}
         setModalVisible={setModalVisible}
+        isPrevModalVisible={isPrevModalVisible}
+        setPrevModalVisible={setPrevModalVisible}
+        bubbleMembers={bubbleMembers}
+        navigation={navigation}
       />
 
       <TouchableWithoutFeedback
@@ -79,14 +69,12 @@ const MiniBubble = (props) => {
             />
           </View>
 
-          <Text style={bubbleStyles.miniBubbleHeaderText}>
-            {props.bubbleName}
-          </Text>
+          <Text style={bubbleStyles.miniBubbleHeaderText}>{bubbleName}</Text>
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate("EditBubble", {
-                bubbleID: props.bubbleID,
-                bubbleTitle: props.bubbleName,
+              navigation.navigate("EditBubble", {
+                bubbleID: bubbleID,
+                bubbleTitle: bubbleName,
               })
             }
           >
@@ -104,9 +92,17 @@ const MiniBubble = (props) => {
 
       {openMiniBubble ? (
         <View style={bubbleStyles.bubblePeopleContainer}>
-          <MessageBox userStatus="idle" friendStatus="openToChat" />
-          <MessageBox userStatus="openToChat" friendStatus="doNotDisturb" />
-          <MessageBox userStatus="invisible" friendStatus="idle" />
+          {bubbleMembers.slice(0, 3).map((member) => {
+            return (
+              <MessageBox
+                key={member.id}
+                navigation={navigation}
+                dataSnap={{ ...member }}
+                isPrevModalVisible={isPrevModalVisible}
+                setPrevModalVisible={setPrevModalVisible}
+              />
+            );
+          })}
 
           <TouchableOpacity
             onPress={() => setModalVisible(true)}

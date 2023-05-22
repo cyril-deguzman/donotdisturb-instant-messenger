@@ -15,7 +15,8 @@ const GroupNamePopup = ({
   isGroupNameModalVisible,
   setGroupNameModalVisible,
   GroupNameHeader,
-  setNameFunction,
+  handleNextButton,
+  handleNextParams,
 }) => {
   const isModalVisible = isGroupNameModalVisible;
   const setModalVisible = setGroupNameModalVisible;
@@ -58,7 +59,8 @@ const GroupNamePopup = ({
 
           <TouchableOpacity
             onPress={() => {
-              setNameFunction(value);
+              if (handleNextButton)
+                handleNextButton(value, ...handleNextParams);
               setModalVisible(false);
             }}
             style={popupStyles.popupButtonContainer}

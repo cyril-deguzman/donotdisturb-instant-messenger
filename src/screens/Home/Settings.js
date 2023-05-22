@@ -1,8 +1,6 @@
 import React, { useState, useLayoutEffect } from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import settingsStyles from "./utils/settingsStyles";
 import { ScrollView } from "react-native-gesture-handler";
 
 import OptionBox from "../../components/OptionBox";
@@ -12,7 +10,9 @@ import Header from "../../components/Header";
 import useIndicator from "../../hooks/useIndicator";
 import useBackground from "../../hooks/useBackground";
 import useIcon from "../../hooks/useIcon";
+
 import messagesStyles from "./utils/messagesStyles";
+import settingsStyles from "./utils/settingsStyles";
 
 import {
   collection,
@@ -39,8 +39,7 @@ const Settings = ({ navigation }) => {
   const logoutIcon = useIcon("logoutIcon");
 
   const [option, setOption] = useState(null);
-  const [customMessageValue, onChangeText] = useState(null);
-  const [name, updateName] = useState("");
+  const [customMessageValue, setCustomMessage] = useState(null);
 
   const dictionary = {
     "Open to Chat": "openToChat",
@@ -50,22 +49,22 @@ const Settings = ({ navigation }) => {
   };
 
   useLayoutEffect(() => {
+    const unsubscribeAll = [];
+
     const initialUpdate = async () => {
-      console.log(auth.currentUser.uid);
       const userRef = doc(database, "users", auth.currentUser.uid);
-      const dataSnap = await getDoc(userRef);
+      const user = await getDoc(userRef);
+      const unsubscribe = onSnapshot(user.data().statusID, (indicator) => {
+        setOption(indicator.data().osi);
+        setCustomMessage(indicator.data().message);
+      });
 
-      console.log(dataSnap.data());
-
-      updateName(dataSnap.data().name);
-
-      const dataOSISnap = await getDoc(dataSnap.data().statusID);
-      console.log(dataOSISnap.data());
-      setOption(dataOSISnap.data().osi);
-      onChangeText(dataOSISnap.data().message);
+      unsubscribeAll.push(unsubscribe);
     };
 
     initialUpdate();
+
+    return () => unsubscribeAll.forEach((unsubscribe) => unsubscribe());
   }, []);
 
   return (
@@ -89,7 +88,9 @@ const Settings = ({ navigation }) => {
                 onPress={() => navigation.navigate("DefaultStatus")}
                 style={settingsStyles.userTextContainerTouchable}
               >
-                <Text style={settingsStyles.userTextName}>{name}</Text>
+                <Text style={settingsStyles.userTextName}>
+                  {auth.currentUser.displayName}
+                </Text>
 
                 <Text style={settingsStyles.userTextStatus}>
                   {customMessageValue}

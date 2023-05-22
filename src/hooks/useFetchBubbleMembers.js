@@ -27,7 +27,7 @@ const useFetchBubbleMembers = async (bubbleRef, memberID) => {
       if (bubble.exists())
         bubbles.push({
           ...bubble.data(),
-          id: bubble.data().bubbleID,
+          id: bubble.id,
         });
     })
   );

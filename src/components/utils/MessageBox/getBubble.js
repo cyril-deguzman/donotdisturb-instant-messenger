@@ -83,11 +83,15 @@ const loadBubbleIndicator = async (
   const indicatorRef = bubble.data().statusID;
 
   const unsubscribe = onSnapshot(indicatorRef, (indicator) => {
-    const expiry = indicator.data().expiry.toDate();
+    const expiry = indicator.data().expiry
+      ? formatTime(indicator.data().expiry.toDate())
+      : "changed";
 
     setBubbleIndicator(dictionary[indicator.data().osi]);
-    setBubbleTime(formatTime(expiry));
+    setBubbleTime(expiry);
   });
+
+  unsubscribeAll.push(unsubscribe);
 };
 
 /**

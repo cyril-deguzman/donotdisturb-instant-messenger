@@ -9,6 +9,7 @@ NOTE: all lowercase and no ending punctuation marks
 
 ## Next release v1.0
 
+- [CY] - [#74](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/74) app(feature): add bubble backend
 - [CY] - [#66](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/66) app(feature): message box bubble indicator
 - [RY] - [#64](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/64) app(hotfix): bubble display fix
 - [RY] - [#62](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/62) app(feature): status-for-specific-aud

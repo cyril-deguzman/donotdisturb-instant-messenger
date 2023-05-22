@@ -12,7 +12,6 @@ const profileImg = require("../assets/profile-picture.png");
 const MessageBox = ({
   navigation,
   userStatus = "none",
-  friendStatus = "openToChat",
   dataSnap,
   isPrevModalVisible,
   setPrevModalVisible,
@@ -23,7 +22,7 @@ const MessageBox = ({
   const [bubbleTime, setBubbleTime] = useState("tomorrow");
   const [isModalVisible, setModalVisible] = useState(false);
   const [isIndividialModal, setIndividualModal] = useState(true);
-  const friendIndicator = useIndicator(friendStatus);
+  const [friendIndicator, setFriendIndicator] = useState(useIndicator(null));
   const title =
     dataSnap?.title == auth.currentUser.displayName
       ? dataSnap?.altTitle
@@ -42,12 +41,21 @@ const MessageBox = ({
   useLayoutEffect(() => {
     const unsubscribeAll = [];
 
+    /* Randomized indicators for now. Delete when backend is done */
+    const randomizer = [
+      "openToChat",
+      "idle",
+      "doNotDisturb",
+      "invisible",
+      null,
+    ];
+    setFriendIndicator(useIndicator(randomizer[Math.floor(Math.random() * 5)]));
+    /* up to here */
+
     try {
       getFirstMessage(dataSnap, setMsgTime, setMsgPreview, unsubscribeAll);
       getBubble(title, type, setBubbleIndicator, setBubbleTime, unsubscribeAll);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
 
     return () => {
       unsubscribeAll.forEach((unsubscribe) => {

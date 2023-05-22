@@ -75,15 +75,13 @@ const StatusForSpecificAudience = ({ navigation }) => {
         console.log("List of bubbles with memberID: " + bubbles);
 
         bubbles.map(async (item) => {
-          console.log("BUBBEID " + item.bubbleID);
-
           if (item.computerGenerated) {
             const bubbleCreator = await getDoc(item.creatorID);
             console.log("bubbleCreator " + bubbleCreator.data().userID);
             if (bubbleCreator.data().userID == auth.currentUser.uid) {
               console.log("BUBBEstatus " + item.computerGenerated);
 
-              const standAloneBubble = doc(database, "bubbles", item.bubbleID);
+              const standAloneBubble = doc(database, "bubbles", item.id);
               const data = await updateDoc(standAloneBubble, {
                 statusID: defaultStatus,
                 lastChanged: currentTime,
@@ -125,13 +123,16 @@ const StatusForSpecificAudience = ({ navigation }) => {
         counter++;
 
         bubblesArray.push({
-          bubbleID: doc.data().bubbleID,
+          bubbleID: doc.id,
           title: doc.data().title,
           indicator: doc.data().statusID,
           computerGenerated: doc.data().computerGenerated,
         });
 
-        if (querySnapshot.size == counter) setBubbles(bubblesArray);
+        if (querySnapshot.size == counter) {
+          setBubbles(bubblesArray);
+          console.log("bubbleArray: ", bubblesArray[0]);
+        }
       });
     });
 
