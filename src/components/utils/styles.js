@@ -3,7 +3,12 @@ import colors from "../../../colors";
 import normalize from "react-native-normalize";
 
 const styles = StyleSheet.create({
-  listContainer: { paddingHorizontal: 0, paddingBottom: 20, paddingTop: 0, backgroundColor: "transparent" },
+  listContainer: {
+    paddingHorizontal: 0,
+    paddingBottom: 20,
+    paddingTop: 0,
+    backgroundColor: "transparent",
+  },
   row: {
     flexDirection: "row",
     marginTop: 3,
@@ -129,12 +134,19 @@ const styles = StyleSheet.create({
     marginLeft: normalize(10),
   },
 
+  headerSaveText: {
+    fontSize: normalize(18),
+    fontWeight: "700",
+    marginLeft: normalize(10),
+    width: "60%",
+  },
+
   //chatinfostatusbox
   chatInfoOptionContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
     marginLeft: 90,
-    marginRight: 30
+    marginRight: 30,
   },
 
   SaveButton: {
@@ -151,7 +163,7 @@ const styles = StyleSheet.create({
   SaveHeaderButtonBG: {
     display: "flex",
     flexDirection: "column",
-    
+
     justifyContent: "flex-start",
     alignItems: "flex-start",
     paddingLeft: 19,
@@ -161,10 +173,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     boxSizing: "border-box",
     backgroundColor: "rgba(122,107,188,1)",
-    marginLeft: 90,
-    
- 
-    
   },
   SaveText: {
     top: 1,
@@ -174,7 +182,6 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,1)",
     fontSize: 16,
     lineHeight: 16,
-    //fontFamily: "Inter, sans-serif",
     fontWeight: "700",
     textAlign: "center",
   },
