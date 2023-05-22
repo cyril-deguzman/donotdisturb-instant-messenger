@@ -129,6 +129,7 @@ const EditBubble = ({ route, navigation }) => {
                 navigation={navigation}
                 route={"EditMembers"}
                 convID={route.params.bubbleID}
+                isConv={false}
               />
               <ChatInfoOptionBox
                 icon={seeMembersIcon}
@@ -136,6 +137,7 @@ const EditBubble = ({ route, navigation }) => {
                 navigation={navigation}
                 route={"SeeMembers"}
                 convID={route.params.bubbleID}
+                isConv={false}
               />
               <Text>{"\n"}</Text>
 

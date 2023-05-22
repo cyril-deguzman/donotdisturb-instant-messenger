@@ -11,6 +11,7 @@ const ChatInfoOptionBox = ({
   convID = "",
   type = "conv",
   modalFunction = null,
+  isConv = true,
 }) => {
   if (modalFunction != null) {
     return (
@@ -32,7 +33,11 @@ const ChatInfoOptionBox = ({
     return (
       <Pressable
         onPress={() =>
-          navigation.navigate(route, { convID: convID, type: type })
+          navigation.navigate(route, {
+            convID: convID,
+            type: type,
+            isConv: isConv,
+          })
         }
         style={({ pressed }) => [
           {
