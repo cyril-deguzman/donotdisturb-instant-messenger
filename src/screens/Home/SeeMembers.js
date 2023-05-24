@@ -23,15 +23,13 @@ const SeeMembers = ({ route, navigation }) => {
 
   useLayoutEffect(() => {
     const fetchMembers = async () => {
-      var data;
-      console.log("isConv: " + isConv);
-      console.log("convID: " + convID);
-      if (isConv) data = await useFetchConversationUsers(convID);
-      else data = await useFetchBubbleMembers(convID);
+      console.log("convID: ", convID);
+      const data = isConv
+        ? await useFetchConversationUsers(convID)
+        : await useFetchBubbleMembers(convID);
 
       setMembers(data);
     };
-    console.log("hiihihi" + route.params.conversationID);
     fetchMembers();
   }, []);
 
