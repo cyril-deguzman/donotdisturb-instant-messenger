@@ -1,16 +1,12 @@
 import React, { useState, useLayoutEffect } from "react";
 import {
-  StyleSheet,
   Image,
   Text,
   View,
-  ImageBackground,
-  Button,
   TouchableOpacity,
   TextInput,
   SafeAreaView,
   FlatList,
-  SelectDropdown,
 } from "react-native";
 
 import {
@@ -26,7 +22,6 @@ import {
 } from "firebase/firestore";
 import { auth, database } from "../../../config/firebase";
 
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import HeaderSave from "../../components/HeaderSave";
 import useBackground from "../../hooks/useBackground";
 import messagesStyles from "./utils/messagesStyles";
@@ -36,16 +31,12 @@ import useIndicator from "../../hooks/useIndicator";
 
 import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import ModalDropdown from "react-native-modal-dropdown";
-import modalStyles from "../../components/utils/modalStyles";
 import useIcon from "../../hooks/useIcon";
 import ChangeStatusGroupStyles from "./utils/changeStatusGroupStyles";
 import useFetchBubbleMembers from "../../hooks/useFetchBubbleMembers";
 
 const Item = ({ title, image }) => (
-  <TouchableOpacity
-    /*onPress={onPress}*/ style={ChangeStatusGroupStyles.OneGroup}
-  >
+  <TouchableOpacity style={ChangeStatusGroupStyles.OneGroup}>
     <Image
       style={ChangeStatusGroupStyles.Portrait}
       height={55}
@@ -102,16 +93,12 @@ const ChangeStatusGroup = ({ route, navigation }) => {
   };
 
   const handleConfirm = (date) => {
-    //console.warn("A date has been picked: ", date);
-    //setDropdownValue("3hours");
-
     const customDuration =
       date.getHours().toString() +
       " hours and " +
       date.getMinutes().toString() +
       " minutes";
 
-    //setDropdownValue(date);
     setDropdownItems([
       {
         label: customDuration,
@@ -182,7 +169,7 @@ const ChangeStatusGroup = ({ route, navigation }) => {
   function updateUserStatusFunction(navigation) {
     const updateStatus = async () => {
       const bubbleRef = doc(database, "bubbles", route.params.bubbleID);
-      const dataSnap = await getDoc(bubbleRef);
+      const bubbleSnap = await getDoc(bubbleRef);
 
       const userRef = doc(database, "users", auth.currentUser.uid);
       const dataDefaultSnap = await getDoc(userRef);
@@ -190,92 +177,35 @@ const ChangeStatusGroup = ({ route, navigation }) => {
 
       if (
         JSON.stringify(dataDefaultSnap.data().statusID) ==
-        JSON.stringify(dataSnap.data().statusID)
+        JSON.stringify(bubbleSnap.data().statusID)
       ) {
-        console.log("Equal");
-        const dataOSISnap = await addDoc(
-          collection(database, "online_statuses"),
-          {
-            expiry: null,
-            message: customMessageValue,
-            osi: option,
-            toggleTime: false,
-          }
-        )
-          .then(async (docRef) => {
-            await updateDoc(bubbleRef, {
-              lastChanged: currentTime,
-              statusID: docRef,
-            })
-              .then(async () => {
-                updateBubbleMemberBubbles(bubbleRef, docRef, currentTime);
-              })
+        const osiRef = await addDoc(collection(database, "online_statuses"), {
+          expiry: null,
+          message: customMessageValue,
+          osi: option,
+          toggleTime: false,
+        });
 
-              .catch((error) => console.error(error));
-
-            navigation.goBack();
-            console.log("Added and updated");
-          })
-          .catch((error) => console.error(error));
+        await updateDoc(bubbleRef, {
+          lastChanged: currentTime,
+          statusID: osiRef,
+        });
       } else {
-        const dataOSISnap = await updateDoc(dataSnap.data().statusID, {
+        await updateDoc(bubbleRef, {
+          lastChanged: currentTime,
+        });
+
+        await updateDoc(bubbleSnap.data().statusID, {
           osi: option,
           message: customMessageValue,
-        })
-          .then(() => {
-            updateBubbleMemberBubbles(
-              bubbleRef,
-              dataSnap.data().statusID,
-              currentTime
-            );
-            console.log("Status updated!");
-            navigation.goBack();
-          })
-          .catch((error) => console.error(error));
+        });
       }
+
+      navigation.goBack();
     };
 
     updateStatus();
   }
-
-  const updateBubbleMemberBubbles = async (bubbleRef, osi, currentTime) => {
-    const q = query(
-      collection(database, "bubble_members"),
-      where("bubbleID", "==", bubbleRef)
-    );
-
-    onSnapshot(q, async (querySnapshot) => {
-      let counter = 0;
-      console.log("inside snap");
-      if (querySnapshot.empty) return;
-
-      querySnapshot.forEach(async (bubbleMember) => {
-        counter++;
-        const userRef = bubbleMember.data().memberID;
-
-        const bubbles = await useFetchBubbleMembers(bubbleRef, userRef);
-        console.log("List of bubbles with memberID: " + bubbles);
-
-        bubbles.map(async (item) => {
-          console.log("BUBBEID " + item.bubbleID);
-          console.log("Comp generated " + item.computerGenerated);
-
-          if (item.computerGenerated) {
-            console.log("lets begin");
-            const standAloneBubble = doc(database, "bubbles", item.bubbleID);
-            const data = await updateDoc(standAloneBubble, {
-              statusID: osi,
-              lastChanged: currentTime,
-            })
-              .then(() => {
-                console.log("Bubble of bubblemember status updated!");
-              })
-              .catch((error) => console.error(error));
-          }
-        });
-      });
-    });
-  };
 
   useLayoutEffect(() => {
     const initialUpdate = async () => {
@@ -388,7 +318,7 @@ const ChangeStatusGroup = ({ route, navigation }) => {
 
         <View style={defaultStatusStyles.Osilist}>
           <RadioButton
-            key={radioData}
+            key={radioData.id}
             data={radioData}
             onSelect={(value) => setOption(value)}
             current={option}

@@ -43,7 +43,7 @@ const Bubble = ({ navigation }) => {
         counter++;
 
         bubblesArray.push({
-          bubbleID: doc.data().bubbleID,
+          bubbleID: doc.id,
           title: doc.data().title,
         });
 
