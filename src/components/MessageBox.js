@@ -1,40 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Image, View, TouchableHighlight } from "react-native";
 import { ListItem, Avatar } from "@rneui/base";
-import {
-  collection,
-  query,
-  where,
-  onSnapshot,
-  limit,
-  orderBy,
-} from "firebase/firestore";
-import { auth, database } from "../../config/firebase";
+import { auth } from "../../config/firebase";
 import QuickAccessViewModal from "./QuickAccessViewModal";
 import useIndicator from "../hooks/useIndicator";
 import styles from "./utils/styles";
-import formatTime from "./utils/MessageBox/formatTime";
-
+import getFirstMessage from "./utils/MessageBox/getFirstMessage";
+import getBubble from "./utils/MessageBox/getBubble";
 const profileImg = require("../assets/profile-picture.png");
 
 const MessageBox = ({
   navigation,
-  userStatus,
-  friendStatus,
+  userStatus = "none",
   dataSnap,
   isPrevModalVisible,
   setPrevModalVisible,
 }) => {
   const [msgPreview, setMsgPreview] = useState("Say Hi!");
   const [msgTime, setMsgTime] = useState("");
+  const [bubbleIndicator, setBubbleIndicator] = useState(userStatus);
+  const [bubbleTime, setBubbleTime] = useState("tomorrow");
   const [isModalVisible, setModalVisible] = useState(false);
   const [isIndividialModal, setIndividualModal] = useState(true);
-  const userIndicator = useIndicator(userStatus);
-  const friendIndicator = useIndicator(friendStatus);
+  const [friendIndicator, setFriendIndicator] = useState(useIndicator(null));
   const title =
     dataSnap?.title == auth.currentUser.displayName
       ? dataSnap?.altTitle
       : dataSnap?.title;
+  const type = dataSnap?.type;
 
   /** TODO: optimize by utilizing colors.js */
   const borderColors = {
@@ -42,32 +35,33 @@ const MessageBox = ({
     idle: "#D49A00",
     doNotDisturb: "#F62447",
     invisible: "#818181",
+    none: "#ffffff00",
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const unsubscribeAll = [];
+
+    /* Randomized indicators for now. Delete when backend is done */
+    const randomizer = [
+      "openToChat",
+      "idle",
+      "doNotDisturb",
+      "invisible",
+      null,
+    ];
+    setFriendIndicator(useIndicator(randomizer[Math.floor(Math.random() * 5)]));
+    /* up to here */
+
     try {
-      const q = query(
-        collection(database, "messages"),
-        where("conversationID", "==", dataSnap?.convRef),
-        orderBy("createdAt", "desc"),
-        limit(1)
-      );
+      getFirstMessage(dataSnap, setMsgTime, setMsgPreview, unsubscribeAll);
+      getBubble(title, type, setBubbleIndicator, setBubbleTime, unsubscribeAll);
+    } catch (error) {}
 
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        if (querySnapshot.empty) return;
-
-        querySnapshot.forEach((doc) => {
-          const date = doc.data().createdAt.toDate();
-          const time = formatTime(date);
-          setMsgPreview(doc.data().text);
-          setMsgTime(time);
-        });
+    return () => {
+      unsubscribeAll.forEach((unsubscribe) => {
+        unsubscribe();
       });
-
-      return () => unsubscribe();
-    } catch (err) {
-      console.log(err);
-    }
+    };
   }, []);
 
   return (
@@ -115,17 +109,40 @@ const MessageBox = ({
               >
                 {msgPreview}
               </ListItem.Subtitle>
-              <ListItem.Subtitle
-                style={{
-                  ...styles.statusIndicatorText,
-                  borderColor: borderColors[userStatus],
-                }}
-                numberOfLines={1}
-              >
-                They see you as{" "}
-                <Image source={userIndicator} style={styles.smallIndicator} />{" "}
-                until tomorrow 8:30pm
-              </ListItem.Subtitle>
+              {bubbleIndicator == "none" ? (
+                <ListItem.Subtitle
+                  style={{
+                    ...styles.statusIndicatorText,
+                    borderColor: borderColors[bubbleIndicator],
+                    color: "#ffffff00",
+                  }}
+                  numberOfLines={1}
+                >
+                  {"They see you as "}
+                  <Image
+                    source={useIndicator(bubbleIndicator)}
+                    style={{ ...styles.smallIndicator, width: 0, height: 0 }}
+                  />
+                  {" until "}
+                  {bubbleTime}
+                </ListItem.Subtitle>
+              ) : (
+                <ListItem.Subtitle
+                  style={{
+                    ...styles.statusIndicatorText,
+                    borderColor: borderColors[bubbleIndicator],
+                  }}
+                  numberOfLines={1}
+                >
+                  {"They see you as "}
+                  <Image
+                    source={useIndicator(bubbleIndicator)}
+                    style={styles.smallIndicator}
+                  />
+                  {" until "}
+                  {bubbleTime}
+                </ListItem.Subtitle>
+              )}
             </ListItem.Content>
           </ListItem.Content>
         </ListItem>

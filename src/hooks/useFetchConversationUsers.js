@@ -10,7 +10,6 @@ import { auth, database } from "../../config/firebase";
 
 const useFetchConversationUsers = async (conversationID) => {
   const users = [];
-  console.log("useFethc  " + conversationID);
   const convRef = doc(database, "conversations", conversationID);
   const q = query(
     collection(database, "user_conversations"),

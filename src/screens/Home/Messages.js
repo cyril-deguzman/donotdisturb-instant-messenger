@@ -27,8 +27,7 @@ const Messages = ({ navigation }) => {
   const pencilIcon = useIcon("messagePencilIcon");
 
   const [option, setOption] = useState(null);
-  const [customMessageValue, onChangeText] = useState(null);
-  const [name, updateName] = useState("");
+  const [customMessageValue, setCustomMessage] = useState("");
 
   const dictionary = {
     "Open to Chat": "openToChat",
@@ -38,22 +37,22 @@ const Messages = ({ navigation }) => {
   };
 
   useLayoutEffect(() => {
+    const unsubscribeAll = [];
+
     const initialUpdate = async () => {
-      console.log(auth.currentUser);
       const userRef = doc(database, "users", auth.currentUser.uid);
-      const dataSnap = await getDoc(userRef);
+      const user = await getDoc(userRef);
+      const unsubscribe = onSnapshot(user.data().statusID, (indicator) => {
+        setOption(indicator.data().osi);
+        setCustomMessage(indicator.data().message);
+      });
 
-      console.log(dataSnap.data());
-
-      updateName(dataSnap.data().name);
-
-      const dataOSISnap = await getDoc(dataSnap.data().statusID);
-      console.log(dataOSISnap.data());
-      setOption(dataOSISnap.data().osi);
-      onChangeText(dataOSISnap.data().message);
+      unsubscribeAll.push(unsubscribe);
     };
 
     initialUpdate();
+
+    return () => unsubscribeAll.forEach((unsubscribe) => unsubscribe());
   }, []);
 
   useEffect(() => {
@@ -127,8 +126,6 @@ const Messages = ({ navigation }) => {
             renderItem={({ item }) => (
               <MessageBox
                 navigation={navigation}
-                userStatus="idle"
-                friendStatus="openToChat"
                 dataSnap={{ ...item }}
                 isPrevModalVisible={isPrevModalVisible}
                 setPrevModalVisible={setPrevModalVisible}

@@ -9,6 +9,7 @@ const useIndicator = (status) => {
     idle: idle,
     doNotDisturb: doNotDisturb,
     invisible: invisible,
+    none: invisible,
   };
 
   return indicators[status];

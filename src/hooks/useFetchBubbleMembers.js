@@ -9,52 +9,30 @@ import {
 import { auth, database } from "../../config/firebase";
 
 const useFetchBubbleMembers = async (bubbleRef, memberID) => {
-  const listBubblesOrMembers = [];
-  console.log("useFethc  ");
+  const bubbles = [];
 
-  var q;
-
-  if (memberID)
-    q = query(
-      collection(database, "bubble_members"),
-      where("memberID", "==", memberID),
-      where("bubbleID", "!=", bubbleRef)
-    );
-  else {
-    const ref = doc(database, "bubbles", bubbleRef);
-    q = query(
-      collection(database, "bubble_members"),
-      where("bubbleID", "==", ref)
-    );
-  }
+  const q = query(
+    collection(database, "bubble_members"),
+    where("memberID", "==", memberID),
+    where("bubbleID", "!=", bubbleRef)
+  );
 
   const bubbleMemberSnapshot = await getDocs(q);
-  console.log(bubbleMemberSnapshot);
 
   await Promise.all(
     bubbleMemberSnapshot.docs.map(async (doc) => {
-      if (memberID) {
-        const bubbleRef = doc.data().bubbleID;
-        const bubble = await getDoc(bubbleRef);
+      const bubbleRef = doc.data().bubbleID;
+      const bubble = await getDoc(bubbleRef);
 
-        if (bubble.exists())
-          listBubblesOrMembers.push({
-            ...bubble.data(),
-            id: bubble.data().bubbleID,
-          });
-      } else {
-        const member = await getDoc(doc.data().memberID);
-
-        if (member.exists())
-          listBubblesOrMembers.push({
-            ...member.data(),
-            id: member.data().userID,
-          });
-      }
+      if (bubble.exists())
+        bubbles.push({
+          ...bubble.data(),
+          id: bubble.id,
+        });
     })
   );
 
-  return listBubblesOrMembers;
+  return bubbles;
 };
 
 export default useFetchBubbleMembers;
