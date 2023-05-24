@@ -30,9 +30,7 @@ const useFetchMiniBubbleMembers = (
       bubblesMembersArray.push(doc.data().memberID);
     });
 
-    const userConversations = await getUserConversations();
     const filteredConversations = await filterUserConversations(
-      userConversations,
       bubblesMembersArray
     );
 
@@ -42,26 +40,8 @@ const useFetchMiniBubbleMembers = (
   unsubscribeAll.push(unsubscribe);
 };
 
-const getUserConversations = async () => {
-  const user_conversations = [];
-  const userRef = doc(database, "users", auth.currentUser.uid);
-  const q = query(
-    collection(database, "user_conversations"),
-    where("userID", "==", userRef)
-  );
-
-  const dataSnap = await getDocs(q);
-
-  dataSnap.forEach((user_conversation) => {
-    user_conversations.push(user_conversation.data().conversationID);
-  });
-
-  return user_conversations;
-};
-
-const filterUserConversations = async (userConversations, members) => {
+const filterUserConversations = async (members) => {
   const filteredConversationIDs = [];
-  const userRef = doc(database, "users", auth.currentUser.uid);
 
   await Promise.all(
     members.map(async (member) => {
@@ -76,39 +56,13 @@ const filterUserConversations = async (userConversations, members) => {
 
       const convoSnap = await getDocs(q);
 
-      if (convoSnap.empty) {
-        const convRef = await addDoc(collection(database, "conversations"), {
-          type: "Direct",
-          title: memberInfo.data().name,
-          altTitle: auth.currentUser.displayName,
-        });
+      const convRef = doc(database, "conversations", convoSnap.docs[0].id);
 
-        await addDoc(collection(database, "user_conversations"), {
-          conversationID: convRef,
-          userID: member,
-        });
-
-        await addDoc(collection(database, "user_conversations"), {
-          conversationID: convRef,
-          userID: userRef,
-        });
-
-        filteredConversationIDs.push({
-          convRef: convRef,
-          id: convRef.id,
-          type: "Direct",
-          title: memberInfo.data().name,
-          altTitle: auth.currentUser.displayName,
-        });
-      } else {
-        const convRef = doc(database, "conversations", convoSnap.docs[0].id);
-
-        filteredConversationIDs.push({
-          convRef: convRef,
-          id: convoSnap.docs[0].id,
-          ...convoSnap.docs[0].data(),
-        });
-      }
+      filteredConversationIDs.push({
+        convRef: convRef,
+        id: convoSnap.docs[0].id,
+        ...convoSnap.docs[0].data(),
+      });
     })
   );
 

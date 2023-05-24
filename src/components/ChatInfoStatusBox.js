@@ -12,6 +12,7 @@ const ChatInfoStatusOptionBox = (props) => {
           bubbleID: props.bubbleID,
           headerTitle: props.headerTitle,
           bubbleTitle: props.bubbleTitle,
+          type: "Edit",
         })
       }
       style={({ pressed }) => [

@@ -1,5 +1,13 @@
 import { ToastAndroid } from "react-native";
-import { collection, doc, addDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  addDoc,
+  query,
+  where,
+  limit,
+  getDocs,
+} from "firebase/firestore";
 import { auth, database } from "../../../../../config/firebase";
 
 const handleNextButton = async (name, users, selectedUsers, navigation) => {
@@ -35,13 +43,48 @@ const handleNextButton = async (name, users, selectedUsers, navigation) => {
     const memberSnap = users.filter((user) => user.name === member);
     const memberRef = doc(database, "users", memberSnap[0].userID);
 
+    await createUserConversation(memberSnap[0].name, memberRef, userRef);
     await addDoc(collection(database, "bubble_members"), {
       bubbleID: bubble,
       memberID: memberRef,
     });
   });
 
-  navigation.navigate("Bubble");
+  navigation.navigate("ChangeStatusGroup", {
+    bubbleID: bubble.id,
+    headerTitle: "Change how they see you",
+    bubbleTitle: name,
+  });
+};
+
+const createUserConversation = async (memberName, memberRef, userRef) => {
+  const q = query(
+    collection(database, "conversations"),
+    where("title", "==", memberName),
+    where("altTitle", "==", auth.currentUser.displayName),
+    where("type", "==", "Direct"),
+    limit(1)
+  );
+
+  const convoSnap = await getDocs(q);
+
+  if (convoSnap.empty) {
+    const convRef = await addDoc(collection(database, "conversations"), {
+      type: "Direct",
+      title: memberName,
+      altTitle: auth.currentUser.displayName,
+    });
+
+    await addDoc(collection(database, "user_conversations"), {
+      conversationID: convRef,
+      userID: memberRef,
+    });
+
+    await addDoc(collection(database, "user_conversations"), {
+      conversationID: convRef,
+      userID: userRef,
+    });
+  }
 };
 
 export default handleNextButton;

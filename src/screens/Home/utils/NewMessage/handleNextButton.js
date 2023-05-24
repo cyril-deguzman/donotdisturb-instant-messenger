@@ -2,7 +2,12 @@ import { ToastAndroid } from "react-native";
 import { collection, doc, addDoc } from "firebase/firestore";
 import { auth, database } from "../../../../../config/firebase";
 
-const handleNextButton = async (users, selectedUsers, navigation) => {
+const handleNextButton = async (name, users, selectedUsers, navigation) => {
+  if (name.trim().length == 0) {
+    ToastAndroid.show("Name is required", ToastAndroid.SHORT);
+    return;
+  }
+
   if (!selectedUsers.length) {
     ToastAndroid.show("Select a user", ToastAndroid.SHORT);
     return;
@@ -13,7 +18,7 @@ const handleNextButton = async (users, selectedUsers, navigation) => {
   let type = "Direct";
 
   if (selectedUsers.length > 1) {
-    title = "GC by " + auth.currentUser.displayName;
+    title = name;
     type = "Group";
   }
 

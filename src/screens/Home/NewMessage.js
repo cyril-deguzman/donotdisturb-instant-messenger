@@ -6,6 +6,7 @@ import ProfileCheckBox from "../../components/ProfileCheckBox";
 import newMessageStyles from "./utils/newMessageStyles";
 import handleNextButton from "./utils/NewMessage/handleNextButton";
 import useFetchUsers from "../../hooks/useFetchUsers";
+import GroupNamePopup from "../../components/GroupNamePopup";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 const nextButton = require("../../assets/icons/next-button.png");
@@ -15,6 +16,7 @@ const NewMessage = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [isGroupNameModalVisible, setGroupNameModalVisible] = useState(false);
 
   const addToSelectedUsers = (name) => {
     const updatedSelectedUsers = [...selectedUsers];
@@ -40,6 +42,13 @@ const NewMessage = ({ navigation }) => {
     <View style={newMessageStyles.container}>
       <Image source={bgImg} style={newMessageStyles.backImage} />
 
+      <GroupNamePopup
+        isGroupNameModalVisible={isGroupNameModalVisible}
+        setGroupNameModalVisible={setGroupNameModalVisible}
+        GroupNameHeader={"Group Chat Name (required)"}
+        handleNextButton={handleNextButton}
+        handleNextParams={[users, selectedUsers, navigation]}
+      />
       <View style={newMessageStyles.topContainer}>
         <View style={newMessageStyles.row}>
           <View style={newMessageStyles.together}>
@@ -49,7 +58,11 @@ const NewMessage = ({ navigation }) => {
             <Text style={newMessageStyles.label}>New Message</Text>
           </View>
           <TouchableOpacity
-            onPress={() => handleNextButton(users, selectedUsers, navigation)}
+            onPress={() => {
+              if (selectedUsers.length == 1)
+                handleNextButton("Direct", users, selectedUsers, navigation);
+              else setGroupNameModalVisible(true);
+            }}
           >
             <Image source={nextButton} style={newMessageStyles.nextButton} />
           </TouchableOpacity>

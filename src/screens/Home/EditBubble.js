@@ -46,7 +46,7 @@ const EditBubble = ({ route, navigation }) => {
 
   const setNameFunction = async (newTitle) => {
     const bubbleRef = doc(database, "bubbles", route.params.bubbleID);
-    console.log("Bubbldsdsdsd!" + route.params.bubbleID);
+
     const data = await updateDoc(bubbleRef, {
       title: newTitle,
     })
@@ -59,7 +59,7 @@ const EditBubble = ({ route, navigation }) => {
 
   const deleteBubbleFunction = async () => {
     const bubbleRef = doc(database, "bubbles", route.params.bubbleID);
-    console.log("Bubbldsdsdsd!" + route.params.bubbleID);
+
     const data = await deleteDoc(bubbleRef)
       .then(() => {
         console.log("Bubble deleted!");
@@ -67,11 +67,6 @@ const EditBubble = ({ route, navigation }) => {
       })
       .catch((error) => console.error(error));
   };
-
-  // <DeleteAlertPopup
-  //   isModalVisible={isModalVisible}
-  //   setModalVisible={setModalVisible}
-  // />;
 
   console.log(route.params.bubbleID);
   return (

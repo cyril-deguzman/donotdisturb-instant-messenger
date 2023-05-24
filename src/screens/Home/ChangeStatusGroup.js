@@ -201,7 +201,7 @@ const ChangeStatusGroup = ({ route, navigation }) => {
         });
       }
 
-      navigation.goBack();
+      navigation.navigate("Bubble");
     };
 
     updateStatus();
