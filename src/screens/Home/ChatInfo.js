@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 
 import ChatInfoOptionBox from "../../components/ChatInfoOptionBox";
+import ChatInfoStatusBox from "../../components/ChatInfoStatusBox";
 import OptionHeaderBox from "../../components/OptionHeaderBox";
 import Header from "../../components/Header";
 import SwitchBox from "../../components/SwitchBox";
@@ -53,6 +54,7 @@ const ChatInfo = ({ route, navigation }) => {
           <View style={settingsStyles.chatInfoContainer}>
             <>
               <OptionHeaderBox header="Actions" />
+
               <SwitchBox
                 icon={muteIcon}
                 name="Mute chat"
@@ -65,6 +67,7 @@ const ChatInfo = ({ route, navigation }) => {
                 navigation={navigation}
                 route={"ChatInfo"}
               />
+
               <ChatInfoOptionBox
                 icon={blockIcon}
                 name="Block this contact"

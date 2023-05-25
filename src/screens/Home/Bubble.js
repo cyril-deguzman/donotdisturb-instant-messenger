@@ -31,7 +31,8 @@ const Bubble = ({ navigation }) => {
     const userRef = doc(database, "users", auth.currentUser.uid);
     const q = query(
       collection(database, "bubbles"),
-      where("creatorID", "==", userRef)
+      where("creatorID", "==", userRef),
+      where("computerGenerated", "==", false)
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {

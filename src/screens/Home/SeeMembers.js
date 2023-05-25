@@ -26,7 +26,7 @@ const SeeMembers = ({ route, navigation }) => {
       var data;
       console.log("isConv: " + isConv);
       console.log("convID: " + convID);
-      if (isConv) data = await useFetchConversationUsers(convID);
+      if (isConv) data = await useFetchConversationUsers(convID, false);
       else data = await useFetchBubbleMembers(convID);
 
       setMembers(data);

@@ -18,11 +18,13 @@ import {
   query,
   where,
   getDoc,
+  getDocs,
   addDoc,
   onSnapshot,
   doc,
   updateDoc,
   serverTimestamp,
+  limit,
 } from "firebase/firestore";
 import { auth, database } from "../../../config/firebase";
 
@@ -41,6 +43,7 @@ import modalStyles from "../../components/utils/modalStyles";
 import useIcon from "../../hooks/useIcon";
 import ChangeStatusGroupStyles from "./utils/changeStatusGroupStyles";
 import useFetchBubbleMembers from "../../hooks/useFetchBubbleMembers";
+import useFetchConversationUsers from "../../hooks/useFetchConversationUsers";
 
 const Item = ({ title, image }) => (
   <TouchableOpacity
@@ -60,11 +63,12 @@ const Item = ({ title, image }) => (
 
 const ChangeStatusGroup = ({ route, navigation }) => {
   const bgImg = useBackground("topBubbles");
+  const [bubble, setBubble] = useState(null);
   const profileImg = require("../../assets/profile-picture.png");
 
   const [option, setOption] = useState(null);
   const [customMessageValue, onChangeText] = useState(null);
-  const [members, setMembers] = useState(false);
+  const [members, setMembers] = useState([]);
 
   const slideUpDownIcon = useIcon("slideUpDownIcon");
   const toggleOffIcon = useIcon("toggleOffIcon");
@@ -172,21 +176,40 @@ const ChangeStatusGroup = ({ route, navigation }) => {
     },
   ];
 
-  const dictionary = {
-    "Open to Chat": "openToChat",
-    "Be Right Back": "idle",
-    "Do Not Disturb": "doNotDisturb",
-    Invisible: "invisible",
-  };
-
   function updateUserStatusFunction(navigation) {
     const updateStatus = async () => {
-      const bubbleRef = doc(database, "bubbles", route.params.bubbleID);
-      const dataSnap = await getDoc(bubbleRef);
-
       const userRef = doc(database, "users", auth.currentUser.uid);
       const dataDefaultSnap = await getDoc(userRef);
       const currentTime = serverTimestamp();
+      var bubbleRef = bubble;
+
+      //Bubble making if there is no bubble
+      if (!bubble) {
+        console.log("No bubble");
+        bubbleRef = await addDoc(collection(database, "bubbles"), {
+          computerGenerated: true,
+          creatorID: userRef,
+          lastChanged: currentTime,
+          statusID: dataDefaultSnap.data().statusID,
+          title: route.params.bubbleTitle,
+          conversationID: doc(database, "conversations", route.params.convoID),
+        });
+
+        console.log("bubbleref", bubbleRef);
+        members.map(async (member) => {
+          var memberRef = doc(database, "users", member.id);
+          await addDoc(collection(database, "bubble_members"), {
+            bubbleID: bubbleRef,
+            memberID: memberRef,
+          });
+        });
+
+        console.log("Members added!");
+
+        setBubble(bubbleRef);
+      }
+
+      const dataSnap = await getDoc(bubbleRef);
 
       if (
         JSON.stringify(dataDefaultSnap.data().statusID) ==
@@ -206,12 +229,7 @@ const ChangeStatusGroup = ({ route, navigation }) => {
             await updateDoc(bubbleRef, {
               lastChanged: currentTime,
               statusID: docRef,
-            })
-              .then(async () => {
-                updateBubbleMemberBubbles(bubbleRef, docRef, currentTime);
-              })
-
-              .catch((error) => console.error(error));
+            }).catch((error) => console.error(error));
 
             navigation.goBack();
             console.log("Added and updated");
@@ -223,11 +241,6 @@ const ChangeStatusGroup = ({ route, navigation }) => {
           message: customMessageValue,
         })
           .then(() => {
-            updateBubbleMemberBubbles(
-              bubbleRef,
-              dataSnap.data().statusID,
-              currentTime
-            );
             console.log("Status updated!");
             navigation.goBack();
           })
@@ -238,92 +251,87 @@ const ChangeStatusGroup = ({ route, navigation }) => {
     updateStatus();
   }
 
-  const updateBubbleMemberBubbles = async (bubbleRef, osi, currentTime) => {
-    const q = query(
-      collection(database, "bubble_members"),
-      where("bubbleID", "==", bubbleRef)
-    );
-
-    onSnapshot(q, async (querySnapshot) => {
-      let counter = 0;
-      console.log("inside snap");
-      if (querySnapshot.empty) return;
-
-      querySnapshot.forEach(async (bubbleMember) => {
-        counter++;
-        const userRef = bubbleMember.data().memberID;
-
-        const bubbles = await useFetchBubbleMembers(bubbleRef, userRef);
-        console.log("List of bubbles with memberID: " + bubbles);
-
-        bubbles.map(async (item) => {
-          console.log("BUBBEID " + item.bubbleID);
-          console.log("Comp generated " + item.computerGenerated);
-
-          if (item.computerGenerated) {
-            console.log("lets begin");
-            const standAloneBubble = doc(database, "bubbles", item.bubbleID);
-            const data = await updateDoc(standAloneBubble, {
-              statusID: osi,
-              lastChanged: currentTime,
-            })
-              .then(() => {
-                console.log("Bubble of bubblemember status updated!");
-              })
-              .catch((error) => console.error(error));
-          }
-        });
-      });
-    });
-  };
-
   useLayoutEffect(() => {
     const initialUpdate = async () => {
-      console.log("Inside layout effect: " + route.params.bubbleID);
-      const bubbleRef = doc(database, "bubbles", route.params.bubbleID);
+      const userRef = doc(database, "users", auth.currentUser.uid);
+      var bubbleRef;
+      var q;
 
-      const dataBubbleSnap = await getDoc(bubbleRef);
+      //Look for bubble, either through bubbleID or through convoID
+      if (route.params.convoID) {
+        console.log("There is no bubble: " + route.params.convoID);
+        const conversationRef = doc(
+          database,
+          "conversations",
+          route.params.convoID
+        );
 
-      console.log(dataBubbleSnap.data());
+        q = query(
+          collection(database, "bubbles"),
+          where("creatorID", "==", userRef),
+          where("conversationID", "==", conversationRef),
+          limit(1)
+        );
 
-      const dataOSISnap = await getDoc(dataBubbleSnap.data().statusID);
-      console.log(dataOSISnap.data());
-      setOption(dataOSISnap.data().osi);
-      onChangeText(dataOSISnap.data().message);
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach(async (convBubble) => {
+          console.log("There is a convo bubble", convBubble.id);
+          bubbleRef = doc(database, "bubbles", convBubble.id);
+
+          setBubble(bubbleRef);
+          const docSnap = await getDoc(bubbleRef);
+
+          //Get members
+          const bubbleMembers = await useFetchBubbleMembers(docSnap.id);
+          setMembers(bubbleMembers);
+
+          //Set default options
+          const dataOSISnap = await getDoc(docSnap.data().statusID);
+          setOption(dataOSISnap.data().osi);
+          onChangeText(dataOSISnap.data().message);
+        });
+
+        //If there are no bubbles for the conversation
+        if (querySnapshot.empty) {
+          console.log("There is no bubble at all");
+          const docSnap = await getDoc(userRef);
+
+          //Get members
+          const conversationMembers = await useFetchConversationUsers(
+            route.params.convoID,
+            false
+          );
+          setMembers(conversationMembers);
+
+          //Set default options
+          const dataOSISnap = await getDoc(docSnap.data().statusID);
+          setOption(dataOSISnap.data().osi);
+          onChangeText(dataOSISnap.data().message);
+        }
+      }
+
+      //If this is a bubble
+      else {
+        console.log("bubbles");
+        bubbleRef = doc(database, "bubbles", route.params.bubbleID);
+        const docSnap = await getDoc(bubbleRef);
+
+        setBubble(bubbleRef);
+        console.log("docsnapp bubble avail: " + docSnap);
+
+        //Get members
+        const bubbleMembers = await useFetchBubbleMembers(docSnap.id);
+        setMembers(bubbleMembers);
+
+        //Set default options
+        const dataOSISnap = await getDoc(docSnap.data().statusID);
+        setOption(dataOSISnap.data().osi);
+        onChangeText(dataOSISnap.data().message);
+      }
     };
 
     initialUpdate();
-  }, []);
-
-  useLayoutEffect(() => {
-    const bubbleRef = doc(database, "bubbles", route.params.bubbleID);
-
-    const q = query(
-      collection(database, "bubble_members"),
-      where("bubbleID", "==", bubbleRef)
-    );
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const membersArray = [];
-      let counter = 0;
-      if (querySnapshot.empty) return;
-
-      querySnapshot.forEach(async (doc) => {
-        console.log("Insideddddd layout effect");
-        const memberDoc = await getDoc(doc.data().memberID);
-        counter++;
-
-        membersArray.push({
-          id: memberDoc.data().userID,
-          name: memberDoc.data().name,
-          image: profileImg,
-        });
-
-        if (querySnapshot.size == counter) setMembers(membersArray);
-      });
-    });
-
-    return () => unsubscribe();
   }, []);
 
   return (
@@ -368,7 +376,7 @@ const ChangeStatusGroup = ({ route, navigation }) => {
             <FlatList
               data={members}
               renderItem={({ item }) => (
-                <Item title={item.name} image={item.image} />
+                <Item title={item.name} image={profileImg} />
               )}
               keyExtractor={(item) => item.id}
               horizontal={true}

@@ -10,6 +10,7 @@ const ChatInfoStatusOptionBox = (props) => {
       onPress={() =>
         props.navigation.navigate(props.routeName, {
           bubbleID: props.bubbleID,
+          convoID: props.convoID,
           headerTitle: props.headerTitle,
           bubbleTitle: props.bubbleTitle,
         })

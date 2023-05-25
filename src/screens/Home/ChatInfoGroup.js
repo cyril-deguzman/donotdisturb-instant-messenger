@@ -13,6 +13,7 @@ import {
 } from "firebase/firestore";
 import { auth, database } from "../../../config/firebase";
 import ChatInfoOptionBox from "../../components/ChatInfoOptionBox";
+import ChatInfoStatusBox from "../../components/ChatInfoStatusBox";
 import OptionHeaderBox from "../../components/OptionHeaderBox";
 import Header from "../../components/Header";
 import SwitchBox from "../../components/SwitchBox";
@@ -86,11 +87,16 @@ const ChatInfoGroup = ({ route, navigation }) => {
                 navigation={navigation}
                 route={"ChatInfoGroup"}
               />
-              <ChatInfoOptionBox
+              <ChatInfoStatusBox
                 icon={changeStatusIcon}
                 name="Change how they see you"
                 navigation={navigation}
-                route={"ChatInfoGroup"}
+                routeName={"ChangeStatusGroup"}
+                userStatus={"idle"}
+                bubbleID={route.params.convID}
+                convoID={route.params.convID}
+                headerTitle={"Change how they see you"}
+                bubbleTitle={title}
               />
               <ChatInfoOptionBox
                 icon={blockIcon}

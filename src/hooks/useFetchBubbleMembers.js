@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { auth, database } from "../../config/firebase";
 
-const useFetchBubbleMembers = async (bubbleRef, memberID) => {
+const useFetchBubbleMembers = async (bubbleRef, memberID = null) => {
   const listBubblesOrMembers = [];
   console.log("useFethc  ");
 
@@ -29,7 +29,7 @@ const useFetchBubbleMembers = async (bubbleRef, memberID) => {
   }
 
   const bubbleMemberSnapshot = await getDocs(q);
-  console.log(bubbleMemberSnapshot);
+  //console.log(bubbleMemberSnapshot);
 
   await Promise.all(
     bubbleMemberSnapshot.docs.map(async (doc) => {
@@ -40,7 +40,7 @@ const useFetchBubbleMembers = async (bubbleRef, memberID) => {
         if (bubble.exists())
           listBubblesOrMembers.push({
             ...bubble.data(),
-            id: bubble.data().bubbleID,
+            id: bubble.id,
           });
       } else {
         const member = await getDoc(doc.data().memberID);
