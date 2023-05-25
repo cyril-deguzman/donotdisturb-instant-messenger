@@ -7,7 +7,7 @@ import useIndicator from "../hooks/useIndicator";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const ChatHeader = ({ navigation, title, type, convID }) => {
+const ChatHeader = ({ navigation, title, type, convID, bubble }) => {
   const backIcon = useIcon("backIcon");
   const infoIcon = useIcon("infoIcon");
   const friendIndicator = useIndicator("invisible");
@@ -29,7 +29,7 @@ const ChatHeader = ({ navigation, title, type, convID }) => {
       </Pressable>
       <View>
         <Avatar size={40} rounded source={profileImg} />
-        <Image source={friendIndicator} style={styles.indicator} />
+        <Image source={null} style={styles.indicator} />
       </View>
       <Text style={styles.headerText}>{title}</Text>
       <Pressable
@@ -38,6 +38,7 @@ const ChatHeader = ({ navigation, title, type, convID }) => {
           navigation.navigate(type == "Direct" ? "ChatInfo" : "ChatInfoGroup", {
             title: title,
             convID: convID,
+            bubble: bubble,
           })
         }
         style={({ pressed }) => [

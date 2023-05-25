@@ -23,6 +23,7 @@ import EditMembers from "./src/screens/Home/EditMembers";
 import ExcludeMembers from "./src/screens/Home/ExcludeMembers";
 import CreateAudience from "./src/screens/Home/CreateAudience";
 import ChangeStatusGroup from "./src/screens/Home/ChangeStatusGroup";
+import ChangeStatusIndiv from "./src/screens/Settings/ChangeStatusIndiv";
 
 const Stack = createStackNavigator();
 const AuthenticatedUserContext = createContext({});
@@ -60,6 +61,7 @@ const ChatStack = () => {
       <Stack.Screen name="ExcludeMembers" component={ExcludeMembers} />
       <Stack.Screen name="CreateAudience" component={CreateAudience} />
       <Stack.Screen name="ChangeStatusGroup" component={ChangeStatusGroup} />
+      <Stack.Screen name="ChangeStatusIndiv" component={ChangeStatusIndiv} />
     </Stack.Navigator>
   );
 };

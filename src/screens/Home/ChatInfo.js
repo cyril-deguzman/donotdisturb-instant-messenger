@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View, Text, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
@@ -19,13 +19,16 @@ import settingsStyles from "./utils/settingsStyles";
 const profilePic = require("../../assets/profile-picture.png");
 
 const ChatInfo = ({ route, navigation }) => {
-  const { title } = route.params;
+  const { convID, title, bubble } = route.params;
   const bgImg = useBackground("topBubbles");
   const indicator = useIndicator("openToChat");
   const muteIcon = useIcon("muteIcon");
   const changeStatusIcon = useIcon("changeStatusIcon");
   const blockIcon = useIcon("blockIcon");
   const deleteIcon = useIcon("deleteIcon");
+  const bubbleIndicator = bubble ? bubble.indicator : "none";
+  const bubbleTime = bubble ? bubble.time : "changed";
+  const indicatorID = bubble ? bubble.id : "none";
 
   return (
     <SafeAreaView style={settingsStyles.container}>
@@ -42,11 +45,15 @@ const ChatInfo = ({ route, navigation }) => {
 
             <View style={settingsStyles.chatInfoTextContainer}>
               <Text style={settingsStyles.userTextName}>{title}</Text>
-              <Text style={settingsStyles.userTextStatus}>
+              {/* <Text style={settingsStyles.userTextStatus}>
                 Set Status Message
-              </Text>
+              </Text> */}
 
-              <StatusBox userStatus={"doNotDisturb"} />
+              <StatusBox
+                userStatus={bubbleIndicator}
+                time={bubbleTime}
+                id={indicatorID}
+              />
             </View>
           </View>
 
@@ -63,7 +70,12 @@ const ChatInfo = ({ route, navigation }) => {
                 icon={changeStatusIcon}
                 name="Change how they see you"
                 navigation={navigation}
-                route={"ChatInfo"}
+                route={"ChangeStatusIndiv"}
+                children={{
+                  title: title,
+                  bubble: bubble,
+                  convID: convID,
+                }}
               />
               <ChatInfoOptionBox
                 icon={blockIcon}

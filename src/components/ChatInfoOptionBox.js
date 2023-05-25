@@ -12,6 +12,7 @@ const ChatInfoOptionBox = ({
   type = "conv",
   modalFunction = null,
   isConv = true,
+  children,
 }) => {
   if (modalFunction != null) {
     return (
@@ -37,6 +38,7 @@ const ChatInfoOptionBox = ({
             convID: convID,
             type: type,
             isConv: isConv,
+            children: children,
           })
         }
         style={({ pressed }) => [

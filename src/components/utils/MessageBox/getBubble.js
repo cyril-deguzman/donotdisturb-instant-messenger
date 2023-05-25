@@ -17,6 +17,7 @@ const getBubble = (
   type,
   setBubbleIndicator,
   setBubbleTime,
+  setIndicatorRef,
   unsubscribeAll
 ) => {
   const userRef = doc(database, "users", auth.currentUser.uid);
@@ -51,6 +52,7 @@ const getBubble = (
             bubbleRef,
             setBubbleIndicator,
             setBubbleTime,
+            setIndicatorRef,
             unsubscribeAll
           );
         }
@@ -63,6 +65,7 @@ const getBubble = (
             bubbleRef,
             setBubbleIndicator,
             setBubbleTime,
+            setIndicatorRef,
             unsubscribeAll
           );
         }
@@ -77,10 +80,13 @@ const loadBubbleIndicator = async (
   bubbleRef,
   setBubbleIndicator,
   setBubbleTime,
+  setIndicatorRef,
   unsubscribeAll
 ) => {
   const bubble = await getDoc(bubbleRef);
   const indicatorRef = bubble.data().statusID;
+
+  setIndicatorRef(indicatorRef);
 
   const unsubscribe = onSnapshot(indicatorRef, (indicator) => {
     const expiry = indicator.data().expiry

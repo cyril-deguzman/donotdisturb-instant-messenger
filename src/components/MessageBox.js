@@ -23,6 +23,7 @@ const MessageBox = ({
   const [isModalVisible, setModalVisible] = useState(false);
   const [isIndividialModal, setIndividualModal] = useState(true);
   const [friendIndicator, setFriendIndicator] = useState(useIndicator(null));
+  const [indicatorRef, setIndicatorRef] = useState();
   const title =
     dataSnap?.title == auth.currentUser.displayName
       ? dataSnap?.altTitle
@@ -54,7 +55,14 @@ const MessageBox = ({
 
     try {
       getFirstMessage(dataSnap, setMsgTime, setMsgPreview, unsubscribeAll);
-      getBubble(title, type, setBubbleIndicator, setBubbleTime, unsubscribeAll);
+      getBubble(
+        title,
+        type,
+        setBubbleIndicator,
+        setBubbleTime,
+        setIndicatorRef,
+        unsubscribeAll
+      );
     } catch (error) {}
 
     return () => {
@@ -72,6 +80,11 @@ const MessageBox = ({
           convID: dataSnap?.convRef.id,
           title: title,
           type: dataSnap?.type,
+          bubble: {
+            id: indicatorRef ? indicatorRef.id : "none",
+            indicator: bubbleIndicator,
+            time: bubbleTime,
+          },
         });
         setPrevModalVisible(false);
       }}
