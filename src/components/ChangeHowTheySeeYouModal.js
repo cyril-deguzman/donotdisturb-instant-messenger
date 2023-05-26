@@ -33,6 +33,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ModalDropdown from "react-native-modal-dropdown";
 import useFetchBubbleMembers from "../hooks/useFetchBubbleMembers";
+import useFetchConversationUsers from "../hooks/useFetchConversationUsers";
 import defaultStatusStyles from "../screens/Home/utils/defaultStatusStyles";
 import useIndicator from "../hooks/useIndicator";
 import RadioButton from "../components/RadioButton";
@@ -146,23 +147,26 @@ const ChangeHowTheySeeYouModal = (props) => {
       const userRef = doc(database, "users", auth.currentUser.uid);
       const dataDefaultSnap = await getDoc(userRef);
       const currentTime = serverTimestamp();
-      var bubbleRef = bubble;
+      let bubbleRef = bubble;
 
       //Bubble making if there is no bubble
+      const convRef = doc(database, "conversations", props.convoID);
+      const osiRef = dataDefaultSnap.data().statusID;
+
       if (!bubble) {
         console.log("No bubble");
         bubbleRef = await addDoc(collection(database, "bubbles"), {
           computerGenerated: true,
           creatorID: userRef,
           lastChanged: currentTime,
-          statusID: dataDefaultSnap.data().statusID,
-          title: props.bubbleTitle,
-          conversationID: doc(database, "conversations", props.convoID),
+          statusID: osiRef,
+          title: props.title,
+          conversationID: convRef,
         });
 
         console.log("bubbleref", bubbleRef);
         members.map(async (member) => {
-          var memberRef = doc(database, "users", member.id);
+          const memberRef = doc(database, "users", member.id);
           await addDoc(collection(database, "bubble_members"), {
             bubbleID: bubbleRef,
             memberID: memberRef,
