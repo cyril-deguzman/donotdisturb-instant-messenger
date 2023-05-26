@@ -12,6 +12,7 @@ NOTE: all lowercase and no ending punctuation marks
 - [CY] - [#77](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/77) app(feature): change status individual
 - [CY] - [#74](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/74) app(feature): add bubble backend
 - [CY] - [#66](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/66) app(feature): message box bubble indicator
+- [RY] - [#77](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/75) app(feature): change status gcs popup
 - [RY] - [#72](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/72) app(feature): see edit members
 - [RY] - [#67](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/67) app(feature): edit group status
 - [RY] - [#64](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/64) app(hotfix): bubble display fix

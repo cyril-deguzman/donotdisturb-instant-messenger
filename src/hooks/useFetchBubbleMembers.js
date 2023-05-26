@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { auth, database } from "../../config/firebase";
 
-const useFetchBubbleMembers = async (bubbleRef, memberID) => {
+const useFetchBubbleMembers = async (bubbleRef, memberID = null) => {
   const listBubblesOrMembers = [];
 
   let q;
@@ -38,7 +38,7 @@ const useFetchBubbleMembers = async (bubbleRef, memberID) => {
         if (bubble.exists())
           listBubblesOrMembers.push({
             ...bubble.data(),
-            id: bubble.data().bubbleID,
+            id: bubble.id,
           });
       } else {
         const member = await getDoc(doc.data().memberID);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import {
   Image,
   View,
@@ -10,8 +10,6 @@ import {
 import useIcon from "../hooks/useIcon";
 import audienceBoxStyles from "./utils/audienceBoxStyles";
 import useIndicator from "../hooks/useIndicator";
-
-//import {firebase} from "../../../config/firebase";
 
 import {
   collection,
@@ -40,7 +38,6 @@ const AudienceBox = (props) => {
 
   const openCloseIcon = isExcludePersonVisible ? openIcon : closeIcon;
 
-  //console.log(props.members);
   const [excludeMembers, setExcludeMembers] = useState([]);
   const [bubbleMembers, setBubbleMembers] = useState([]);
   const [statusForMessage, setStatusForMessage] = useState("");
@@ -53,7 +50,7 @@ const AudienceBox = (props) => {
     Invisible: "invisible",
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const bubbleRef = doc(database, "bubbles", props.bubbleID);
     const q = query(
       collection(database, "bubble_members"),
@@ -75,25 +72,19 @@ const AudienceBox = (props) => {
         const dataSnap = await getDoc(userRef);
 
         const bubbles = await useFetchBubbleMembers(bubbleRef, userRef);
-        console.log("List of bubbles with memberID: " + bubbles);
 
         bubbles.map(async (item) => {
-          console.log("BUBBEID " + item.bubbleID);
-          // console.log("Statu " + JSON.stringify(item.statusID));
-          // console.log(
-          //   "Audience Ind " + JSON.stringify(props.audienceIndicator)
-          // );
           if (
             item.computerGenerated &&
             JSON.stringify(item.statusID) !=
               JSON.stringify(props.audienceIndicator)
           ) {
             const bubbleCreator = await getDoc(item.creatorID);
-            console.log("bubbleCreator " + bubbleCreator.data().userID);
+
             if (bubbleCreator.data().userID == auth.currentUser.uid) {
-              console.log("BUBBEstatus " + item.computerGenerated);
               excludeMembersArray.push(dataSnap.data().name);
-              setExcludeContainerVisible(true);
+              //TO DO
+              //setExcludeContainerVisible(true);
             }
           }
         });
@@ -121,22 +112,19 @@ const AudienceBox = (props) => {
                 " more"
             );
 
-          setExcludeMembers(excludeMembersArray);
+          //TO DO
+          //setExcludeMembers(excludeMembersArray);
           setBubbleMembers(bubbleMembersArray);
         }
       });
 
       const osiSnap = await getDoc(props.audienceIndicator);
-      console.log("props.audienceIndicator()");
-      console.log(osiSnap.data());
+
       setIndicator(useIndicator(dictionary[osiSnap.data().osi]));
     });
 
     return () => unsubscribe();
   }, []);
-
-  console.log("excludeMembers");
-  console.log(excludeMembers);
 
   return (
     <View style={audienceBoxStyles.audienceBoxContainer}>

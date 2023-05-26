@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import colors from "../../../colors";
-import normalize from 'react-native-normalize';
+import normalize from "react-native-normalize";
 
 const modalStyles = StyleSheet.create({
   //modal option box
@@ -21,7 +21,7 @@ const modalStyles = StyleSheet.create({
     marginTop: normalize(10),
     marginBottom: normalize(10),
     alignSelf: "flex-start",
-    width: normalize(31), 
+    width: normalize(31),
     height: normalize(31),
   },
 
@@ -34,8 +34,8 @@ const modalStyles = StyleSheet.create({
     width: "100%",
   },
   modalSlideUpDownButton: {
-    width: normalize(100), 
-    height: normalize(10), 
+    width: normalize(100),
+    height: normalize(10),
     alignSelf: "center",
   },
   modalOptionsContainer: {
@@ -43,51 +43,45 @@ const modalStyles = StyleSheet.create({
     alignItems: "flex-start",
   },
 
-
   // modal See ALl container
-  modalSeeAllContainer: {
-
-  },
+  modalSeeAllContainer: {},
   modalSeeAllPeopleContainer: {
-      borderTopLeftRadius: normalize(20),
-      borderTopRightRadius: normalize(20),
-      backgroundColor: "#F6F6FF",
-      width: "100%",
-      height: "60%",
-      marginTop: "auto",
-      //paddingHorizontal: 0,
-      paddingHorizontal: normalize(20),
+    borderTopLeftRadius: normalize(20),
+    borderTopRightRadius: normalize(20),
+    backgroundColor: "#F6F6FF",
+    width: "100%",
+    height: "60%",
+    marginTop: "auto",
+    //paddingHorizontal: 0,
+    paddingHorizontal: normalize(20),
   },
 
   // modal container
-  modalContainer: {
-    
-  },
+  modalContainer: {},
   modalPeopleContainer: {
-      borderTopLeftRadius: normalize(20),
-      borderTopRightRadius: normalize(20),
-      backgroundColor: "#F6F6FF",
-      width: "100%",
-      marginTop: "auto",
-      paddingHorizontal: 0,
-      paddingBottom: normalize(30),
+    borderTopLeftRadius: normalize(20),
+    borderTopRightRadius: normalize(20),
+    backgroundColor: "#F6F6FF",
+    width: "100%",
+    marginTop: "auto",
+    paddingHorizontal: 0,
+    paddingBottom: normalize(30),
 
-      position: "absolute",
-      bottom: 0,
+    position: "absolute",
+    bottom: 0,
   },
-
 
   // change how they see you modal
   modalStatusContainer: {
-      borderTopLeftRadius: normalize(20),
-      borderTopRightRadius: normalize(20),
-      backgroundColor: "#F6F6FF",
-      width: "100%",
-      marginTop: "auto",
-      paddingHorizontal: normalize(25),
+    borderTopLeftRadius: normalize(20),
+    borderTopRightRadius: normalize(20),
+    backgroundColor: "#F6F6FF",
+    width: "100%",
+    marginTop: "auto",
+    paddingHorizontal: normalize(25),
 
-      position: "absolute",
-      bottom: 0,
+    position: "absolute",
+    bottom: 0,
   },
   modalHeaderText: {
     fontWeight: "900",
@@ -147,7 +141,6 @@ const modalStyles = StyleSheet.create({
     marginBottom: normalize(15),
   },
 
-
   // radio button
   optionOSIContainer: {
     flexDirection: "row",
@@ -155,6 +148,12 @@ const modalStyles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 0,
     borderRadius: normalize(10),
+
+    width: "90%",
+    height: 160,
+    boxSizing: "border-box",
+    //backgroundColor: "rgba(246,1,1,1)",
+    marginTop: 5,
   },
   optionOSIIndicatorContainer: {
     flexDirection: "row",
@@ -184,7 +183,6 @@ const modalStyles = StyleSheet.create({
     borderRadius: normalize(20),
     backgroundColor: "#000",
   },
-
 });
 
 export default modalStyles;
