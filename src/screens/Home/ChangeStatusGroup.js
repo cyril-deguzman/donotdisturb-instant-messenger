@@ -238,7 +238,8 @@ const ChangeStatusGroup = ({ route, navigation }) => {
           .catch((error) => console.error(error));
       }
 
-      navigation.navigate("Bubble");
+      if (route.params.fromAdded) navigation.navigate("Bubble");
+      else navigation.goBack();
     };
 
     updateStatus();

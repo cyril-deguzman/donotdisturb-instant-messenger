@@ -54,6 +54,7 @@ const handleNextButton = async (name, users, selectedUsers, navigation) => {
     bubbleID: bubble.id,
     headerTitle: "Change how they see you",
     bubbleTitle: name,
+    fromAdded: true,
   });
 };
 
