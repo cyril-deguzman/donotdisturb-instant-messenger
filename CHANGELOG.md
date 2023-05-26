@@ -9,6 +9,9 @@ NOTE: all lowercase and no ending punctuation marks
 
 ## Next release v1.0
 
+- [RY] - [#77](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/75) app(feature): change status gcs popup
+- [RY] - [#72](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/72) app(feature): see edit members
+- [RY] - [#67](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/67) app(feature): edit group status
 - [RY] - [#64](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/64) app(hotfix): bubble display fix
 - [RY] - [#62](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/62) app(feature): status-for-specific-aud
 - [RY] - [#60](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/60) app(feature): bubble-edit-backend

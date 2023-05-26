@@ -90,6 +90,8 @@ const MessageBox = ({
           setModalVisible={setModalVisible}
           isIndividualModal={isIndividialModal}
           setIndividualModal={setIndividualModal}
+          convoID={dataSnap?.convRef.id}
+          title={title}
         />
 
         <ListItem containerStyle={styles.listContainer}>

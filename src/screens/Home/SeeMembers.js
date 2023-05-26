@@ -11,19 +11,25 @@ import useBackground from "../../hooks/useBackground";
 import normalize from "react-native-normalize";
 import ProfileBox from "../../components/ProfileBox";
 import useFetchConversationUsers from "../../hooks/useFetchConversationUsers";
+import useFetchBubbleMembers from "../../hooks/useFetchBubbleMembers";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 
 const SeeMembers = ({ route, navigation }) => {
   const { convID } = route.params;
+  const { isConv } = route.params;
   const [members, setMembers] = useState([]);
   const bgImg = useBackground("topBubbles");
 
   useLayoutEffect(() => {
     const fetchMembers = async () => {
-      const data = await useFetchConversationUsers(convID);
+      var data;
+      console.log("isConv: " + isConv);
+      console.log("convID: " + convID);
+      if (isConv) data = await useFetchConversationUsers(convID, false);
+      else data = await useFetchBubbleMembers(convID);
+
       setMembers(data);
-      console.log(data);
     };
     console.log("hiihihi" + route.params.conversationID);
     fetchMembers();

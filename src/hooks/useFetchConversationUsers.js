@@ -8,14 +8,28 @@ import {
 } from "firebase/firestore";
 import { auth, database } from "../../config/firebase";
 
-const useFetchConversationUsers = async (conversationID) => {
+const useFetchConversationUsers = async (
+  conversationID,
+  includeUser = true
+) => {
   const users = [];
-  console.log("useFethc  " + conversationID);
+  const loggedUser = doc(database, "users", auth.currentUser.uid);
+
+  console.log("useFetchConvoID  " + conversationID);
   const convRef = doc(database, "conversations", conversationID);
-  const q = query(
-    collection(database, "user_conversations"),
-    where("conversationID", "==", convRef)
-  );
+
+  var q;
+  if (includeUser)
+    q = query(
+      collection(database, "user_conversations"),
+      where("conversationID", "==", convRef)
+    );
+  else
+    q = query(
+      collection(database, "user_conversations"),
+      where("conversationID", "==", convRef),
+      where("userID", "!=", loggedUser)
+    );
   const conversationSnapshot = await getDocs(q);
 
   await Promise.all(

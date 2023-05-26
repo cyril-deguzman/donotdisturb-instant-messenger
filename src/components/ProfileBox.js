@@ -22,6 +22,8 @@ const ProfileBox = ({ navigation, dataSnap }) => {
   const { name } = dataSnap;
   const { statusID } = dataSnap;
 
+  console.log("Name for profileox: " + name);
+
   const [status, setStatus] = useState(null);
 
   const dictionary = {

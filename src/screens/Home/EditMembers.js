@@ -8,19 +8,25 @@ import useIcon from "../../hooks/useIcon";
 import ProfileDeleteBox from "../../components/ProfileDeleteBox";
 import AddMembersBox from "../../components/AddMembersBox";
 import useFetchConversationUsers from "../../hooks/useFetchConversationUsers";
+import useFetchBubbleMembers from "../../hooks/useFetchBubbleMembers";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 
 const EditMembers = ({ route, navigation }) => {
   const bgImg = useBackground("topBubbles");
   const addMembersIcon = useIcon("addMembersIcon");
+  const { isConv } = route.params;
+  const { convID } = route.params;
 
-  const convID = route.params.conversationID;
+  //const convID = route.params.conversationID;
   const [members, setMembers] = useState([]);
 
   useLayoutEffect(() => {
     const fetchMembers = async () => {
-      const data = await useFetchConversationUsers(convID);
+      var data;
+      if (isConv) data = await useFetchConversationUsers(convID);
+      else data = await useFetchBubbleMembers(convID);
+
       setMembers(data);
       console.log(data);
     };
