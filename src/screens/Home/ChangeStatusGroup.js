@@ -200,7 +200,7 @@ const ChangeStatusGroup = ({ route, navigation }) => {
 
       if (
         JSON.stringify(dataDefaultSnap.data().statusID) ==
-        JSON.stringify(bubbleSnap.data().statusID)
+        JSON.stringify(dataSnap.data().statusID)
       ) {
         console.log("Equal");
         const dataOSISnap = await addDoc(
@@ -227,7 +227,7 @@ const ChangeStatusGroup = ({ route, navigation }) => {
           lastChanged: currentTime,
         });
 
-        await updateDoc(bubbleSnap.data().statusID, {
+        await updateDoc(dataSnap.data().statusID, {
           osi: option,
           message: customMessageValue,
         })
