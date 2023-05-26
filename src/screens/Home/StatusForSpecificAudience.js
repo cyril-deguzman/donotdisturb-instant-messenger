@@ -157,7 +157,7 @@ const StatusForSpecificAudience = ({ navigation }) => {
                 ) {
                   let routeName = "";
                   item.computerGenerated
-                    ? (routeName = "ChangeStatusIndiv")
+                    ? (routeName = "ChangeStatusGroup")
                     : (routeName = "EditBubble");
 
                   return (
