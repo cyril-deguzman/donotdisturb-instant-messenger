@@ -13,12 +13,21 @@ import {
   getDoc,
   onSnapshot,
   doc,
+  deleteDoc,
 } from "firebase/firestore";
-//import { auth, database } from "../../../config/firebase";
+import { auth, database } from "../../config/firebase";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const ProfileDeleteBox = ({ userName, userStatus, navigation, routeName }) => {
+const ProfileDeleteBox = ({
+  userName,
+  userStatus,
+  navigation,
+  routeName,
+  userID,
+  isConv = true,
+  convID,
+}) => {
   const redDeleteIcon = useIcon("redDeleteIcon");
 
   const [status, setStatus] = useState(null);
@@ -28,6 +37,35 @@ const ProfileDeleteBox = ({ userName, userStatus, navigation, routeName }) => {
     "Be Right Back": "idle",
     "Do Not Disturb": "doNotDisturb",
     Invisible: "invisible",
+  };
+
+  const deleteMemberFunction = async () => {
+    const memberRef = doc(database, "users", userID);
+    if (isConv) {
+      const convRef = doc(database, "conversations", convID);
+      const q = query(
+        collection(database, "user_conversations"),
+        where("conversationID", "==", convRef),
+        where("userID", "==", memberRef)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc);
+      });
+    } else {
+      const bubbleRef = doc(database, "bubbles", convID);
+      const q = query(
+        collection(database, "bubble_members"),
+        where("bubbleID", "==", bubbleRef),
+        where("memberID", "==", memberRef)
+      );
+      const querySnapshot = await getDocs(q);
+
+      querySnapshot.forEach(async (doc) => {
+        await deleteDoc(doc);
+      });
+    }
   };
 
   useLayoutEffect(() => {
@@ -46,7 +84,7 @@ const ProfileDeleteBox = ({ userName, userStatus, navigation, routeName }) => {
   }, []);
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate(routeName)}>
+    <TouchableOpacity onPress={() => deleteMemberFunction()}>
       <View style={styles.rowSpace}>
         <View style={styles.together}>
           <View>

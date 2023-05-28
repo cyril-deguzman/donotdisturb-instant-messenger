@@ -6,23 +6,33 @@ const handleSaveButton = async (
   convID,
   suggestedUsers,
   selectedUsers,
-  navigation
+  navigation,
+  isConv = true
 ) => {
   if (!selectedUsers.length) {
     ToastAndroid.show("Select a user", ToastAndroid.SHORT);
     return;
   }
 
-  const convRef = doc(database, "conversations", convID);
+  var ref;
+
+  if (isConv) ref = doc(database, "conversations", convID);
+  else ref = doc(database, "bubbles", convID);
 
   selectedUsers.forEach(async (friend) => {
     const friendSnap = suggestedUsers.filter((user) => user.name === friend);
     const friendRef = doc(database, "users", friendSnap[0].userID);
 
-    await addDoc(collection(database, "user_conversations"), {
-      conversationID: convRef,
-      userID: friendRef,
-    });
+    if (isConv)
+      await addDoc(collection(database, "user_conversations"), {
+        conversationID: ref,
+        userID: friendRef,
+      });
+    else
+      await addDoc(collection(database, "bubble_members"), {
+        bubbleID: ref,
+        memberID: friendRef,
+      });
   });
 
   navigation.goBack();

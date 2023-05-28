@@ -8,7 +8,12 @@ import useIndicator from "../hooks/useIndicator";
 
 const profileImg = require("../assets/profile-picture.png");
 
-const AddMembersBox = ({ navigation, routeName, conversationID }) => {
+const AddMembersBox = ({
+  navigation,
+  routeName,
+  conversationID,
+  isConv = true,
+}) => {
   const addMembersIcon = useIcon("addMembersIcon");
 
   return (
@@ -16,6 +21,7 @@ const AddMembersBox = ({ navigation, routeName, conversationID }) => {
       onPress={() =>
         navigation.navigate(routeName, {
           convID: conversationID,
+          isConv: isConv,
         })
       }
     >

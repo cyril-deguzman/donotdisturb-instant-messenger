@@ -15,12 +15,13 @@ import useFetchConversationUsers from "../../hooks/useFetchConversationUsers";
 import useFetchUsers from "../../hooks/useFetchUsers";
 import addMembersStyles from "./utils/addMembersStyles";
 import handleSaveButton from "./utils/AddMembers/handleSaveButton";
+import useFetchBubbleMembers from "../../hooks/useFetchBubbleMembers";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 const saveButton = require("../../assets/icons/save-button.png");
 
 const AddMembers = ({ navigation, route }) => {
-  const { convID, type } = route.params;
+  const { convID, type, isConv } = route.params;
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const bgImg = useBackground("topBubbles");
@@ -40,7 +41,12 @@ const AddMembers = ({ navigation, route }) => {
   useEffect(() => {
     const fetchSuggestedMembers = async () => {
       const allUsers = await useFetchUsers(true);
-      const members = await useFetchConversationUsers(convID);
+
+      var members;
+
+      if (isConv) members = await useFetchConversationUsers(convID, false);
+      else members = await useFetchBubbleMembers(convID);
+
       const memberNames = members.map((m) => m.name);
 
       const filteredUsers = allUsers.filter(
@@ -71,7 +77,8 @@ const AddMembers = ({ navigation, route }) => {
                 convID,
                 suggestedUsers,
                 selectedUsers,
-                navigation
+                navigation,
+                isConv
               )
             }
           >

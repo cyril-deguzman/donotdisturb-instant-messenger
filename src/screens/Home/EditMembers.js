@@ -12,6 +12,17 @@ import useFetchBubbleMembers from "../../hooks/useFetchBubbleMembers";
 
 const backIcon = require("../../assets/icons/back-icon.png");
 
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  doc,
+  getDoc,
+  onSnapshot,
+} from "firebase/firestore";
+import { auth, database } from "../../../config/firebase";
+
 const EditMembers = ({ route, navigation }) => {
   const bgImg = useBackground("topBubbles");
   const addMembersIcon = useIcon("addMembersIcon");
@@ -22,16 +33,59 @@ const EditMembers = ({ route, navigation }) => {
   const [members, setMembers] = useState([]);
 
   useLayoutEffect(() => {
-    const fetchMembers = async () => {
-      var data;
-      if (isConv) data = await useFetchConversationUsers(convID);
-      else data = await useFetchBubbleMembers(convID);
+    var q;
 
-      setMembers(data);
-      console.log(data);
-    };
-    console.log("hiihihi" + route.params.conversationID);
-    fetchMembers();
+    if (isConv) {
+      const fetchMembers = async () => {
+        const data = await useFetchConversationUsers(convID);
+        setMembers(data);
+      };
+      fetchMembers();
+    } else {
+      const bubbleRef = doc(database, "bubbles", convID);
+      q = query(
+        collection(database, "bubble_members"),
+        where("bubbleID", "==", bubbleRef)
+      );
+
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const membersArray = [];
+        let counter = 0;
+        if (querySnapshot.empty) return;
+
+        querySnapshot.forEach(async (doc) => {
+          console.log("qempty:", querySnapshot.empty);
+          const member = await getDoc(doc.data().memberID);
+
+          if (member.exists())
+            membersArray.push({
+              ...member.data(),
+              id: member.data().userID,
+            });
+
+          counter++;
+
+          if (querySnapshot.size == counter) {
+            setMembers(membersArray);
+            console.log("hiihihi" + membersArray);
+          }
+        });
+      });
+
+      return () => unsubscribe();
+    }
+
+    // const fetchMembers = async () => {
+    //   console.log("---------------------", isConv);
+    //   var data;
+    //   if (isConv) data = await useFetchConversationUsers(convID);
+    //   else data = await useFetchBubbleMembers(convID);
+
+    //   setMembers(data);
+    //   console.log(data);
+    // };
+    // console.log("hiihihi" + convID);
+    // fetchMembers();
   }, []);
 
   return (
@@ -70,6 +124,7 @@ const EditMembers = ({ route, navigation }) => {
           navigation={navigation}
           routeName={"AddMembers"}
           conversationID={convID}
+          isConv={isConv}
         />
         {members.map((item) => {
           return (
@@ -78,6 +133,9 @@ const EditMembers = ({ route, navigation }) => {
               navigation={navigation}
               routeName={"EditMembers"}
               userName={item.name}
+              userID={item.id}
+              isConv={isConv}
+              convID={convID}
             />
           );
         })}
