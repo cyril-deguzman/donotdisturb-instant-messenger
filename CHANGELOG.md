@@ -9,6 +9,8 @@ NOTE: all lowercase and no ending punctuation marks
 
 ## Next release v1.0
 
+- [RY] - [#79](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/79) app(hotfix): fixed delete members and suggested members
+- [RY] - [#78](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/78) app(hotfix): edit members screen updates members
 - [CY] - [#77](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/77) app(feature): change status individual
 - [CY] - [#74](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/74) app(feature): add bubble backend
 - [CY] - [#66](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/66) app(feature): message box bubble indicator

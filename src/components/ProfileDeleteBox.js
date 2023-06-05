@@ -11,6 +11,7 @@ import {
   query,
   where,
   getDoc,
+  getDocs,
   onSnapshot,
   doc,
   deleteDoc,
@@ -40,6 +41,7 @@ const ProfileDeleteBox = ({
   };
 
   const deleteMemberFunction = async () => {
+    console.log("IHFBSJDJKNSJIDASJNDAS:", userID);
     const memberRef = doc(database, "users", userID);
     if (isConv) {
       const convRef = doc(database, "conversations", convID);
@@ -62,8 +64,9 @@ const ProfileDeleteBox = ({
       );
       const querySnapshot = await getDocs(q);
 
-      querySnapshot.forEach(async (doc) => {
-        await deleteDoc(doc);
+      querySnapshot.forEach(async (member) => {
+        console.log(member.id, "has been deleted");
+        await deleteDoc(doc(database, "bubble_members", member.id));
       });
     }
   };

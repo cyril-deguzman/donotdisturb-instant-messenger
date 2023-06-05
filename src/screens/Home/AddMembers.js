@@ -40,12 +40,12 @@ const AddMembers = ({ navigation, route }) => {
 
   useEffect(() => {
     const fetchSuggestedMembers = async () => {
-      const allUsers = await useFetchUsers(true);
+      const allUsers = await useFetchUsers(false);
 
       var members;
 
       if (isConv) members = await useFetchConversationUsers(convID, false);
-      else members = await useFetchBubbleMembers(convID);
+      else members = await useFetchBubbleMembers(convID, false);
 
       const memberNames = members.map((m) => m.name);
 
