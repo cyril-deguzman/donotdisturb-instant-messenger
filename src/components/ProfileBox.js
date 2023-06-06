@@ -1,30 +1,15 @@
 import React, { useState, useLayoutEffect } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { getDoc } from "firebase/firestore";
 import normalize from "react-native-normalize";
-import Pressable from "react-native/Libraries/Components/Pressable/Pressable";
-
 import useIndicator from "../hooks/useIndicator";
-
+import useFetchConvoByUser from "../hooks/useFetchConvoByUser";
 const profileImg = require("../assets/profile-picture.png");
 
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  doc,
-  getDoc,
-} from "firebase/firestore";
-import { auth, database } from "../../config/firebase";
-
 const ProfileBox = ({ navigation, dataSnap }) => {
-  const indicator = useIndicator("openToChat");
-  const { name } = dataSnap;
-  const { statusID } = dataSnap;
-
-  console.log("Name for profileox: " + name);
-
+  const { name, statusID, id } = dataSnap;
   const [status, setStatus] = useState(null);
+  const [convID, setConvID] = useState(null);
 
   const dictionary = {
     "Open to Chat": "openToChat",
@@ -35,19 +20,28 @@ const ProfileBox = ({ navigation, dataSnap }) => {
 
   useLayoutEffect(() => {
     const initialUpdate = async () => {
-      console.log("statusData  " + statusID);
       const statusData = await getDoc(statusID);
-
-      console.log(statusData.data().osi);
-
+      const conversationID = await useFetchConvoByUser(id);
+      console.log("profileBoxConvoID", conversationID);
       setStatus(statusData.data().osi);
+      setConvID(conversationID);
     };
 
     initialUpdate();
   }, []);
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("SeeMembers")}>
+    <TouchableOpacity
+      onPress={() =>
+        convID
+          ? navigation.navigate("Chat", {
+              convID: convID,
+              title: name,
+              type: "Direct",
+            })
+          : console.log("no convo")
+      }
+    >
       <View style={styles.rowSpace}>
         <View style={styles.together}>
           <View>
@@ -57,17 +51,7 @@ const ProfileBox = ({ navigation, dataSnap }) => {
               style={styles.indicator}
             />
           </View>
-          <Text
-            style={{
-              fontFamily: "Inter",
-              fontSize: normalize(16),
-              fontWeight: "500",
-              color: "#4F457C",
-              paddingLeft: normalize(20),
-            }}
-          >
-            {name}
-          </Text>
+          <Text style={styles.nameText}>{name}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -98,6 +82,13 @@ const styles = StyleSheet.create({
   together: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  nameText: {
+    fontFamily: "Inter",
+    fontSize: normalize(16),
+    fontWeight: "500",
+    color: "#4F457C",
+    paddingLeft: normalize(20),
   },
 });
 

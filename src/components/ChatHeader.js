@@ -15,7 +15,7 @@ const ChatHeader = ({ navigation, title, type, convID, bubble }) => {
   return (
     <View style={styles.headerContainer}>
       <Pressable
-        onPress={() => navigation.navigate("Home")}
+        onPress={() => navigation.goBack()}
         style={({ pressed }) => [
           {
             backgroundColor: pressed ? "#D9D9D9" : "#FFFFFF00",

@@ -18,7 +18,7 @@ import chatStyles from "./utils/chatStyles";
 export default function Chat({ route, navigation }) {
   const [messages, setMessages] = useState([]);
   const bgImg = useBackground("bubbles");
-  const { convID, title, type, bubble } = route.params;
+  const { convID, title, type } = route.params;
 
   const renderBubble = (props) => {
     return (
@@ -67,7 +67,7 @@ export default function Chat({ route, navigation }) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [convID]);
 
   const onSend = useCallback((messages = []) => {
     const conversationID = doc(database, "conversations", convID);
@@ -92,7 +92,7 @@ export default function Chat({ route, navigation }) {
         navigation={navigation}
         convID={convID}
         type={type}
-        bubble={bubble}
+        bubble={null}
       />
       <ImageBackground source={bgImg} style={{ flex: 10 }}>
         <GiftedChat
