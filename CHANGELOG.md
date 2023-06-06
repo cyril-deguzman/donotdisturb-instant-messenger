@@ -9,6 +9,7 @@ NOTE: all lowercase and no ending punctuation marks
 
 ## Next release v1.0
 
+- [CY] - [#81](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/81) app(feature): track friend default status and modal backend hotfix
 - [CY] - [#80](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/80) app(navigation): see members screen to chat screen navigation
 - [RY] - [#79](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/79) app(hotfix): fixed delete members and suggested members
 - [RY] - [#78](https://github.com/cyril-deguzman/donotdisturb-instant-messenger/issues/78) app(hotfix): edit members screen updates members

@@ -7,6 +7,7 @@ import useIndicator from "../hooks/useIndicator";
 import styles from "./utils/styles";
 import getFirstMessage from "./utils/MessageBox/getFirstMessage";
 import getBubble from "./utils/MessageBox/getBubble";
+import getFriendIndicator from "./utils/MessageBox/getFriendIndicator";
 const profileImg = require("../assets/profile-picture.png");
 
 const MessageBox = ({
@@ -42,17 +43,6 @@ const MessageBox = ({
   useLayoutEffect(() => {
     const unsubscribeAll = [];
 
-    /* Randomized indicators for now. Delete when backend is done */
-    const randomizer = [
-      "openToChat",
-      "idle",
-      "doNotDisturb",
-      "invisible",
-      null,
-    ];
-    setFriendIndicator(useIndicator(randomizer[Math.floor(Math.random() * 5)]));
-    /* up to here */
-
     try {
       getFirstMessage(dataSnap, setMsgTime, setMsgPreview, unsubscribeAll);
       getBubble(
@@ -61,6 +51,12 @@ const MessageBox = ({
         setBubbleIndicator,
         setBubbleTime,
         setIndicatorRef,
+        unsubscribeAll
+      );
+      getFriendIndicator(
+        dataSnap.convRef,
+        type,
+        setFriendIndicator,
         unsubscribeAll
       );
     } catch (error) {}

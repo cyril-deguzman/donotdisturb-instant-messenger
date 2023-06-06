@@ -185,15 +185,12 @@ const ChangeHowTheySeeYouModal = (props) => {
         JSON.stringify(dataSnap.data().statusID)
       ) {
         console.log("Equal");
-        const dataOSISnap = await addDoc(
-          collection(database, "online_statuses"),
-          {
-            expiry: null,
-            message: customMessageValue,
-            osi: option,
-            toggleTime: false,
-          }
-        )
+        const osiRef = await addDoc(collection(database, "online_statuses"), {
+          expiry: null,
+          message: customMessageValue,
+          osi: option,
+          toggleTime: false,
+        })
           .then(async (docRef) => {
             await updateDoc(bubbleRef, {
               lastChanged: currentTime,
@@ -204,6 +201,10 @@ const ChangeHowTheySeeYouModal = (props) => {
           })
           .catch((error) => console.error(error));
       } else {
+        await updateDoc(bubbleRef, { lastChanged: currentTime }).catch(
+          (error) => console.error(error)
+        );
+
         const dataOSISnap = await updateDoc(dataSnap.data().statusID, {
           osi: option,
           message: customMessageValue,
