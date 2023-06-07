@@ -24,6 +24,7 @@ import useFetchBubbleMembers from "../hooks/useFetchBubbleMembers";
 
 const AudienceBox = (props) => {
   const editIcon = useIcon("editIcon");
+  const resetIcon = useIcon("resetIcon");
   const trashIcon = useIcon("trashIcon");
   const openIcon = useIcon("openIcon");
   const closeIcon = useIcon("closeIcon");
@@ -262,7 +263,7 @@ const AudienceBox = (props) => {
           }}
         >
           <Image
-            source={trashIcon}
+            source={resetIcon}
             style={audienceBoxStyles.audienceBoxTrashIcon}
           />
         </TouchableOpacity>
