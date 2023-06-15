@@ -26,6 +26,8 @@ import {
   getDoc,
   updateDoc,
   onSnapshot,
+  getDocs,
+  deleteDoc,
   doc,
 } from "firebase/firestore";
 import { auth, database } from "../../../config/firebase";
@@ -59,6 +61,21 @@ const EditBubble = ({ route, navigation }) => {
 
   const deleteBubbleFunction = async () => {
     const bubbleRef = doc(database, "bubbles", route.params.bubbleID);
+
+    const q = query(
+      collection(database, "bubble_members"),
+      where("bubbleID", "==", bubbleRef)
+    );
+
+    const dataSnap = await getDocs(q);
+
+    await Promise.all(
+      dataSnap.docs.map(async (member) => {
+        const m = doc(database, "bubble_members", member.id);
+        await deleteDoc(m);
+        console.log("deleted a bubble member");
+      })
+    );
 
     const data = await deleteDoc(bubbleRef)
       .then(() => {

@@ -11,6 +11,8 @@ import {
   onSnapshot,
   doc,
   updateDoc,
+  getDocs,
+  deleteDoc,
   serverTimestamp,
 } from "firebase/firestore";
 import { auth, database } from "../../../config/firebase";
@@ -37,19 +39,33 @@ const StatusForSpecificAudience = ({ navigation }) => {
   const [isResetModalVisible, setResetModalVisible] = useState(false);
 
   const resetStatusFunction = async () => {
-    console.log("----------Reset Start-----");
     const bubbleRef = doc(database, "bubbles", selectedBubble);
-    console.log("Bubbldsdsdsd!" + selectedBubble);
-    const data = await getDoc(bubbleRef);
-    const currentTime = serverTimestamp();
-    await updateDoc(bubbleRef, {
-      statusID: defaultStatus,
-      lastChanged: currentTime,
-    })
-      .then(() => {
-        console.log("Bubble status reset!");
+
+    const q = query(
+      collection(database, "bubble_members"),
+      where("bubbleID", "==", bubbleRef)
+    );
+
+    const dataSnap = await getDocs(q);
+
+    await Promise.all(
+      dataSnap.docs.map(async (member) => {
+        const m = doc(database, "bubble_members", member.id);
+        await deleteDoc(m);
+        console.log("deleted a bubble member");
       })
-      .catch((error) => console.error(error));
+    );
+
+    await deleteDoc(bubbleRef);
+    console.log("deleted Bubble");
+    // await updateDoc(bubbleRef, {
+    //   statusID: defaultStatus,
+    //   lastChanged: currentTime,
+    // })
+    //   .then(() => {
+    //     console.log("Bubble status reset!");
+    //   })
+    //   .catch((error) => console.error(error));
   };
 
   useLayoutEffect(() => {
